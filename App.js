@@ -1,20 +1,93 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 
-export default function App() {
+/*Installation Navigation*/
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+//import { createDrawerNavigator } from "@react-navigation/drawer";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
+
+import Home from "./screens/HomeScreen";
+import Inscription from "./screens/InscriptionScreen";
+import Myrecipe from "./screens/MyrecipeScreen";
+import Recipes from "./screens/RecipesScreen";
+import Recipe from "./screens/DisplayRecipeScreen";
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+//const Drawer = createDrawerNavigator();
+
+/*Installation Redux*/
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import users from "./reducers/users";
+import favorites from "./reducers/favorites";
+
+const store = configureStore({
+  reducer: { users, favorites },
+});
+
+const TabNavigator = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = "";
+          let iconFood = "";
+
+          if (route.name === "Home") {
+            iconName = "home";
+            iconFood = "./assets/splash.png";
+          } else if (route.name === "Myrecipe") {
+            iconName = "user";
+            iconFood = "./assets/icon.png";
+          } else if (route.name === "Recipes") {
+            iconName = "home";
+            iconFood = "./assets/icon.png";
+          }
+
+          return <FontAwesome name={iconName} size={size} color={color} />;
+          //return <FontAwesomeIcon icon={faHeart} />;
+          //return <Image style={styles.image} source={iconFood} color={color} />;
+        },
+        tabBarActiveTintColor: "#e8be4b",
+        tabBarInactiveTintColor: "#b2b2b2",
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Myrecipe" component={Myrecipe} />
+      <Tab.Screen name="Recipes" component={Recipes} />
+    </Tab.Navigator>
+  );
+};
+
+export default function App({ navigation }) {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Inscription" component={Inscription} />
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          <Stack.Screen name="Recipe" component={Recipe} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
 });
