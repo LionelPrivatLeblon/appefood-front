@@ -20,7 +20,7 @@ export default function Home({ navigation }) {
       <Text>{newuser.username}</Text>
       <Button
         title="Go to Inscription"
-        onPress={() => navigation.navigate("Inscription")}
+        onPress={() => navigation.navigate("Login")}
       />
     </KeyboardAvoidingView>
   );

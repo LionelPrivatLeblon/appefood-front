@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import Home from "./screens/HomeScreen";
-import Inscription from "./screens/InscriptionScreen";
+import Login from "./screens/LoginScreen";
 import Myrecipe from "./screens/MyrecipeScreen";
 import Recipes from "./screens/RecipesScreen";
 import Recipe from "./screens/DisplayRecipeScreen";
@@ -70,7 +70,8 @@ export default function App({ navigation }) {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Inscription" component={Inscription} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
         </Stack.Navigator>
