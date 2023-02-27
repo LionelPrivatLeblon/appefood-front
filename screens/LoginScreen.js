@@ -113,78 +113,84 @@ export default function Home({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Image
-        style={styles.image}
-        source={require("../assets/images/avocado-salad.png")}
-      />
-      <Text>Welcome Inscription</Text>
+      <View style={styles.containersignin}>
+        {/*<Image
+          style={styles.image}
+          source={require("../assets/images/avocado-salad.png")}
+  />*/}
+        <Text style={styles.titlesignup}>Inscription</Text>
 
-      <View style={styles.signup}>
-        <Text>Inscription</Text>
+        <View style={styles.signup}>
+          <Text style={styles.formtitle}>Pseudo :</Text>
 
-        <TextInput
-          placeholder="Votre Pseudo"
-          onChangeText={(value) => setSignUpUsername(value)}
-          value={signUpUsername}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Votre mot de passe"
-          onChangeText={(password) => setSignUpPassword(password)}
-          value={signUpPassword}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.8}
-          onPress={() => handleRegister()}
-          //onPress={() => connexionUser()}
-        >
-          <Text style={styles.textButton}>Inscription</Text>
-        </TouchableOpacity>
-        {suregexError && (
-          <Text style={styles.error}>
-            Veuillez saisir un mot de passe et un identifiant de 6 caractères
-            minimum
-          </Text>
-        )}
-        {suuserError && (
-          <Text style={styles.error}>Cet utilisateur existe deja</Text>
-        )}
-      </View>
+          <TextInput
+            placeholder="Votre Pseudo"
+            onChangeText={(value) => setSignUpUsername(value)}
+            value={signUpUsername}
+            style={styles.inputtext}
+          />
+          <Text style={styles.formtitle}>Mot de passe :</Text>
+          <TextInput
+            placeholder="Votre mot de passe"
+            onChangeText={(password) => setSignUpPassword(password)}
+            value={signUpPassword}
+            style={styles.inputtext}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.8}
+            onPress={() => handleRegister()}
+            //onPress={() => connexionUser()}
+          >
+            <Text style={styles.textButton}>Inscription</Text>
+          </TouchableOpacity>
+          {suregexError && (
+            <Text style={styles.error}>
+              Veuillez saisir un mot de passe et un identifiant de 6 caractères
+              minimum
+            </Text>
+          )}
+          {suuserError && (
+            <Text style={styles.error}>Cet utilisateur existe deja</Text>
+          )}
+        </View>
 
-      <View style={styles.signin}>
-        <Text>Connexion</Text>
-        <TextInput
-          placeholder="Votre Pseudo"
-          onChangeText={(value) => setSignInUsername(value)}
-          value={signInUsername}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Votre mot de passe"
-          onChangeText={(value) => setSignInPassword(value)}
-          value={signInPassword}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.8}
-          onPress={() => handleConnection()}
-        >
-          <Text style={styles.textButton}>Connexion</Text>
-        </TouchableOpacity>
-        {siregexError && (
-          <Text style={styles.error}>
-            Veuillez saisir un mot de passe et un identifiant de 6 caractères
-            minimum
-          </Text>
-        )}
-        {siuserError && (
-          <Text style={styles.error}>Cet utilisateur est inconnu</Text>
-        )}
+        <Text style={styles.titlesignup}>Connexion</Text>
+
+        <View style={styles.signin}>
+          <Text style={styles.formtitle}>Pseudo :</Text>
+          <TextInput
+            style={styles.inputtext}
+            placeholder="Votre Pseudo"
+            onChangeText={(value) => setSignInUsername(value)}
+            value={signInUsername}
+          />
+          <Text style={styles.formtitle}>Mot de passe :</Text>
+          <TextInput
+            style={styles.inputtext}
+            placeholder="Votre mot de passe"
+            onChangeText={(value) => setSignInPassword(value)}
+            value={signInPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            style={styles.button2}
+            activeOpacity={0.8}
+            onPress={() => handleConnection()}
+          >
+            <Text style={styles.textButton2}>Déjà un compte ?</Text>
+          </TouchableOpacity>
+          {siregexError && (
+            <Text style={styles.error}>
+              Veuillez saisir un mot de passe et un identifiant de 6 caractères
+              minimum
+            </Text>
+          )}
+          {siuserError && (
+            <Text style={styles.error}>Cet utilisateur est inconnu</Text>
+          )}
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -197,11 +203,59 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    backgroundColor: "#fff",
+  titlesignup: {
+    color: "#D4BFBF",
+    margin: 20,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  inputtext: {
+    backgroundColor: "#F3F2F5",
+    padding: 10,
+    margin: 5,
+    color: "D4BFBF",
+    width: 300,
+  },
+  textButton: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 5,
+    textAlign: "center",
+  },
+  textButton2: {
+    color: "#7D4FB8",
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 5,
+    textAlign: "center",
   },
   button: {
-    backgroundColor: "00ffff",
+    backgroundColor: "#7D4FB8",
+    width: 225,
+    height: 59,
+    borderRadius: 31,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  button2: {
+    backgroundColor: "#FFFFFF",
+
+    borderWidth: 5,
+    borderColor: "#7D4FB8",
+    width: 225,
+    height: 59,
+    borderRadius: 31,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   image: {
     height: 100,
@@ -211,10 +265,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "red",
   },
-  signup: {
-    margin: 100,
+  signup: {},
+  signin: {},
+  formtitle: {
+    color: "#7D4FB8",
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 5,
   },
-  signin: {
-    margin: 100,
+  containersignin: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
