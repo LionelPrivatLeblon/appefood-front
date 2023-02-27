@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <Text>Welcome Home</Text>
+      <Text>Hello Welcome Home</Text>
       <Text>{newuser.username}</Text>
       <Button
         title="Go to Inscription"
