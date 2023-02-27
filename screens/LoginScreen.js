@@ -100,7 +100,7 @@ export default function Home({ navigation }) {
   };
 
   const connexionUser = () => {
-    if (EMAIL_REGEX.test(signUpUsername)) {
+    if (PSEUDO_REGEX.test(signUpUsername)) {
       dispatch(addUserToStore(signUpUsername));
       navigation.navigate("TabNavigator", { screen: "Home" });
     } else {
@@ -133,11 +133,13 @@ export default function Home({ navigation }) {
           onChangeText={(password) => setSignUpPassword(password)}
           value={signUpPassword}
           style={styles.input}
+          secureTextEntry
         />
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.8}
           onPress={() => handleRegister()}
+          //onPress={() => connexionUser()}
         >
           <Text style={styles.textButton}>Inscription</Text>
         </TouchableOpacity>
@@ -165,6 +167,7 @@ export default function Home({ navigation }) {
           onChangeText={(value) => setSignInPassword(value)}
           value={signInPassword}
           style={styles.input}
+          secureTextEntry
         />
         <TouchableOpacity
           style={styles.button}

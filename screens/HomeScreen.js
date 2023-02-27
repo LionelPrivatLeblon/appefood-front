@@ -18,7 +18,7 @@ export default function Home({ navigation }) {
       style={styles.container}
     >
       <Text>Welcome Home</Text>
-      <Text>{newuser.signUpUsername}</Text>
+      <Text>{newuser.username}</Text>
       <Button
         title="Go to Inscription"
         onPress={() => navigation.navigate("Login")}
