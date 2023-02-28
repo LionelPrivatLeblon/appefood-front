@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import {
   StyleSheet,
   Text,
@@ -52,9 +53,9 @@ export default function DisplayRecipeScreen() {
     const ingredients = data.ingredients.map((ingredient, i) => {
       return (
         <View key={i} style={styles.menuIngredient}>
-          <Text>{ingredient.name}</Text>
-          <Text>{ingredient.amount}</Text>
-          <Text>{ingredient.unit}</Text>
+          <Text>
+            {ingredient.name} {ingredient.amount} {ingredient.unit}
+          </Text>
         </View>
       );
     });
@@ -62,7 +63,13 @@ export default function DisplayRecipeScreen() {
     return (
       <View>
         <Text>{data.name}</Text>
+        <Text>{data.desc}</Text>
+
         <Image source={data.image} style={styles.photos}></Image>
+
+        <View style={styles.menuRating}>
+          <FontAwesome name="star" size={10} color="#e8be4b" />
+        </View>
         <View style={styles.menuRating}>
           <Text>{data.rating}</Text>
           <FontAwesome name="star" size={10} color="#e8be4b" />
