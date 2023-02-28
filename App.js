@@ -12,9 +12,10 @@ import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import Home from "./screens/HomeScreen";
 import Login from "./screens/LoginScreen";
-import Favoris from "./screens/MyrecipeScreen";
-import Recipes from "./screens/RecipesScreen";
-import Recipe from "./screens/DisplayRecipeScreen";
+import Favoris from "./screens/FavorisScreen";
+import Recipes from "./screens/RecetteScreen";
+import Recipe from "./screens/AfficherRecetteScreen";
+import Profile from "./screens/ProfileScreen";
 import test from "./screens/Test";
 
 const Stack = createNativeStackNavigator();
@@ -41,16 +42,19 @@ const TabNavigator = () => {
 
           if (route.name === "Home") {
             iconName = "home";
-            iconFood = "./assets/splash.png";
+            //iconFood = "./assets/splash.png";
           } else if (route.name === "Favoris") {
             iconName = "user";
-            iconFood = "./assets/icon.png";
+            //iconFood = "./assets/icon.png";
           } else if (route.name === "Recipes") {
             iconName = "home";
-            iconFood = "./assets/icon.png";
-          }else if (route.name === "test") {
+            //iconFood = "./assets/icon.png";
+          } else if (route.name === "Profile") {
             iconName = "home";
-            iconFood = "./assets/icon.png";
+            //iconFood = "./assets/icon.png";
+          } else if (route.name === "test") {
+            iconName = "home";
+            //iconFood = "./assets/icon.png";
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -65,6 +69,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favoris" component={Favoris} />
       <Tab.Screen name="Recipes" component={Recipes} />
+      <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="test" component={test} />
     </Tab.Navigator>
   );
