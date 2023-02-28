@@ -7,7 +7,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //import { createDrawerNavigator } from "@react-navigation/drawer";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import Home from "./screens/HomeScreen";
@@ -15,6 +14,7 @@ import Login from "./screens/LoginScreen";
 import Favoris from "./screens/FavorisScreen";
 import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/AfficherRecetteScreen";
+import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
 import Profile from "./screens/ProfileScreen";
 import test from "./screens/Test";
 
@@ -27,9 +27,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import users from "./reducers/users";
 import favorites from "./reducers/favorites";
+import recettes from "./reducers/recettes";
 
 const store = configureStore({
-  reducer: { users, favorites },
+  reducer: { users, favorites, recettes },
 });
 
 const TabNavigator = () => {
@@ -52,6 +53,9 @@ const TabNavigator = () => {
           } else if (route.name === "Profile") {
             iconName = "home";
             //iconFood = "./assets/icon.png";
+          } else if (route.name === "DisplayRecipe") {
+            iconName = "home";
+            //iconFood = "./assets/icon.png";
           } else if (route.name === "test") {
             iconName = "home";
             //iconFood = "./assets/icon.png";
@@ -70,6 +74,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Favoris" component={Favoris} />
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="DisplayRecipe" component={DisplayRecipe} />
       <Tab.Screen name="test" component={test} />
     </Tab.Navigator>
   );

@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/users";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-/***********************************************/
-/*            function principale              */
-/***********************************************/
-export default function Home({ navigation }) {
-  const dispatch = useDispatch();
+export default function ProfileScreen({ navigation }) {
   const newuser = useSelector((state) => state.users.value);
   console.log("test " + newuser);
 
