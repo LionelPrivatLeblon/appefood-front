@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 export default function Home({ navigation }) {
   const newuser = useSelector((state) => state.users.value);
+  console.log("test " + newuser);
 
   return (
     <KeyboardAvoidingView
