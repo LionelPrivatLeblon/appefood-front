@@ -27,10 +27,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import users from "./reducers/users";
 import favorites from "./reducers/favorites";
-import recettes from "./reducers/recettes";
+import { dataRecette } from "./reducers/recettes";
 
 const store = configureStore({
-  reducer: { users, favorites, recettes },
+  reducer: { users, favorites, dataRecette },
 });
 
 const TabNavigator = () => {

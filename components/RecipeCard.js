@@ -14,7 +14,7 @@ export default function RecipeCard({ recipe, isFavorite }) {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("Recipe", { recipe, isFavorite })}
+      onPress={() => navigation.navigate("TabNavigator", { screen: "Recipe" })}
     >
       <View style={{ ...styles.wrapper }}>
         <Image
