@@ -39,7 +39,7 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
           let iconFood = "";
-
+          //<FontAwesomeIcon icon="fa-solid fa-refrigerator" />
           if (route.name === "Home") {
             iconName = "home";
             //iconFood = "./assets/splash.png";
@@ -61,7 +61,7 @@ const TabNavigator = () => {
           //return <FontAwesomeIcon icon={faHeart} />;
           //return <Image style={styles.image} source={iconFood} color={color} />;
         },
-        tabBarActiveTintColor: "#e8be4b",
+        tabBarActiveTintColor: "#7D4FB8",
         tabBarInactiveTintColor: "#b2b2b2",
         headerShown: false,
       })}
@@ -84,6 +84,7 @@ export default function App({ navigation }) {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
