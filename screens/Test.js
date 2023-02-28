@@ -10,8 +10,7 @@ import {
 import React from "react";
 import { useState } from "react";
 export default function Test() {
-
-    //je crée mes etats
+  //je crée mes etats
   const [recette, setRecette] = useState("");
   const [image, setImage] = useState("");
 
@@ -19,7 +18,7 @@ export default function Test() {
 
   //je créé ma fonction qui va appeler ma route GET dans le backent pour afficher les recettes par ingrédients
   const handlerecipe = () => {
-    fetch("http://192.168.10.131:3000/recipes")
+    fetch("http://192.168.10.147:3000/recipes")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

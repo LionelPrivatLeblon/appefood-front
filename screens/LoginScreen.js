@@ -107,12 +107,6 @@ export default function Home({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.containersignin}>
-        {/*<Image
-          style={styles.image}
-          source={require("../assets/images/avocado-salad.png")}
-  />*/}
-        {/*<Text style={styles.titlesignup}>Inscription</Text>*/}
-
         <View style={styles.signup}>
           <Text style={styles.formtitle}>Pseudo :</Text>
 
@@ -148,8 +142,6 @@ export default function Home({ navigation }) {
             <Text style={styles.error}>Cet utilisateur existe deja</Text>
           )}
         </View>
-        {/* <Button title="Se déconnecter" onPress={() => handleLogout()} />*/}
-        {/*<Text style={styles.titlesignup}>Connexion</Text>*/}
 
         <View style={styles.signin}>
           <Text style={styles.formtitle}>Pseudo :</Text>
