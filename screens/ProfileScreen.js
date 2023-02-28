@@ -22,7 +22,7 @@ export default function ProfileScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>Profil</Text>
       {/* Transformer les boutons et utiliser un touchable opacity pour l'icone et le text */}
-      <Text>{newuser.username || "Damien"}</Text>
+      <Text>{newuser.username}</Text>
 
       {/* ------- Bouton Mes recettes ------- */}
       <TouchableOpacity style={styles.button}>

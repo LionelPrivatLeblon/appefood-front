@@ -16,7 +16,6 @@ import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/AfficherRecetteScreen";
 import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
 import Profile from "./screens/ProfileScreen";
-import test from "./screens/Test";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,7 +74,6 @@ const TabNavigator = () => {
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="DisplayRecipe" component={DisplayRecipe} />
-      <Tab.Screen name="test" component={test} />
     </Tab.Navigator>
   );
 };
@@ -85,8 +83,8 @@ export default function App({ navigation }) {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
           <Stack.Screen name="Profile" component={Profile} />
