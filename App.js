@@ -12,9 +12,10 @@ import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import Home from "./screens/HomeScreen";
 import Login from "./screens/LoginScreen";
-import Myrecipe from "./screens/MyrecipeScreen";
+import Favoris from "./screens/MyrecipeScreen";
 import Recipes from "./screens/RecipesScreen";
 import Recipe from "./screens/DisplayRecipeScreen";
+import test from "./screens/Test";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,10 +42,13 @@ const TabNavigator = () => {
           if (route.name === "Home") {
             iconName = "home";
             iconFood = "./assets/splash.png";
-          } else if (route.name === "Myrecipe") {
+          } else if (route.name === "Favoris") {
             iconName = "user";
             iconFood = "./assets/icon.png";
           } else if (route.name === "Recipes") {
+            iconName = "home";
+            iconFood = "./assets/icon.png";
+          }else if (route.name === "test") {
             iconName = "home";
             iconFood = "./assets/icon.png";
           }
@@ -59,8 +63,9 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Myrecipe" component={Myrecipe} />
+      <Tab.Screen name="Favoris" component={Favoris} />
       <Tab.Screen name="Recipes" component={Recipes} />
+      <Tab.Screen name="test" component={test} />
     </Tab.Navigator>
   );
 };

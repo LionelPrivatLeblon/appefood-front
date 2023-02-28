@@ -9,7 +9,7 @@ import {
 import { useSelector } from "react-redux";
 import RecipeCard from "../components/RecipeCard";
 
-export default function MyRecipeScreen({ navigation }) {
+export default function Favoris({ navigation }) {
   const newuser = useSelector((state) => state.users.value);
   const favorites = useSelector((state) => state.favorites.value);
 
