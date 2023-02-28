@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signUpUsername) &&
       PASSWORD_REGEX.test(signUpPassword)
     ) {
-      fetch("http://192.168.10.141:3000/users/signup", {
+      fetch("http://192.168.10.153:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -64,7 +64,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signInUsername) &&
       PASSWORD_REGEX.test(signInPassword)
     ) {
-      fetch("http://192.168.10.141:3000/users/signin", {
+      fetch("http://192.168.10.153:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

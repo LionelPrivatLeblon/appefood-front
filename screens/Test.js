@@ -12,37 +12,45 @@ import { useState, useEffect } from "react";
 export default function Test() {
   //je crée mes etats
   const [recette, setRecette] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
-  const [mesRecettes, setMesRecettes] = useState([]);
   //je crée un etat pour map dessus pour afficher chaque composant de mon tableau (cf:mymoviz)
 
   //je crée ma fonction que je vais utiliser dans mon onPress
-//   const handlerecipe = () => {
-//     useEffect(() => {
-//       fetch("http://192.168.10.153:3000/recipes")
-//         .then((response) => response.json())
-//         .then((data) => {
-//           setMesRecettes(data.recette);
-//           console.log(data.recette);
-//         });
-//     }, []);
-//   };
+  //   const handlerecipe = () => {
+  //     useEffect(() => {
+  //       fetch("http://192.168.10.153:3000/recipes")
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           setMesRecettes(data.recette);
+  //           console.log(data.recette);
+  //         });
+  //     }, []);
+  //   };
 
-//   const myrecette = mesRecettes.map((data, i) => {
-//     return <Recette key={i} {...data}/>
-//   })
-
+  //   const myrecette = mesRecettes.map((data, i) => {
+  //     return <Recette key={i} {...data}/>
+  //   })
+  let myRecipe = [];
   //je créé ma fonction qui va appeler ma route GET dans le backent pour afficher les recettes par ingrédients
-    const handlerecipe = () => {
-      fetch("http://192.168.10.153:3000/recipes")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setRecette(data.recipes[0].title);
-          setImage(data.recipes[0].image);
-        });
-    };
+  const handlerecipe = () => {
+    fetch("http://192.168.10.153:3000/recipes")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.recipes[0].title);
+
+        setRecette(
+          data.recipes.map((APIdata, i) => {
+            return (
+              <View key={i}>
+                <Text className="recette">{APIdata.title}</Text>
+                <Image style={{ width: 100, height: 100 }} source={{ uri: APIdata.image }} />
+              </View>
+            );
+          })
+        );
+      });
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -53,7 +61,7 @@ export default function Test() {
       ></TextInput>
       <Button title="button" onPress={() => handlerecipe()} />
       <Text>{recette}</Text>
-      <Image style={{ width: 100, height: 100 }} source={{ uri: image }} />
+      
     </KeyboardAvoidingView>
   );
 }
