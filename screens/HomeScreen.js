@@ -2,20 +2,22 @@ import {
   View,
   Text,
   TextInput,
+  ScrollView,
   Button,
   StyleSheet,
   KeyboardAvoidingView,
   Image,
   TouchableOpacity,
 } from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Picker } from "@react-native-picker/picker";
+import SelectDropdown from "react-native-select-dropdown";
 import React from "react";
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useRef } from "react";
 export default function Home({ navigation }) {
   //je crée mes etats
   const [recette, setRecette] = useState("");
-  const [image, setImage] = useState(null);
-
-  const [dropdownTop, setDropdownTop] = useState(0);
+  const legumes = ["Tomate", "Salade", "Carotte", "Haricot"];
 
   //je crée un etat pour map dessus pour afficher chaque composant de mon tableau (cf:mymoviz)
 
@@ -37,7 +39,7 @@ export default function Home({ navigation }) {
   let myRecipe = [];
   //je créé ma fonction qui va appeler ma route GET dans le backent pour afficher les recettes par ingrédients
   const handlerecipe = () => {
-    fetch("http://192.168.10.147:3000/recipes")
+    fetch("http://192.168.10.141:3000/recipes")
       .then((response) => response.json())
       .then((data) => {
         console.log(data.recipes[0].title);
@@ -45,12 +47,23 @@ export default function Home({ navigation }) {
         setRecette(
           data.recipes.map((APIdata, i) => {
             return (
-              <View key={i}>
-                <Text className="recette">{APIdata.title}</Text>
-                <Image
-                  style={{ width: 100, height: 100 }}
-                  source={{ uri: APIdata.image }}
-                />
+              <View key={i} style={styles.card}>
+                <Image style={styles.image} source={{ uri: APIdata.image }} />
+                <View style={styles.masque}></View>
+                <View style={styles.cardtop}>
+                  <Text style={styles.cardtitle}>{APIdata.title}</Text>
+                  <FontAwesome name="heart" size={39} color="#EE0056" />
+                </View>
+                <View style={styles.cardbottom}>
+                  <Text>Information</Text>
+                  <View>
+                    <FontAwesome name="star" size={10} color="#e8be4b" />
+                    <FontAwesome name="star" size={10} color="#e8be4b" />
+                    <FontAwesome name="star" size={10} color="#e8be4b" />
+                    <FontAwesome name="star" size={10} color="#e8be4b" />
+                    <FontAwesome name="star" size={10} color="#e8be4b" />
+                  </View>
+                </View>
               </View>
             );
           })
@@ -60,6 +73,22 @@ export default function Home({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
+      <SelectDropdown
+        data={legumes}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem, index);
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+          return selectedItem;
+        }}
+        rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+          return item;
+        }}
+      />
       <TextInput
         placeholder="ingredients"
         style={styles.input}
@@ -73,7 +102,9 @@ export default function Home({ navigation }) {
       >
         <Text style={styles.textButton}>Génerer une recette</Text>
       </TouchableOpacity>
-      <Text>{recette}</Text>
+      <View style={styles.box}>
+        <ScrollView style={styles.scroll}>{recette}</ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -85,6 +116,62 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  masque: {
+    backgroundColor: "#000000",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.5,
+  },
+  card: {
+    backgroundColor: "#f1f1f1",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: 300,
+    height: 300,
+    margin: 5,
+    position: "relative",
+  },
+  cardtop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: 10,
+    width: 300,
+  },
+  cardtitle: {
+    width: 150,
+    size: 30,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  cardbottom: {
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 10,
+    width: 280,
+    height: 80,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  image: {
+    width: 300,
+    height: 300,
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  titrerecette: {
+    position: "absolute",
+    top: 10,
+    left: 10,
   },
   textButton: {
     color: "#FFFFFF",
@@ -131,5 +218,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 1,
+  },
+  scroll: {},
+  box: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 290,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: "100%",
+    marginBottom: 20,
   },
 });

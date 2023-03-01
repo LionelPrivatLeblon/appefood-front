@@ -16,6 +16,7 @@ import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/AfficherRecetteScreen";
 import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
 import Profile from "./screens/ProfileScreen";
+import Search from "./screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,6 +56,9 @@ const TabNavigator = () => {
           } else if (route.name === "DisplayRecipe") {
             iconName = "home";
             //iconFood = "./assets/icon.png";
+          } else if (route.name === "search") {
+            iconName = "home";
+            //iconFood = "./assets/icon.png";
           } else if (route.name === "test") {
             iconName = "home";
             //iconFood = "./assets/icon.png";
@@ -74,6 +78,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="DisplayRecipe" component={DisplayRecipe} />
+      <Tab.Screen name="Search" component={Search} />
     </Tab.Navigator>
   );
 };
