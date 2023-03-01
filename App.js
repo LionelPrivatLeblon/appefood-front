@@ -14,9 +14,11 @@ import Login from "./screens/LoginScreen";
 import Favoris from "./screens/FavorisScreen";
 import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/AfficherRecetteScreen";
+import Recipe2 from "./screens/AfficherRecetteScreen2";
 import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
 import Profile from "./screens/ProfileScreen";
 import Search from "./screens/SearchScreen";
+import IngredientsDetailsScreen from "./screens/IngredientsDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -92,7 +94,12 @@ export default function App({ navigation }) {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
+          <Stack.Screen name="Recipe2" component={Recipe2} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen
+            name="IngredientsDetails"
+            component={IngredientsDetailsScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

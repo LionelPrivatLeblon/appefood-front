@@ -9,6 +9,7 @@ import {
   Button,
   Image,
   ScrollView,
+  SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -61,7 +62,7 @@ export default function DisplayRecipeScreen() {
     });
 
     return (
-      <View>
+      <SafeAreaView>
         <Text>{data.name}</Text>
         <Text>{data.desc}</Text>
 
@@ -82,7 +83,7 @@ export default function DisplayRecipeScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           {ingredients}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   });
 

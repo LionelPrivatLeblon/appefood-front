@@ -58,7 +58,8 @@ export function getRecipesByIngredient(ingredientId) {
   recipes.map((data) => {
     data.ingredients.map((index) => {
       if (index[0] == ingredientId) {
-        recipesArray.push(data);
+        //vérifie si l'id de l'ingredient utilisé sur la recette correspond à l'id des ingredients
+        recipesArray.push(data); //Push dans le tableau toutes les recettes trouvées
       }
     });
   });

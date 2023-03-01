@@ -1,5 +1,16 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import { useState } from "react";
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AfficherRecetteScreen({ route }) {
 
@@ -27,9 +38,47 @@ export default function AfficherRecetteScreen({ route }) {
 
   ]
 
-  const film = moviesData.map((data, i) => {
-    return <View key={i} poster ={data.poster} title={data.title} overview={data.overview} voteAverage={data.voteAverage} voteCount={data.voteCount}/>
-   })
+  const [servingNb, setServingNb] = useState(recipe.servingNb);
+
+  const incrementServings = () => {
+    setServingNb(servingNb + 1);
+
+    if (isFavorite) {
+      dispatch(updateServings({ id: recipe.id, servingNb: servingNb + 1 }));
+    }
+  };
+
+  const decrementServings = () => {
+    if (servingNb > 1) {
+      setServingNb(servingNb - 1);
+
+      if (isFavorite) {
+        dispatch(updateServings({ id: recipe.id, servingNb: servingNb - 1 }));
+      }
+    }
+  };
+
+  const handlePress = () => {
+    if (isFavorite) {
+      dispatch(unfavorite(recipe.id));
+    } else {
+      dispatch(favorite({ ...recipe, servingNb }));
+    }
+  };
+
+  const ingredients = recipe.ingredients.map((ingredient, i) => {
+    return (
+      <View key={i} style={styles.menuContainer}>
+        <View style={styles.ingredientWrapper}>
+          <Text style={styles.menuSubtitle}>{ingredient.name}</Text>
+          <Text style={styles.menuSubtitle}>
+            {ingredient.amount * servingNb}
+            {ingredient.unit && ` ${ingredient.unit}`}
+          </Text>
+        </View>
+      </View>
+    );
+  });
 
   return (
     <View style={styles.container}>
