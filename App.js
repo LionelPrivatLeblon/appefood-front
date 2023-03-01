@@ -16,7 +16,6 @@ import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/AfficherRecetteScreen";
 import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
 import Profile from "./screens/ProfileScreen";
-import test from "./screens/Test";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,7 +39,7 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
           let iconFood = "";
-
+          //<FontAwesomeIcon icon="fa-solid fa-refrigerator" />
           if (route.name === "Home") {
             iconName = "home";
             //iconFood = "./assets/splash.png";
@@ -65,7 +64,7 @@ const TabNavigator = () => {
           //return <FontAwesomeIcon icon={faHeart} />;
           //return <Image style={styles.image} source={iconFood} color={color} />;
         },
-        tabBarActiveTintColor: "#e8be4b",
+        tabBarActiveTintColor: "#7D4FB8",
         tabBarInactiveTintColor: "#b2b2b2",
         headerShown: false,
       })}
@@ -75,7 +74,6 @@ const TabNavigator = () => {
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="DisplayRecipe" component={DisplayRecipe} />
-      <Tab.Screen name="test" component={test} />
     </Tab.Navigator>
   );
 };
@@ -85,10 +83,11 @@ export default function App({ navigation }) {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

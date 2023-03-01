@@ -28,6 +28,11 @@ export default function Favoris({ navigation }) {
 }
 const windowWidth = Dimensions.get("window").width;
 
+
+/***********************************************/
+/*            Styles                           */
+/***********************************************/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
