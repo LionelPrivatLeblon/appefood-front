@@ -1,16 +1,19 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { RecipeCard } from "../AppStyles";
+import React, { useEffect, useState } from "react";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {
   FlatList,
   Text,
   View,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   Pressable,
   TextInput,
   StyleSheet,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  Dimensions,
 } from "react-native";
-import MenuImage from "../components/MenuImage/MenuImage";
 import {
   getCategoryName,
   getRecipesByRecipeName,
@@ -24,42 +27,11 @@ export default function SearchScreen(props) {
   const [value, setValue] = useState("");
   const [data, setData] = useState([]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <MenuImage
-          onPress={() => {
-            navigation.openDrawer();
-          }}
-        />
-      ),
-      headerTitle: () => (
-        <View style={styles.searchContainer}>
-          <Image
-            style={styles.searchIcon}
-            source={require("../assets/icons/search.png")}
-          />
-          <TextInput
-            style={styles.searchInput}
-            onChangeText={handleSearch}
-            value={value}
-          />
-          <Pressable onPress={() => handleSearch("")}>
-            <Image
-              style={styles.searchIcon}
-              source={require("../assets/icons/close.png")}
-            />
-          </Pressable>
-        </View>
-      ),
-      headerRight: () => <View />,
-    });
-  }, [value]);
-
   useEffect(() => {}, [value]);
 
   const handleSearch = (text) => {
     setValue(text);
+    console.log(value);
     var recipeArray1 = getRecipesByRecipeName(text);
     var recipeArray2 = getRecipesByCategoryName(text);
     var recipeArray3 = getRecipesByIngredientName(text);
@@ -74,83 +46,182 @@ export default function SearchScreen(props) {
   };
 
   const onPressRecipe = (item) => {
-    navigation.navigate("Recipe", { item });
+    navigation.navigate("Recipe2", { item });
   };
 
-  const renderRecipes = ({ item }) => (
+  const renderRecipes = ({ item, i }) => (
     <TouchableHighlight
       underlayColor="rgba(73,182,77,0.9)"
       onPress={() => onPressRecipe(item)}
     >
-      <View style={styles.container}>
-        <Image style={styles.photo} source={{ uri: item.photo_url }} />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
+      <View key={i} style={styles.card}>
+        <Image style={styles.image} source={{ uri: item.photo_url }} />
+        <View style={styles.masque}></View>
+        <View style={styles.cardtop}>
+          <Text style={styles.cardtitle}>{item.title}</Text>
+          <FontAwesome name="heart" size={25} color="#EE0056" />
+        </View>
+        <View style={styles.cardbottom}>
+          <Text>{getCategoryName(item.categoryId)}</Text>
+          <View style={styles.star}>
+            <FontAwesome name="star" size={10} color="#e8be4b" />
+            <FontAwesome name="star" size={10} color="#e8be4b" />
+            <FontAwesome name="star" size={10} color="#e8be4b" />
+            <FontAwesome name="star" size={10} color="#e8be4b" />
+          </View>
+        </View>
       </View>
     </TouchableHighlight>
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        vertical
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        data={data}
-        renderItem={renderRecipes}
-        keyExtractor={(item) => `${item.recipeId}`}
-      />
-      <Image
-        style={styles.searchIcon}
-        source={require("../assets/icons/search.png")}
-      />
-      <TextInput
-        style={styles.searchInput}
-        onChangeText={handleSearch}
-        value={value}
-      />
-      <Pressable onPress={() => handleSearch("")}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <SafeAreaView>
         <Image
           style={styles.searchIcon}
-          source={require("../assets/icons/close.png")}
+          source={require("../assets/icons/search.png")}
         />
-      </Pressable>
-    </View>
+        <TextInput
+          placeholder="Saisissez un ingredient"
+          onChangeText={(value) => setValue(value)}
+          value={value}
+          style={styles.inputtext}
+        />
+        <Pressable onPress={() => handleSearch("")}>
+          <Image
+            style={styles.searchIcon}
+            source={require("../assets/icons/close.png")}
+          />
+        </Pressable>
+
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => handleSearch(value)}
+          //onPress={() => connexionUser()}
+        >
+          <Text style={styles.textButton}>Génerer une recette</Text>
+        </TouchableOpacity>
+        <FlatList
+          vertical
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          data={data}
+          renderItem={renderRecipes}
+          keyExtractor={(item) => `${item.recipeId}`}
+        />
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
+// screen sizing
+const { width, height } = Dimensions.get("window");
+// orientation must fixed
+const SCREEN_WIDTH = width < height ? width : height;
 
+const recipeNumColums = 2;
+// item size
+const RECIPE_ITEM_HEIGHT = 200;
+const RECIPE_ITEM_MARGIN = 3;
+
+// 2 photos per width
 const styles = StyleSheet.create({
-  container: RecipeCard.container,
-  photo: RecipeCard.photo,
-  title: RecipeCard.title,
-  category: RecipeCard.category,
-  btnIcon: {
-    height: 14,
-    width: 14,
+  textButton: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 5,
+    textAlign: "center",
+  },
+  button: {
+    backgroundColor: "#7D4FB8",
+    width: 225,
+    height: 59,
+    borderRadius: 31,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  inputtext: {
+    backgroundColor: "#F3F2F5",
+    padding: 10,
+    margin: 5,
+    color: "D4BFBF",
+    width: 200,
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "column",
   },
-  searchContainer: {
-    flexDirection: "row",
+  masque: {
+    backgroundColor: "#000000",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.3,
+  },
+  card: {
+    backgroundColor: "#f1f1f1",
     alignItems: "center",
-    backgroundColor: "#EDEDED",
+    justifyContent: "space-between",
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    height: RECIPE_ITEM_HEIGHT,
+    margin: RECIPE_ITEM_MARGIN,
+    position: "relative",
+  },
+  cardtop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: 10,
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+  },
+  cardtitle: {
+    width: 100,
+    size: 30,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  cardbottom: {
+    backgroundColor: "#ffffff",
     borderRadius: 10,
-    width: 250,
-    justifyContent: "space-around",
-  },
-  searchIcon: {
-    width: 20,
-    height: 20,
-    tintColor: "grey",
-  },
-  searchInput: {
-    backgroundColor: "#EDEDED",
-    color: "black",
+    padding: 10,
     width: 180,
-    height: 50,
+    height: 80,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  image: {
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    height: RECIPE_ITEM_HEIGHT,
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  titrerecette: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+  },
+  star: {
+    flexDirection: "row",
+    alignItems: "flex-end",
   },
 });
