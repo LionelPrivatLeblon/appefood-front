@@ -18,14 +18,17 @@ export default function Favoris({ navigation }) {
   const favorites = useSelector((state) => state.favorites.value);
 
   const favRecipes = recipes.map((data, i) => {
-    console.log(data.title);
+    // console.log(data.title);
     return (
-      <View style={styles.containerCard}>
-        <Text>{data.title}</Text>
-        <ImageBackground
-        style={{height: 100, width:100}}
-        source={{ uri: data.photo_url }}/>
+      <View key={i} style={styles.containerCard}>
+        <View style={styles.star}>
+          <Text style={styles.title}>{data.title}</Text>
           <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
+        </View>
+        <ImageBackground
+          style={{ height: "80%", width: "100%" }}
+          source={{ uri: data.photo_url }}
+        />
       </View>
     );
   });
@@ -37,9 +40,7 @@ export default function Favoris({ navigation }) {
         <Text style={styles.title}>Mes favoris</Text>
         <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
       </View>
-      <ScrollView style={styles.scrollview}>
-       {favRecipes}
-      </ScrollView>
+      <ScrollView style={styles.scrollview}>{favRecipes}</ScrollView>
     </View>
   );
 }
@@ -85,9 +86,12 @@ const styles = StyleSheet.create({
   },
 
   containerCard: {
-    width: '100%',
-    borderLeftWidth: 3,
-    borderRightWidth: 3,
-    borderColor:'red',
+    height: 400,
+  },
+  star: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
