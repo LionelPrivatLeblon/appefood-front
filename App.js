@@ -29,10 +29,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import users from "./reducers/users";
 import favorites from "./reducers/favorites";
-import recettes from "./reducers/recettes";
+import { dataRecette } from "./reducers/recettes";
 
 const store = configureStore({
-  reducer: { users, favorites, recettes },
+  reducer: { users, favorites, dataRecette },
 });
 
 const TabNavigator = () => {
@@ -47,16 +47,16 @@ const TabNavigator = () => {
             iconName = "home";
             //iconFood = "./assets/splash.png";
           } else if (route.name === "Favoris") {
-            iconName = "user";
+            iconName = "star";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "Recipes") {
-            iconName = "home";
+            iconName = "list";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "Profile") {
-            iconName = "home";
+            iconName = "user-circle-o";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "DisplayRecipe") {
-            iconName = "home";
+            iconName = "sliders";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "search") {
             iconName = "home";

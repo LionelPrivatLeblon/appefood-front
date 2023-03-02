@@ -27,23 +27,12 @@ export default function Home({ navigation }) {
         setRecette(
           data.recipes.map((APIdata, i) => {
             return (
-              <View key={i} style={styles.card}>
-                <Image style={styles.image} source={{ uri: APIdata.image }} />
-                <View style={styles.masque}></View>
-                <View style={styles.cardtop}>
-                  <Text style={styles.cardtitle}>{APIdata.title}</Text>
-                  <FontAwesome name="heart" size={39} color="#EE0056" />
-                </View>
-                <View style={styles.cardbottom}>
-                  <Text>Information</Text>
-                  <View>
-                    <FontAwesome name="star" size={10} color="#e8be4b" />
-                    <FontAwesome name="star" size={10} color="#e8be4b" />
-                    <FontAwesome name="star" size={10} color="#e8be4b" />
-                    <FontAwesome name="star" size={10} color="#e8be4b" />
-                    <FontAwesome name="star" size={10} color="#e8be4b" />
-                  </View>
-                </View>
+              <View key={i}>
+                <Text className="recette">{APIdata.title}</Text>
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={{ uri: APIdata.image }}
+                />
               </View>
             );
           })
@@ -89,7 +78,10 @@ export default function Home({ navigation }) {
   );
 }
 
-//feuille de style
+/***********************************************/
+/*            Styles                           */
+/***********************************************/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

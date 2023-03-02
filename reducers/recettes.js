@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const recettesSlice = createSlice({
-  name: "recettes",
+  name: "dataRecettes",
   initialState,
   reducers: {
     dataRecette: (state, action) => {
