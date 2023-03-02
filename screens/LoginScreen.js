@@ -15,8 +15,8 @@ import { useState } from "react";
 import { addUserToStore, login, logout } from "../reducers/users";
 
 //regex pour determiner si adresse pseudo =6 caractere
-const PSEUDO_REGEX: RegExp = /[0-9a-zA-Z]{6,}/;
-const PASSWORD_REGEX: RegExp = /[0-9a-zA-Z]{6,}/;
+const PSEUDO_REGEX = /[0-9a-zA-Z]{6,}/;
+const PASSWORD_REGEX = /[0-9a-zA-Z]{6,}/;
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();

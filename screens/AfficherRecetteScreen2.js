@@ -59,7 +59,7 @@ export default function RecipeScreen(props) {
       //dispatch(unfavorite(item.recipeId));
     } else {
       //console.log(item);
-      dispatch(favorite({ ...recipe, servingNb }));
+      dispatch(favorite({ ...item, servingNb }));
     }
   };
 
