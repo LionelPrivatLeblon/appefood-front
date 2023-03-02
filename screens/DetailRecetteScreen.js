@@ -58,7 +58,7 @@ export default function RecipeScreen(props) {
     if (isFavorite) {
       //dispatch(unfavorite(item.recipeId));
     } else {
-      //console.log(item);
+      console.log(item);
       dispatch(favorite({ ...item, servingNb }));
     }
   };

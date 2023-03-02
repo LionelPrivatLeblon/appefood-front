@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signUpUsername) &&
       PASSWORD_REGEX.test(signUpPassword)
     ) {
-      fetch("http://192.168.10.167:3000/users/signup", {
+      fetch("http://192.168.10.142:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -49,7 +49,7 @@ export default function Home({ navigation }) {
         .then((data) => {
           if (data.result) {
             dispatch(addUserToStore(signUpUsername));
-            navigation.navigate("TabNavigator", { screen: "Home" });
+            navigation.navigate("TabNavigator", { screen: "Search" });
           } else {
             setSuUserError(true); //erreur qui s'affiche si username n'est pas deja enregistré en base de donnée
           }
@@ -64,7 +64,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signInUsername) &&
       PASSWORD_REGEX.test(signInPassword)
     ) {
-      fetch("http://192.168.10.167:3000/users/signin", {
+      fetch("http://192.168.10.142:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -75,7 +75,7 @@ export default function Home({ navigation }) {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            navigation.navigate("TabNavigator", { screen: "Home" });
+            navigation.navigate("TabNavigator", { screen: "Search" });
             dispatch(addUserToStore(signInUsername));
           } else {
             setSiUserError(true); //erreur qui s'affiche si username n'est pas en base de donnée
@@ -88,14 +88,14 @@ export default function Home({ navigation }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigation.navigate("Home");
+    navigation.navigate("Search");
     //dispatch(removeAllBookmark());
   };
 
   const connexionUser = () => {
     if (PSEUDO_REGEX.test(signUpUsername)) {
       dispatch(addUserToStore(signUpUsername));
-      navigation.navigate("TabNavigator", { screen: "Home" });
+      navigation.navigate("TabNavigator", { screen: "Search" });
     } else {
       setRegexError(true);
     }

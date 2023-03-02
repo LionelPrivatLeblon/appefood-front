@@ -9,16 +9,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
-import Home from "./screens/HomeScreen";
 import Login from "./screens/LoginScreen";
 import Favoris from "./screens/FavorisScreen";
 import Recipes from "./screens/RecetteScreen";
-import Recipe from "./screens/AfficherRecetteScreen";
-import Recipe2 from "./screens/AfficherRecetteScreen2";
-import DisplayRecipe from "./screens/LionelAfficherRecetteScreen";
+import Recipe from "./screens/DetailRecetteScreen";
 import Profile from "./screens/ProfileScreen";
-import Search from "./screens/SearchScreen";
-import IngredientsDetailsScreen from "./screens/IngredientsDetailsScreen";
+import Home from "./screens/HomeScreen";
+import IngredientsDetailsScreen from "./screens/IngredientsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +56,7 @@ const TabNavigator = () => {
             iconName = "sliders";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "search") {
-            iconName = "home";
+            iconName = "search";
             //iconFood = "./assets/icon.png";
           } else if (route.name === "test") {
             iconName = "home";
@@ -79,8 +76,6 @@ const TabNavigator = () => {
       <Tab.Screen name="Favoris" component={Favoris} />
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="DisplayRecipe" component={DisplayRecipe} />
-      <Tab.Screen name="Search" component={Search} />
     </Tab.Navigator>
   );
 };
@@ -91,10 +86,8 @@ export default function App({ navigation }) {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
-          <Stack.Screen name="Recipe2" component={Recipe2} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen
             name="IngredientsDetails"

@@ -1,7 +1,6 @@
 import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { recipes } from "../data/recipes";
 import RecipeCard from "../components/RecipeCard";
-import Header from "../components/Header";
 
 export default function RecipesScreen() {
   const recipeList = recipes.map((data, i) => {
@@ -10,7 +9,6 @@ export default function RecipesScreen() {
 
   return (
     <View style={styles.container}>
-      <Header />
       <Text style={styles.title}>Recettes</Text>
       <ScrollView>
         <View style={styles.cards}>{recipeList}</View>
@@ -36,6 +34,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    width:'100%',
+    width: "100%",
   },
 });
