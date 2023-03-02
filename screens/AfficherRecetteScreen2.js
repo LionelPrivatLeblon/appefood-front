@@ -7,6 +7,8 @@ import {
   Dimensions,
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 //import Carousel, { Pagination } from "react-native-snap-carousel";
 //import Carousel, { Pagination } from "react-native-reanimated-carousel";
@@ -17,6 +19,9 @@ import {
 } from "../data/MockDataAPI";
 import BackButton from "../components/BackButton/BackButton";
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
+import { favorite, unfavorite, updateServings } from "../reducers/favorites";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
 
 const { width: viewportWidth } = Dimensions.get("window");
 
@@ -26,6 +31,14 @@ export default function RecipeScreen(props) {
   const item = route.params?.item;
   const category = getCategoryById(item.categoryId);
   const title = getCategoryName(category.id);
+
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites.value);
+  const isFavorite = favorites.some(
+    (favorite) => favorite.id === item.recipeId
+  );
+
+  const [servingNb, setServingNb] = useState(item.servingNb);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,24 +54,39 @@ export default function RecipeScreen(props) {
     });
   }, []);
 
-  const renderImage = ({ item }) => (
-    <TouchableHighlight>
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: item }} />
-      </View>
-    </TouchableHighlight>
-  );
-
-  const onPressIngredient = (item) => {
-    var name = getIngredientName(item);
-    let ingredient = item;
-    navigation.navigate("Ingredient", { ingredient, name });
+  const handlePress = () => {
+    if (isFavorite) {
+      //dispatch(unfavorite(item.recipeId));
+    } else {
+      //console.log(item);
+      dispatch(favorite({ ...recipe, servingNb }));
+    }
   };
+
+  const ingredients = item.ingredients.map((ingredient, i) => {
+    return (
+      <View key={i} style={styles.menuContainer}>
+        <View style={styles.ingredientWrapper}>
+          <Text style={styles.menuSubtitle}>{ingredient[0]}</Text>
+        </View>
+      </View>
+    );
+  });
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoRecipeContainer}>
         <Text style={styles.infoRecipeName}>{item.title}</Text>
+
+        <TouchableOpacity style={styles.addButton} onPress={handlePress}>
+          <Ionicons
+            name={isFavorite ? "bookmark" : "bookmark-outline"}
+            size={20}
+            color="#ffffff"
+          />
+          <Text>coeur</Text>
+        </TouchableOpacity>
+
         <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
@@ -84,13 +112,19 @@ export default function RecipeScreen(props) {
             onPress={() => {
               let ingredients = item.ingredients;
               let title = "Ingredients for " + item.title;
-              navigation.navigate("IngredientsDetails", { ingredients, title });
+              navigation.navigate("IngredientsDetails", {
+                ingredients,
+                title,
+              });
             }}
           />
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {ingredients}
+        </ScrollView>
       </View>
     </ScrollView>
   );

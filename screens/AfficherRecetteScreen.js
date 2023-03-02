@@ -7,7 +7,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,17 +56,15 @@ export default function RecipeScreen({
 
   const ingredients = recipe.ingredients.map((ingredient, i) => {
     return (
-      <SafeAreaView>
-        <View key={i} style={styles.menuContainer}>
-          <View style={styles.ingredientWrapper}>
-            <Text style={styles.menuSubtitle}>{ingredient.name}</Text>
-            <Text style={styles.menuSubtitle}>
-              {ingredient.amount * servingNb}
-              {ingredient.unit && ` ${ingredient.unit}`}
-            </Text>
-          </View>
+      <View key={i} style={styles.menuContainer}>
+        <View style={styles.ingredientWrapper}>
+          <Text style={styles.menuSubtitle}>{ingredient.name}</Text>
+          <Text style={styles.menuSubtitle}>
+            {ingredient.amount * servingNb}
+            {ingredient.unit && ` ${ingredient.unit}`}
+          </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   });
 

@@ -21,17 +21,24 @@ import {
   getRecipesByIngredientName,
 } from "../data/MockDataAPI";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { favorite, unfavorite, updateServings } from "../reducers/favorites";
+
 export default function SearchScreen(props) {
   const { navigation } = props;
 
   const [value, setValue] = useState("");
   const [data, setData] = useState([]);
 
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites.value);
+  const isFavorite = favorites.some((favorite) => favorite.id === item.id);
+
   useEffect(() => {}, [value]);
 
   const handleSearch = (text) => {
     setValue(text);
-    console.log(value);
     var recipeArray1 = getRecipesByRecipeName(text);
     var recipeArray2 = getRecipesByCategoryName(text);
     var recipeArray3 = getRecipesByIngredientName(text);
@@ -42,6 +49,14 @@ export default function SearchScreen(props) {
       setData([]);
     } else {
       setData(recipeArray);
+    }
+  };
+
+  const handlePress = () => {
+    if (isFavorite) {
+      dispatch(unfavorite(item.id));
+    } else {
+      dispatch(favorite({ ...item, servingNb }));
     }
   };
 
