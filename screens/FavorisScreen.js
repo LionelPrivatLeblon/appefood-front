@@ -18,9 +18,9 @@ export default function Favoris({ navigation }) {
   const favorites = useSelector((state) => state.favorites.value);
 
   const favRecipes = recipes.map((data, i) => {
-    console.log(data.title);
+    // console.log(data.title);
     return (
-      <View style={styles.containerCard}>
+      <View key={i} style={styles.containerCard}>
         <View style={styles.star}>
           <Text style={styles.title}>{data.title}</Text>
           <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
@@ -86,9 +86,7 @@ const styles = StyleSheet.create({
   },
 
   containerCard: {
-    borderLeftWidth: 3,
-    borderRightWidth: 3,
-    borderColor: "red",
+    height: 400,
   },
   star: {
     flexDirection: "row",
