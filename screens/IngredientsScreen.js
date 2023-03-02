@@ -5,10 +5,13 @@ import {
   View,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
+  SafeAreaView,
 } from "react-native";
 import { getIngredientName, getAllIngredients } from "../data/MockDataAPI";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function IngredientsDetailsScreen(props) {
   const { navigation, route } = props;
@@ -45,7 +48,10 @@ export default function IngredientsDetailsScreen(props) {
   );
 
   return (
-    <View>
+    <SafeAreaView>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Ionicons name="ios-arrow-back" size={25} color="#655074" />
+      </TouchableOpacity>
       <FlatList
         vertical
         showsVerticalScrollIndicator={false}
@@ -54,7 +60,7 @@ export default function IngredientsDetailsScreen(props) {
         renderItem={renderIngredient}
         keyExtractor={(item) => `${item.recipeId}`}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

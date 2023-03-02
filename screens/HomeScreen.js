@@ -24,6 +24,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { favorite, unfavorite, updateServings } from "../reducers/favorites";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function SearchScreen(props) {
   const { navigation } = props;
@@ -52,12 +53,29 @@ export default function SearchScreen(props) {
     }
   };
 
-  const handlePress = () => {
+  const handlePress = (item) => {
+    console.log(item.recipeId);
+    console.log(item.title);
     if (isFavorite) {
-      dispatch(unfavorite(item.id));
+      dispatch(unfavorite(item.recipeId));
     } else {
-      dispatch(favorite({ ...item, servingNb }));
+      //dispatch(favorite({ ...item }));
     }
+  };
+
+  const Generatestar = (item) => {
+    console.log(item);
+    // Average evaluation
+    const stars = [];
+    for (let i = 0; i < 4; i++) {
+      let style;
+      if (i < item) {
+        stars.push(<FontAwesome name="star" size={10} color="#f1c40f" />);
+      } else {
+        stars.push(<FontAwesome name="star" size={10} color="#000000" />);
+      }
+    }
+    return stars;
   };
 
   const onPressRecipe = (item) => {
@@ -74,16 +92,21 @@ export default function SearchScreen(props) {
         <View style={styles.masque}></View>
         <View style={styles.cardtop}>
           <Text style={styles.cardtitle}>{item.title}</Text>
-          <FontAwesome name="heart" size={25} color="#EE0056" />
+          {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={handlePress(item)}
+          >
+            <Ionicons
+              name={isFavorite ? "bookmark" : "bookmark-outline"}
+              size={30}
+              color="#ffffff"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.cardbottom}>
           <Text>{getCategoryName(item.categoryId)}</Text>
-          <View style={styles.star}>
-            <FontAwesome name="star" size={10} color="#e8be4b" />
-            <FontAwesome name="star" size={10} color="#e8be4b" />
-            <FontAwesome name="star" size={10} color="#e8be4b" />
-            <FontAwesome name="star" size={10} color="#e8be4b" />
-          </View>
+          <View style={styles.star}>{Generatestar(item.voteAverage)}</View>
         </View>
       </View>
     </TouchableHighlight>
@@ -135,12 +158,12 @@ export default function SearchScreen(props) {
 // screen sizing
 const { width, height } = Dimensions.get("window");
 // orientation must fixed
-const SCREEN_WIDTH = width < height ? width : height;
+const SCREEN_WIDTH = width - 20;
 
 const recipeNumColums = 2;
 // item size
 const RECIPE_ITEM_HEIGHT = 200;
-const RECIPE_ITEM_MARGIN = 3;
+const RECIPE_ITEM_MARGIN = 5;
 
 // 2 photos per width
 const styles = StyleSheet.create({
@@ -213,8 +236,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     padding: 10,
-    width: 180,
-    height: 80,
+    width: 160,
+    height: 40,
     margin: 10,
     alignItems: "center",
     justifyContent: "space-between",
