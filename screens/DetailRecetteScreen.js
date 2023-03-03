@@ -12,31 +12,75 @@ import {
 } from "react-native";
 //import Carousel, { Pagination } from "react-native-snap-carousel";
 //import Carousel, { Pagination } from "react-native-reanimated-carousel";
+
+
+
 import {
   getIngredientName,
-  getCategoryName,
-  getCategoryById,
+  getCategoryName, //Recupère par nom d'ingrédient 
+  getCategoryById, //recupère par ID d'ingredient 
 } from "../data/MockDataAPI";
+//Fonction qui sont importer de MockdataAPI
+
+
+
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
+
+
+
+//reducer
 import { favorite, unfavorite, updateServings } from "../reducers/favorites";
+
+
+
+//librairie Icon
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+
+
+//Outil du reducer
 import { useDispatch, useSelector } from "react-redux";
 
+
+
+//Pour récupérer la largeur de l'ecran de l'utilisateur 
 const { width: viewportWidth } = Dimensions.get("window");
 
+
+
+
 export default function RecipeScreen(props) {
+
+
+
   const { navigation, route } = props;
 
+
+
+  //recupère des informations via le route params
   const item = route.params?.item;
+
+
+
+
+  //On définit nos fonctions dans des variables
   const category = getCategoryById(item.categoryId);
   const title = getCategoryName(category.id);
-
   const dispatch = useDispatch();
+
+
+
+
+  //Pour le favoris
   const favorites = useSelector((state) => state.favorites.value);
   const isFavorite = favorites.some(
     (favorite) => favorite.id === item.recipeId
   );
 
+
+  
+  
+  //Fonction pour créer un favoris
   const addbookmark = () => {
     console.log("test " + item.recipeId);
     console.log("test " + { ...item });
@@ -47,6 +91,10 @@ export default function RecipeScreen(props) {
     }
   };
 
+
+
+
+  //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
   const ingredients = item.ingredients.map((ingredient, i) => {
     return (
       <View key={i} style={styles.menuContainer}>
@@ -57,13 +105,25 @@ export default function RecipeScreen(props) {
     );
   });
 
+
+
+
+  // Ici c'est le return de la fonction principale
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoRecipeContainer}>
         <Text style={styles.infoRecipeName}>{item.title}</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+
+
+
+        {/* //goBack c'est une fonction natif qui permet de retourner à la page précédente */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>  
           <Ionicons name="ios-arrow-back" size={25} color="#655074" />
         </TouchableOpacity>
+        
+
+
+        {/* //Boutton Favoris */}
         <TouchableOpacity style={styles.addButton} onPress={addbookmark}>
           <Ionicons
             name={isFavorite ? "bookmark" : "bookmark-outline"}
@@ -72,7 +132,10 @@ export default function RecipeScreen(props) {
           />
         </TouchableOpacity>
 
-        <View style={styles.infoContainer}>
+
+
+
+        {/* <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
               navigation.navigate("RecipesList", { category, title })
@@ -82,8 +145,11 @@ export default function RecipeScreen(props) {
               {getCategoryName(item.categoryId).toUpperCase()}
             </Text>
           </TouchableHighlight>
-        </View>
+        </View> */}
 
+
+
+        {/* // Icone de temps */}
         <View style={styles.infoContainer}>
           <Image
             style={styles.infoPhoto}
@@ -92,6 +158,9 @@ export default function RecipeScreen(props) {
           <Text style={styles.infoRecipe}>{item.time} minutes </Text>
         </View>
 
+
+
+      {/* // Bouton voir ingredients */}
         <View style={styles.infoContainer}>
           <ViewIngredientsButton
             onPress={() => {
@@ -104,6 +173,10 @@ export default function RecipeScreen(props) {
             }}
           />
         </View>
+
+
+
+        
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>
@@ -114,6 +187,17 @@ export default function RecipeScreen(props) {
     </ScrollView>
   );
 }
+
+
+
+
+
+/***********************************************/
+/*             Styles                           */
+/***********************************************/
+
+
+
 
 const styles = StyleSheet.create({
   container: {
