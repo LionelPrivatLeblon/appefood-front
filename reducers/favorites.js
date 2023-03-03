@@ -8,11 +8,14 @@ export const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-    favorite: (state, action) => {
+    addfavorite: (state, action) => {
+      console.log("action.payload", action.payload);
       state.value.push(action.payload);
     },
     unfavorite: (state, action) => {
-      state.value = state.value.filter((e) => e.id !== action.payload);
+      state.value = state.value.filter(
+        (e) => e.recipeId !== action.payload.recipeId
+      );
     },
     updateServings: (state, action) => {
       state.value.find((e) => e.id === action.payload.id).servingNb =
@@ -21,5 +24,5 @@ export const favoritesSlice = createSlice({
   },
 });
 
-export const { favorite, unfavorite, updateServings } = favoritesSlice.actions;
+export const { addfavorite, unfavorite, updateServings } = favoritesSlice.actions;
 export default favoritesSlice.reducer;
