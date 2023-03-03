@@ -11,6 +11,9 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 export default function ProfileScreen({ navigation }) {
   //Affiche la valeur du reducers Users qui a été recupéré sur LoginScreen.js
   const newuser = useSelector((state) => state.users.value);
+
+  const dispatch = useDispatch();
+
   // console.log("test " + newuser);
 
   //Fonction de deconnexion

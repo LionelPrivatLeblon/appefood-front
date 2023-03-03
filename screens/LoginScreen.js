@@ -3,12 +3,12 @@ import { StatusBar } from "expo-status-bar";
 //Import des composants
 import {
   View,
-  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Dimensions,
   Button,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -48,8 +48,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signUpUsername) &&
       PASSWORD_REGEX.test(signUpPassword)
     ) {
-      //Fetch pour comminiquer et enregistrer les informations en DataBase
-      fetch("http://192.168.10.146:3000/users/signup", {
+      fetch("http://192.168.10.128:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,13 +66,28 @@ export default function Home({ navigation }) {
             dispatch(addUserToStore(signUpUsername));
             navigation.navigate("TabNavigator", { screen: "Search" });
           } else {
-            //erreur qui s'affiche si username n'est pas deja enregistré en base de donnée
+            //erreur qui s'affiche si username est deja enregistré en base de donnée
             setSuUserError(true);
+
+            // efface les autres messages d'erreur
+            setSuRegexError();
+            setSiUserError();
+            setSiRegexError();
+            // Vide les champs de saisie
+            setSignUpUsername();
+            setSignUpPassword();
           }
         });
     } else {
       //erreur qui s'affiche si username et password ont moins de 6 caracteres
       setSuRegexError(true);
+      // efface les autres messages d'erreur
+      setSuUserError();
+      setSiRegexError();
+      setSiUserError();
+      // Vide les champs de saisie
+      setSignUpUsername();
+      setSignUpPassword();
     }
   };
 
@@ -84,7 +98,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signInUsername) &&
       PASSWORD_REGEX.test(signInPassword)
     ) {
-      fetch("http://192.168.10.146:3000/users/signin", {
+      fetch("http://192.168.10.128:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -102,11 +116,25 @@ export default function Home({ navigation }) {
           } else {
             //erreur qui s'affiche si username n'est pas en base de donnée
             setSiUserError(true);
+            // efface les autres messages d'erreur
+            setSiRegexError();
+            setSuRegexError();
+            setSuUserError();
+            // Vide les champs de saisie
+            setSignInUsername();
+            setSignInPassword();
           }
         });
     } else {
       //erreur qui s'affiche si username et password ont moins de 6 caracteres
       setSiRegexError(true);
+      // efface les autres messages d'erreur
+      setSiUserError();
+      setSuRegexError();
+      setSuUserError();
+      // Vide les champs de saisie
+      setSignInUsername();
+      setSignInPassword();
     }
   };
 
@@ -220,11 +248,12 @@ const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
   },
+
   titlesignup: {
     color: "#D4BFBF",
     margin: 20,
@@ -266,29 +295,23 @@ const styles = StyleSheet.create({
   },
   button2: {
     backgroundColor: "#FFFFFF",
-
     borderWidth: 5,
     borderColor: "#7D4FB8",
     width: 225,
     height: 59,
     borderRadius: 31,
-    display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     margin: 20,
     marginLeft: "auto",
     marginRight: "auto",
   },
-  image: {
-    height: 100,
-    width: 100,
-  },
+
   error: {
     marginTop: 10,
     color: "red",
   },
-  signup: {},
-  signin: {},
+
   formtitle: {
     color: "#7D4FB8",
     fontSize: 20,
