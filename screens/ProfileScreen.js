@@ -1,67 +1,43 @@
-//import des composants 
+//import des composants
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
-
-
-
 
 //Reducers
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/users";
 
-
-
-
 //Import Librairie
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-
-
-
 export default function ProfileScreen({ navigation }) {
-
-
   //Affiche la valeur du reducers Users qui a été recupéré sur LoginScreen.js
   const newuser = useSelector((state) => state.users.value);
+
+  const dispatch = useDispatch();
+
   // console.log("test " + newuser);
 
   //Fonction de deconnexion
   function handleLogout() {
-  
-
-
     // je vide le store
     dispatch(logout());
-
-
 
     // je me redirigie vers la page login
     navigation.navigate("Login");
   }
-
-
-
 
   // ------- retour de la fonction principale --------
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profil</Text>
 
-
-      
       {/* Transformer les boutons et utiliser un touchable opacity pour l'icone et le text */}
       <Text>{newuser.username}</Text>
-
-
-
 
       {/* ------- Bouton Mes recettes ------- */}
       <TouchableOpacity style={styles.button}>
         <Text>Mes recettes</Text>
         <FontAwesome name="play" size={25} />
       </TouchableOpacity>
-
-
-
 
       {/* -------  Bouton Mes favoris -------- */}
       <TouchableOpacity
@@ -71,9 +47,6 @@ export default function ProfileScreen({ navigation }) {
         <Text>Mes favoris</Text>
         <FontAwesome name="play" size={25} />
       </TouchableOpacity>
-
-
-
 
       {/* -----    Bouton logout --------*/}
       <TouchableOpacity
@@ -89,14 +62,9 @@ export default function ProfileScreen({ navigation }) {
   );
 }
 
-
-
-
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
-
-
 
 const styles = StyleSheet.create({
   container: {
