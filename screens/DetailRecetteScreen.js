@@ -72,7 +72,7 @@ export default function RecipeScreen(props) {
           />
         </TouchableOpacity>
 
-        <View style={styles.infoContainer}>
+        {/* <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
               navigation.navigate("RecipesList", { category, title })
@@ -82,7 +82,10 @@ export default function RecipeScreen(props) {
               {getCategoryName(item.categoryId).toUpperCase()}
             </Text>
           </TouchableHighlight>
-        </View>
+        </View> */}
+        <Text style={styles.category}>
+          {getCategoryName(item.categoryId).toUpperCase()}
+        </Text>
 
         <View style={styles.infoContainer}>
           <Image

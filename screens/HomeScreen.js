@@ -36,7 +36,7 @@ export default function SearchScreen(props) {
   const favorites = useSelector((state) => state.favorites.value);
   const isFavorite = favorites.some((favorite) => favorite.id === item.id);
 
-  useEffect(() => {}, [value]);
+  //useEffect(() => {}, [value]);
 
   const handleSearch = (text) => {
     setValue(text);
