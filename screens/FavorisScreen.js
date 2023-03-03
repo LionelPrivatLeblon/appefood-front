@@ -10,25 +10,22 @@ import {
 } from "react-native";
 
 //Reducers
-import { useSelector,useDispatch } from "react-redux";  
+import { useSelector, useDispatch } from "react-redux";
 import { unfavorite, addfavorite } from "../reducers/favorites";
 
 //On importe le tableau (cf: dataArrays ligne 35)
 import { recipes } from "../data/dataArrays";
 
-
 //Import librairie Icone
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function Favoris({ navigation }) {
-
   const dispatch = useDispatch();
-  
 
   const favorites = useSelector((state) => state.favorites.value);
-  const isFavorite = favorites.some((favorite) => favorite.id === recipes.recipeId);
-
-
+  const isFavorite = favorites.some(
+    (favorite) => favorite.id === recipes.recipeId
+  );
 
   const handleFavoritesClick = (data) => {
     const isFavorite = favorites.some(
@@ -38,11 +35,9 @@ export default function Favoris({ navigation }) {
 
     //je fais appelle a ma fonction créée dans le reducers
     if (isFavorite) {
-
       //j'enlève des favoris
       dispatch(unfavorite(data));
     } else {
-
       //sinon j'ajoutes
       dispatch(addfavorite(data));
     }
@@ -107,9 +102,9 @@ export default function Favoris({ navigation }) {
 }
 const windowWidth = Dimensions.get("window").width;
 
-/***********************************************/
-/*            Styles                           */
-/***********************************************/
+/***/
+/*            Styles                           /
+/**/
 
 const styles = StyleSheet.create({
   container: {

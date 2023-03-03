@@ -1,7 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 
-
-
 //Import des composants
 import {
   View,
@@ -9,43 +7,28 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Dimensions,
   Button,
   Text,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 
-
 //Import etat
 import { useState } from "react";
-
-
-
 
 //Import Reducers
 import { useDispatch } from "react-redux";
 import { addUserToStore, login, logout } from "../reducers/users";
 
-
-
-
 //regex pour determiner si adresse pseudo =6 caractere
 const PSEUDO_REGEX = /[0-9a-zA-Z]{6,}/;
 const PASSWORD_REGEX = /[0-9a-zA-Z]{6,}/;
 
-
-
-
-
 export default function Home({ navigation }) {
-
-
-
-
   const dispatch = useDispatch();
   //const [username, setUsername] = useState("");
- 
- 
+
   //Mes Etats
   //MSG Message Error
   const [suregexError, setSuRegexError] = useState(false);
@@ -58,68 +41,50 @@ export default function Home({ navigation }) {
   const [signInUsername, setSignInUsername] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
-
-
-
-
-
   //Fonction SignUP
   const handleRegister = () => {
-
     //On verifie que sa reponde au REGEX
     if (
       PSEUDO_REGEX.test(signUpUsername) &&
       PASSWORD_REGEX.test(signUpPassword)
     ) {
-
       //Fetch pour comminiquer et enregistrer les informations en DataBase
-      fetch("http://192.168.10.167:3000/users/signup", {
+      fetch("http://192.168.10.146:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-
-          //Je recupère les valeurs des etats crées en haut 
-          username: signUpUsername, 
+          //Je recupère les valeurs des etats crées en haut
+          username: signUpUsername,
           password: signUpPassword,
         }),
       })
-
-        //transformation de la reponse dans le bon format 
+        //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
-
-          //Si c'est bon, cela s'enregistre en DB et je conserve les informations du User 
+          //Si c'est bon, cela s'enregistre en DB et je conserve les informations du User
           //via le Reducer et je redirige le User sur la page Search === HomeScreen.js
           if (data.result) {
             dispatch(addUserToStore(signUpUsername));
             navigation.navigate("TabNavigator", { screen: "Search" });
           } else {
-
             //erreur qui s'affiche si username n'est pas deja enregistré en base de donnée
-            setSuUserError(true); 
+            setSuUserError(true);
           }
         });
     } else {
-
-
       //erreur qui s'affiche si username et password ont moins de 6 caracteres
-      setSuRegexError(true); 
+      setSuRegexError(true);
     }
   };
 
-
-
-
-
   //Fonction SignIn
   const handleConnection = () => {
-
-     //On verifie que sa reponde au REGEX
+    //On verifie que sa reponde au REGEX
     if (
       PSEUDO_REGEX.test(signInUsername) &&
       PASSWORD_REGEX.test(signInPassword)
     ) {
-      fetch("http://192.168.10.167:3000/users/signin", {
+      fetch("http://192.168.10.146:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -127,33 +92,23 @@ export default function Home({ navigation }) {
           password: signInPassword,
         }),
       })
-
-
-      //transformation de la reponse dans le bon format 
+        //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-
             //je redirige le User sur la page Search === HomeScreen.js
             navigation.navigate("TabNavigator", { screen: "Search" });
             dispatch(addUserToStore(signInUsername));
           } else {
-
-
             //erreur qui s'affiche si username n'est pas en base de donnée
-            setSiUserError(true); 
+            setSiUserError(true);
           }
         });
     } else {
-
-
       //erreur qui s'affiche si username et password ont moins de 6 caracteres
-      setSiRegexError(true); 
+      setSiRegexError(true);
     }
   };
-
-
-
 
   //Fonction pour se deconnecter et se rediriger sur la page LoginScreen.sj
   const handleLogout = () => {
@@ -161,8 +116,6 @@ export default function Home({ navigation }) {
     navigation.navigate("Search");
     //dispatch(removeAllBookmark());
   };
-
-
 
   //Fonction de base pour se loge => remplacer par handleRegister
   // const connexionUser = () => {
@@ -174,15 +127,17 @@ export default function Home({ navigation }) {
   //   }
   // };
 
-
-
-
   //Return de ma fonction principale
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Image
+        style={styles.bgimage}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+      />
+      <View style={styles.masqueCover}></View>
       <View style={styles.containersignin}>
         <View style={styles.signup}>
           <Text style={styles.formtitle}>Pseudo :</Text>
@@ -205,7 +160,6 @@ export default function Home({ navigation }) {
             style={styles.button}
             activeOpacity={0.8}
             onPress={() => handleRegister()}
-           
           >
             <Text style={styles.textButton}>Inscription</Text>
           </TouchableOpacity>
@@ -258,16 +212,10 @@ export default function Home({ navigation }) {
   );
 }
 
-
-
-
-
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
-
-
-
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
@@ -275,6 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
   },
   titlesignup: {
     color: "#D4BFBF",
@@ -350,5 +299,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  bgimage: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: width,
+    height: height,
+    resizeMode: "cover",
+  },
+  masqueCover: {
+    backgroundColor: "#FFFFFF",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.6,
   },
 });

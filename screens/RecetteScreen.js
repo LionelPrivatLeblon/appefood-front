@@ -33,11 +33,9 @@ export default function RecipesScreen(props) {
 
     //je fais appelle a ma fonction créée dans le reducers
     if (isFavorite) {
-
       //j'enlève des favoris
       dispatch(unfavorite(data));
     } else {
-
       //sinon j'ajoutes
       dispatch(addfavorite(data));
     }
@@ -82,9 +80,9 @@ export default function RecipesScreen(props) {
   );
 }
 
-/***********************************************/
-/*            Styles                           */
-/***********************************************/
+/***/
+/*            Styles                           /
+/**/
 
 const styles = StyleSheet.create({
   container: {

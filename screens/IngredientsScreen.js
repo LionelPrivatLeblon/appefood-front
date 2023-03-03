@@ -1,93 +1,41 @@
 import React, { useLayoutEffect } from "react";
 
-
-
 import {
   FlatList,
   Text,
   View,
   Image,
-  TouchableHighlight,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
   SafeAreaView,
 } from "react-native";
 
-
-//Import fonction 
+//Import fonction
 import { getIngredientName, getAllIngredients } from "../data/MockDataAPI";
-
-
 
 //Librairie Icone
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-
-
-
 export default function IngredientsDetailsScreen(props) {
-
-
   const { navigation, route } = props;
 
-
-
   const item = route.params?.ingredients;
-
 
   //Tout les ingredients utitlisés dans la recette sont stockés dans la variable 'ingredientsArray'
   const ingredientsArray = getAllIngredients(item);
 
-
-
-
-  //c'est similaire à UseEffect
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: route.params?.title,
-  //     headerTitleStyle: {
-  //       fontSize: 16,
-  //     },
-  //   });
-  // }, []);
-
-
-
-
-  //Pour le moment ne fonctionne pas 
-  // const onPressIngredient = (item) => {
-  //   let name = getIngredientName(item.ingredientId);
-  //   let ingredient = item.ingredientId;
-  //   navigation.navigate("Ingredient", { ingredient, name });
-  // };
-
-
-
-
-  //On recupère la photo et le nom de l'ingredient, c'est une card ingredient 
   const renderIngredient = ({ item }) => (
-    <TouchableHighlight
-      underlayColor="rgba(73,182,77,0.9)"
-      onPress={() => onPressIngredient(item[0])}
-    >
-      <View style={styles.container}>
-        <Image style={styles.photo} source={{ uri: item[0].photo_url }} />
-        <Text style={styles.title}>{item[0].name}</Text>
-        <Text style={{ color: "grey" }}>{item[1]}</Text>
-      </View>
-    </TouchableHighlight>
+    <View style={styles.container}>
+      <Image style={styles.photo} source={{ uri: item[0].photo_url }} />
+      <Text style={styles.title}>{item[0].name}</Text>
+      <Text style={{ color: "grey" }}>{item[1]}</Text>
+    </View>
   );
-
-
-
 
   //return de la fonction Principale
   // safeAreaView c'est la barre de l'heure et de batterie ce qui permet de garder cette zone intact
   return (
-
-
-   
     <SafeAreaView>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons name="ios-arrow-back" size={25} color="#655074" />
@@ -104,15 +52,9 @@ export default function IngredientsDetailsScreen(props) {
   );
 }
 
-
-
-
-
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
-
-
 
 // screen sizing
 const { width, height } = Dimensions.get("window");
