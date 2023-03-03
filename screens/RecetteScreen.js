@@ -1,15 +1,24 @@
 //import de mes composants
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+} from "react-native";
 
 //Import du tableau recipes(cf: dataArrays)
-import { recipes } from "../data/recipes";
-import RecipeCard from "../components/RecipeCard";
+import { recipes } from "../data/dataArrays";
 
 export default function RecipesScreen() {
   //je definis une variable recipeList qui vient faire un .map sur le tableau dataArrays
   const recipeList = recipes.map((data, i) => {
     return <RecipeCard key={i} recipe={data} />;
   });
+  // const recipeList = recipes.map((data, i) => {
+
+  //   return <RecipeCard key={i} recipe={data} />;
+  // });
 
   return (
     <View style={styles.container}>
@@ -34,6 +43,12 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingTop: 50,
   },
+
+  containerCard: {
+    width: 400,
+    height: 400,
+  },
+
   title: {
     textAlign: "center",
     color: "red",

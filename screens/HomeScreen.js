@@ -31,6 +31,13 @@ import {
 //Methodes Reducers
 import { useDispatch, useSelector } from "react-redux";
 
+
+
+//j'importe le tableau de données 
+import { recipes } from "../data/dataArrays";
+
+
+
 //Import fonctions reducers
 import { favorite, unfavorite, updateServings } from "../reducers/favorites";
 
@@ -46,7 +53,7 @@ export default function SearchScreen(props) {
 
   //Variable Favoris
   const favorites = useSelector((state) => state.favorites.value);
-  const isFavorite = favorites.some((favorite) => favorite.id === item.id);
+  const isFavorite = favorites.some((favorite) => favorite.id === recipes.recipeId);
 
   //Cette fonction permet de générer/filtrer une recette
   const handleSearch = (text) => {

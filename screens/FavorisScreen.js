@@ -22,6 +22,9 @@ export default function Favoris({ navigation }) {
   //On definit nos variables
   const newuser = useSelector((state) => state.users.value);
   const favorites = useSelector((state) => state.favorites.value);
+  const isFavorite = favorites.some(
+    (favorite) => favorite.id === recipes.recipeId
+  );
 
   //Ici je créer une variable favRecipes et je fais un .map sur mon tableau de recipes(cf: dataArrays ligne 35)
   const favRecipes = recipes.map((data, i) => {
@@ -50,7 +53,7 @@ export default function Favoris({ navigation }) {
         <Text style={styles.title}>Mes favoris</Text>
         <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
       </View>
-      <ScrollView style={styles.scrollview}>{favRecipes}</ScrollView>
+      <ScrollView style={styles.scrollview}>{fav}</ScrollView>
     </View>
   );
 }
