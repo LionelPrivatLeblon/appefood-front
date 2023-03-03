@@ -6,7 +6,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Dimensions,
   Button,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -159,6 +161,11 @@ export default function Home({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Image
+        style={styles.bgimage}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+      />
+      <View style={styles.masqueCover}></View>
       <View style={styles.containersignin}>
         <View style={styles.signup}>
           <Text style={styles.formtitle}>Pseudo :</Text>
@@ -236,6 +243,7 @@ export default function Home({ navigation }) {
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
@@ -243,6 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
   },
 
   titlesignup: {
@@ -313,5 +322,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  bgimage: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: width,
+    height: height,
+    resizeMode: "cover",
+  },
+  masqueCover: {
+    backgroundColor: "#FFFFFF",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.6,
   },
 });
