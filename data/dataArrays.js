@@ -30,6 +30,8 @@ export const categories = [
   },
 ];
 
+
+//Ici c'est nos recettes
 export const recipes = [
   {
     recipeId: 122,
@@ -360,6 +362,11 @@ export const recipes = [
   },
 ];
 
+
+
+
+
+//Ce tableau est reservé uniquement aux ingrédients par ID 
 export const ingredients = [
   {
     ingredientId: 0,

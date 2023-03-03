@@ -8,17 +8,44 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import { useSelector } from "react-redux";
-import { recipes } from "../data/dataArrays";
 
+
+
+//Reducers
+import { useSelector } from "react-redux";
+
+
+
+//On importe le tableau (cf: dataArrays ligne 35)
+import { recipes } from "../data/dataArrays"
+
+
+
+//Import librairie Icone
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+
+
+
 export default function Favoris({ navigation }) {
+
+
+
+
+  //On definit nos variables
   const newuser = useSelector((state) => state.users.value);
   const favorites = useSelector((state) => state.favorites.value);
 
+
+
+  //Ici je créer une variable favRecipes et je fais un .map sur mon tableau de recipes(cf: dataArrays ligne 35)
   const favRecipes = recipes.map((data, i) => {
+
+
+
     // console.log(data.title);
+
+    //Ici c'est le return pour une card
     return (
       <View key={i} style={styles.containerCard}>
         <View style={styles.star}>
@@ -33,6 +60,10 @@ export default function Favoris({ navigation }) {
     );
   });
 
+
+
+
+  // Ici c'est le return de la fonction Principale
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -46,9 +77,16 @@ export default function Favoris({ navigation }) {
 }
 const windowWidth = Dimensions.get("window").width;
 
+
+
+
+
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
+
+
+
 
 const styles = StyleSheet.create({
   container: {

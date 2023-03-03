@@ -1,3 +1,5 @@
+import React, { useLayoutEffect } from "react";
+
 import {
   FlatList,
   Text,
@@ -8,13 +10,19 @@ import {
   Dimensions,
   SafeAreaView,
 } from "react-native";
+
+//Import fonction
 import { getIngredientName, getAllIngredients } from "../data/MockDataAPI";
+
+//Librairie Icone
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function IngredientsDetailsScreen(props) {
   const { navigation, route } = props;
 
   const item = route.params?.ingredients;
+
+  //Tout les ingredients utitlisés dans la recette sont stockés dans la variable 'ingredientsArray'
   const ingredientsArray = getAllIngredients(item);
 
   const renderIngredient = ({ item }) => (
@@ -25,6 +33,8 @@ export default function IngredientsDetailsScreen(props) {
     </View>
   );
 
+  //return de la fonction Principale
+  // safeAreaView c'est la barre de l'heure et de batterie ce qui permet de garder cette zone intact
   return (
     <SafeAreaView>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -41,6 +51,10 @@ export default function IngredientsDetailsScreen(props) {
     </SafeAreaView>
   );
 }
+
+/***********************************************/
+/*            Styles                           */
+/***********************************************/
 
 // screen sizing
 const { width, height } = Dimensions.get("window");

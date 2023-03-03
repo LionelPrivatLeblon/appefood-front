@@ -1,14 +1,25 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View, Image } from "react-native";
 
+
+
+
 /*Installation Navigation*/
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+
+
+
 //import { createDrawerNavigator } from "@react-navigation/drawer";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
 
+
+
+
+//Import des Screens
 import Login from "./screens/LoginScreen";
 import Favoris from "./screens/FavorisScreen";
 import Recipes from "./screens/RecetteScreen";
@@ -17,9 +28,16 @@ import Profile from "./screens/ProfileScreen";
 import Home from "./screens/HomeScreen";
 import IngredientsDetailsScreen from "./screens/IngredientsScreen";
 
+
+
+
+//je crée mes variables
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 //const Drawer = createDrawerNavigator();
+
+
+
 
 /*Installation Redux*/
 import { Provider } from "react-redux";
@@ -28,10 +46,16 @@ import users from "./reducers/users";
 import favorites from "./reducers/favorites";
 import { dataRecette } from "./reducers/recettes";
 
+
+
+//configuration du Store
 const store = configureStore({
   reducer: { users, favorites, dataRecette },
 });
 
+
+
+//Fonction de la Tab-Bar
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -64,8 +88,7 @@ const TabNavigator = () => {
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
-          //return <FontAwesomeIcon icon={faHeart} />;
-          //return <Image style={styles.image} source={iconFood} color={color} />;
+          
         },
         tabBarActiveTintColor: "#7D4FB8",
         tabBarInactiveTintColor: "#b2b2b2",
@@ -80,8 +103,17 @@ const TabNavigator = () => {
   );
 };
 
+
+
+//Fonction Principale
+// j'englobe mon application avec mon Store ce qui me permet de pouvoir
+// appeler mes fonctions du reducers depuis n'importe quel fichier
+
 export default function App({ navigation }) {
   return (
+
+
+ 
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -98,6 +130,14 @@ export default function App({ navigation }) {
     </Provider>
   );
 }
+
+
+
+/***********************************************/
+/*            Styles                           */
+/***********************************************/
+
+
 
 const styles = StyleSheet.create({
   container: {
