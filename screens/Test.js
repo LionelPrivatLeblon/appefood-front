@@ -19,11 +19,7 @@ export default function Home({ navigation }) {
   const [recette, setRecette] = useState("");
   const legumes = ["Tomate", "Salade", "Carotte", "Haricot"];
   const handlerecipe = () => {
-<<<<<<< HEAD
     fetch("http://192.168.10.142:3000/recipes")
-=======
-    fetch("http://192.168.10.161:3000/recipes")
->>>>>>> 957c1c78639bb874d936c4bc53c24680b1018d93
       .then((response) => response.json())
       .then((data) => {
         console.log(data.recipes[0].title);

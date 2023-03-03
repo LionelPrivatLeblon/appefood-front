@@ -17,7 +17,6 @@ import {
   getCategoryName,
   getCategoryById,
 } from "../data/MockDataAPI";
-import BackButton from "../components/BackButton/BackButton";
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
 import { favorite, unfavorite, updateServings } from "../reducers/favorites";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -38,28 +37,13 @@ export default function RecipeScreen(props) {
     (favorite) => favorite.id === item.recipeId
   );
 
-  const [servingNb, setServingNb] = useState(item.servingNb);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTransparent: "true",
-      headerLeft: () => (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ),
-      headerRight: () => <View />,
-    });
-  }, []);
-
-  const handlePress = () => {
+  const addbookmark = () => {
+    console.log("test " + item.recipeId);
+    console.log("test " + { ...item });
     if (isFavorite) {
-      //dispatch(unfavorite(item.recipeId));
+      dispatch(unfavorite(item.recipeId));
     } else {
-      console.log(item);
-      dispatch(favorite({ ...item, servingNb }));
+      //dispatch(favorite({ ...item }));
     }
   };
 
@@ -77,14 +61,15 @@ export default function RecipeScreen(props) {
     <ScrollView style={styles.container}>
       <View style={styles.infoRecipeContainer}>
         <Text style={styles.infoRecipeName}>{item.title}</Text>
-
-        <TouchableOpacity style={styles.addButton} onPress={handlePress}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="ios-arrow-back" size={25} color="#655074" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={addbookmark}>
           <Ionicons
             name={isFavorite ? "bookmark" : "bookmark-outline"}
-            size={20}
-            color="#ffffff"
+            size={30}
+            color="red"
           />
-          <Text>coeur</Text>
         </TouchableOpacity>
 
         <View style={styles.infoContainer}>
