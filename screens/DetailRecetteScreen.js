@@ -10,66 +10,41 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-//import Carousel, { Pagination } from "react-native-snap-carousel";
-//import Carousel, { Pagination } from "react-native-reanimated-carousel";
-
-
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 import {
   getIngredientName,
-  getCategoryName, //Recupère par nom d'ingrédient 
-  getCategoryById, //recupère par ID d'ingredient 
+  getCategoryName, //Recupère par nom d'ingrédient
+  getCategoryById, //recupère par ID d'ingredient
 } from "../data/MockDataAPI";
 //Fonction qui sont importer de MockdataAPI
 
-
-
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
-
-
 
 //reducer
 import { favorite, unfavorite, updateServings } from "../reducers/favorites";
 
-
-
 //librairie Icon
 import Ionicons from "react-native-vector-icons/Ionicons";
-
-
 
 //Outil du reducer
 import { useDispatch, useSelector } from "react-redux";
 
-
-
-//Pour récupérer la largeur de l'ecran de l'utilisateur 
+//Pour récupérer la largeur de l'ecran de l'utilisateur
 const { width: viewportWidth } = Dimensions.get("window");
 
-
-
-
 export default function RecipeScreen(props) {
-
-
-
   const { navigation, route } = props;
-
-
 
   //recupère des informations via le route params
   const item = route.params?.item;
 
-
-
-
   //On définit nos fonctions dans des variables
   const category = getCategoryById(item.categoryId);
   const title = getCategoryName(category.id);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const slider1Ref = useRef();
   const dispatch = useDispatch();
-
-
-
 
   //Pour le favoris
   const favorites = useSelector((state) => state.favorites.value);
@@ -77,9 +52,6 @@ export default function RecipeScreen(props) {
     (favorite) => favorite.id === item.recipeId
   );
 
-
-  
-  
   //Fonction pour créer un favoris
   const addbookmark = () => {
     console.log("test " + item.recipeId);
@@ -90,9 +62,6 @@ export default function RecipeScreen(props) {
       //dispatch(favorite({ ...item }));
     }
   };
-
-
-
 
   //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
   const ingredients = item.ingredients.map((ingredient, i) => {
@@ -105,23 +74,44 @@ export default function RecipeScreen(props) {
     );
   });
 
-
-
+  const renderImage = ({ item }) => (
+    <TouchableHighlight>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: item }} />
+      </View>
+    </TouchableHighlight>
+  );
 
   // Ici c'est le return de la fonction principale
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.container}>
+        <SwiperFlatList
+          autoplay
+          autoplayDelay={500}
+          autoplayLoop
+          index={0}
+          showPagination
+          data={item.photosArray}
+          renderItem={renderImage}
+          ref={slider1Ref}
+          sliderWidth={viewportWidth}
+          itemWidth={viewportWidth}
+          inactiveSlideScale={1}
+          inactiveSlideOpacity={1}
+          firstItem={0}
+          loop={false}
+          autoplayInterval={3000}
+          onSnapToItem={(index) => setActiveSlide(0)}
+        />
+      </View>
       <View style={styles.infoRecipeContainer}>
         <Text style={styles.infoRecipeName}>{item.title}</Text>
 
-
-
         {/* //goBack c'est une fonction natif qui permet de retourner à la page précédente */}
-        <TouchableOpacity onPress={() => navigation.goBack()}>  
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={25} color="#655074" />
         </TouchableOpacity>
-        
-
 
         {/* //Boutton Favoris */}
         <TouchableOpacity style={styles.addButton} onPress={addbookmark}>
@@ -151,8 +141,6 @@ export default function RecipeScreen(props) {
           {getCategoryName(item.categoryId).toUpperCase()}
         </Text>
 
-
-
         {/* // Icone de temps */}
         <View style={styles.infoContainer}>
           <Image
@@ -162,9 +150,7 @@ export default function RecipeScreen(props) {
           <Text style={styles.infoRecipe}>{item.time} minutes </Text>
         </View>
 
-
-
-      {/* // Bouton voir ingredients */}
+        {/* // Bouton voir ingredients */}
         <View style={styles.infoContainer}>
           <ViewIngredientsButton
             onPress={() => {
@@ -178,9 +164,6 @@ export default function RecipeScreen(props) {
           />
         </View>
 
-
-
-        
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>
@@ -192,16 +175,10 @@ export default function RecipeScreen(props) {
   );
 }
 
-
-
-
-
+const { width } = Dimensions.get("window");
 /***********************************************/
 /*             Styles                           */
 /***********************************************/
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -280,4 +257,7 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: "center",
   },
+  container: { flex: 1, backgroundColor: "white" },
+  child: { width, justifyContent: "center" },
+  text: { fontSize: width * 0.5, textAlign: "center" },
 });

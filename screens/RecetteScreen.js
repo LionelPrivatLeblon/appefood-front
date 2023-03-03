@@ -1,22 +1,13 @@
 //import de mes composants
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-
-
 //Import du tableau recipes(cf: dataArrays)
 import { recipes } from "../data/recipes";
 import RecipeCard from "../components/RecipeCard";
 
-
-
 export default function RecipesScreen() {
-
-
   //je definis une variable recipeList qui vient faire un .map sur le tableau dataArrays
   const recipeList = recipes.map((data, i) => {
-
-
-
     return <RecipeCard key={i} recipe={data} />;
   });
 
@@ -30,15 +21,9 @@ export default function RecipesScreen() {
   );
 }
 
-
-
-
 /***********************************************/
 /*            Styles                           */
 /***********************************************/
-
-
-
 
 const styles = StyleSheet.create({
   container: {

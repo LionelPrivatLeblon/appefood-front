@@ -48,9 +48,6 @@ export default function SearchScreen(props) {
   const favorites = useSelector((state) => state.favorites.value);
   const isFavorite = favorites.some((favorite) => favorite.id === item.id);
 
-  //useEffect(() => {}, [value]);
-  // useEffect(() => {}, [value]);
-
   //Cette fonction permet de générer/filtrer une recette
   const handleSearch = (text) => {
     setValue(text);
@@ -91,11 +88,12 @@ export default function SearchScreen(props) {
       let style;
       if (i < item) {
         //Si le nombre correspond l'icone Star deviendra jaune
-        stars.push(<FontAwesome name="star" size={10} color="#f1c40f" />);
+        style = "#f1c40f";
       } else {
         //sinon elle deviendra noir
-        stars.push(<FontAwesome name="star" size={10} color="#000000" />);
+        style = "#000000";
       }
+      stars.push(<FontAwesome name="star" size={10} color={style} />);
     }
     return stars;
   };
@@ -143,6 +141,11 @@ export default function SearchScreen(props) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Image
+        style={styles.bgimage}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+      />
+      <View style={styles.masqueCover}></View>
       <SafeAreaView>
         <Image
           style={styles.searchIcon}
@@ -234,6 +237,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+    position: "relative",
+    width: width,
+    height: height,
   },
   masque: {
     backgroundColor: "#000000",
@@ -243,6 +249,15 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     opacity: 0.3,
+  },
+  masqueCover: {
+    backgroundColor: "#FFFFFF",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.6,
   },
   card: {
     backgroundColor: "#f1f1f1",
@@ -297,5 +312,37 @@ const styles = StyleSheet.create({
   star: {
     flexDirection: "row",
     alignItems: "flex-end",
+  },
+  bgimage: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: width,
+    height: height,
+    resizeMode: "cover",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#EDEDED",
+    borderRadius: 10,
+    width: 250,
+    justifyContent: "space-around",
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    tintColor: "grey",
+  },
+  searchInput: {
+    backgroundColor: "#EDEDED",
+    color: "black",
+    width: 180,
+    height: 50,
+
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
