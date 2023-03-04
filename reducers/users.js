@@ -13,11 +13,12 @@ export const usersSlice = createSlice({
     addUserToStore: (state, action) => {
       //state.value.push(action.payload);
       state.value.username = action.payload;
-      console.log(state.value);
+      console.log("new user", action.payload);
     },
     login: (state, action) => {
       state.value.token = action.payload.token;
       state.value.username = action.payload;
+      console.log("user", action.payload);
     },
     logout: (state) => {
       state.value.token = null;

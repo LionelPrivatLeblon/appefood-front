@@ -7,6 +7,7 @@ import {
   View,
   Image,
   ImageBackground,
+  StatusBar,
 } from "react-native";
 
 //Reducers
@@ -46,12 +47,7 @@ export default function Favoris({ navigation }) {
   const addFavoris = useSelector((state) => state.favorites.value);
   console.log(addFavoris);
 
-  let fav = (
-    <Text style={{ flex: 1, textAlign: "center", fontSize: 30 }}>
-      Damien arrête les pâtes au beurre, et ajoute une recette ! (Autrement dis,
-      pas de recette dans les favoris.)
-    </Text>
-  );
+  let fav = <Text style={styles.message}>Arrêtez les pâtes au beurre !</Text>;
   if (addFavoris.length > 0) {
     fav = addFavoris.map((data, i) => {
       return (
@@ -95,13 +91,22 @@ export default function Favoris({ navigation }) {
 
   // Ici c'est le return de la fonction Principale
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
-        <Text style={styles.title}>Mes favoris</Text>
-        <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
-      </View>
-      <ScrollView style={styles.scrollview}>{fav}</ScrollView>
+    <View>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
+      <ImageBackground
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        style={styles.background}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
+            <Text style={styles.textHeader}>Mes favoris</Text>
+            <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
+          </View>
+          <ScrollView style={styles.scrollview}>{fav}</ScrollView>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -115,12 +120,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",
+    backgroundColor: "rgba(	255, 255, 255, 0.6)",
+  },
+
+  background: {
+    width: "100%",
+    height: "100%",
   },
 
   header: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    justifyContent: "center",
+    backgroundColor: "#7D4FB8",
+  },
+  textHeader: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500",
+  },
+
+  message: {
+    fontSize: 30,
+    borderWidth: 1,
+    backgroundColor: "white",
+    borderColor: "white",
+    borderRadius: 10,
+    width: "80%",
+    marginTop: 200,
+    margin: 35,
+    textAlign: "center",
   },
 
   title: {
