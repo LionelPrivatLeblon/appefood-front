@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signUpUsername) &&
       PASSWORD_REGEX.test(signUpPassword)
     ) {
-      fetch("http://192.168.10.128:3000/users/signup", {
+      fetch("http://192.168.10.106:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -98,7 +98,7 @@ export default function Home({ navigation }) {
       PSEUDO_REGEX.test(signInUsername) &&
       PASSWORD_REGEX.test(signInPassword)
     ) {
-      fetch("http://192.168.10.128:3000/users/signin", {
+      fetch("http://192.168.10.106:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   masqueCover: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     position: "absolute",
     top: 0,
     bottom: 0,
