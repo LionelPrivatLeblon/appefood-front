@@ -24,6 +24,8 @@ export default function Favoris({ navigation }) {
   const dispatch = useDispatch();
 
   const favorites = useSelector((state) => state.favorites.value);
+console.log(favorites)
+
   const isFavorite = favorites.some(
     (favorite) => favorite.id === recipes.recipeId
   );
@@ -47,7 +49,7 @@ export default function Favoris({ navigation }) {
   const addFavoris = useSelector((state) => state.favorites.value);
   console.log(addFavoris);
 
-  let fav = <Text style={styles.message}>Arrêtez les pâtes au beurre !</Text>;
+  let fav = <Text style={{flex:1, textAlign:'center', fontSize:30,}}>Pas de Recette enregistrée en Favoris</Text>;
   if (addFavoris.length > 0) {
     fav = addFavoris.map((data, i) => {
       return (
