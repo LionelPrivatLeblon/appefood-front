@@ -115,6 +115,9 @@ export default function Createrecipe({ navigation }) {
 
   //Fonction SignUP
   const recipeRegister = () => {
+    const ingredients = recipeingredient
+      .filter((e) => e.isChecked)
+      .map((e) => e.ingredientId);
     fetch("http://192.168.10.138:3000/createrecipes/newrecipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -128,16 +131,7 @@ export default function Createrecipe({ navigation }) {
         photo_url: recipephotoUrl, //String,
         photosArray: recipephotoArray, //String,
         time: recipetime, //Number,
-
-        // for (let i = 0; i < recipeingredient.length; i++) {
-        //   console.log(
-        //     "test " + recipeingredient[i].isChecked + recipeingredient[i].name
-        //   )
-        // },
-
-        ingredients: recipeingredient[2].isChecked
-          ? recipeingredient[2].ingredientId
-          : "", //recipeingredient, //Number,
+        ingredients: ingredients, //recipeingredient, //Number,
         description: recipedescription, //String,
       }),
     })
@@ -160,7 +154,7 @@ export default function Createrecipe({ navigation }) {
         }
       });
 
-    console.log("test " + recipeingredient.name);
+    //console.log("test " + recipeingredient.name);
   };
 
   const displayIngredient2 = () =>
@@ -179,16 +173,6 @@ export default function Createrecipe({ navigation }) {
         }
         return ingredient;
       });
-      for (let i = 0; i < recipeingredient.length; i++) {
-        if (recipeingredient[i].isChecked == true) {
-          console.log(
-            "test " +
-              recipeingredient[i].isChecked +
-              " " +
-              recipeingredient[i].name
-          );
-        }
-      }
       setRecipeingredient(newList);
     };
 

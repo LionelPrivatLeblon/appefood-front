@@ -22,7 +22,6 @@ import { useDispatch } from "react-redux";
 import { addUserToStore, login, logout } from "../reducers/users";
 
 //regex pour determiner si adresse pseudo =6 caractere
-const PSEUDO_REGEX = /[0-9a-zA-Z]{6,}/;
 const PASSWORD_REGEX = /[0-9a-zA-Z]{6,}/;
 
 export default function Home({ navigation }) {
@@ -44,10 +43,7 @@ export default function Home({ navigation }) {
   //Fonction SignUP
   const handleRegister = () => {
     //On verifie que sa reponde au REGEX
-    if (
-      PSEUDO_REGEX.test(signUpUsername) &&
-      PASSWORD_REGEX.test(signUpPassword)
-    ) {
+    if (PASSWORD_REGEX.test(signUpPassword)) {
       fetch("http://192.168.10.138:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -96,10 +92,7 @@ export default function Home({ navigation }) {
   //Fonction SignIn
   const handleConnection = () => {
     //On verifie que sa reponde au REGEX
-    if (
-      PSEUDO_REGEX.test(signInUsername) &&
-      PASSWORD_REGEX.test(signInPassword)
-    ) {
+    if (PASSWORD_REGEX.test(signInPassword)) {
       fetch("http://192.168.10.138:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -147,16 +140,6 @@ export default function Home({ navigation }) {
     navigation.navigate("Search");
     //dispatch(removeAllBookmark());
   };
-
-  //Fonction de base pour se loge => remplacer par handleRegister
-  // const connexionUser = () => {
-  //   if (PSEUDO_REGEX.test(signUpUsername)) {
-  //     dispatch(addUserToStore(signUpUsername));
-  //     navigation.navigate("TabNavigator", { screen: "Search" });
-  //   } else {
-  //     setRegexError(true);
-  //   }
-  // };
 
   //Return de ma fonction principale
   return (
@@ -315,7 +298,7 @@ const styles = StyleSheet.create({
 
   error: {
     marginTop: 10,
-    color: "#7D4FB8",
+    color: "red",
   },
 
   formtitle: {

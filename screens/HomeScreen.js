@@ -74,8 +74,8 @@ export default function SearchScreen(props) {
 
   //C'est la fonction favoris
   const handlePress = (item) => {
-    console.log(item.recipeId);
-    console.log(item.title);
+    //console.log(item.recipeId);
+    //console.log(item.title);
     if (isFavorite) {
       dispatch(unfavorite(item.recipeId));
     } else {
