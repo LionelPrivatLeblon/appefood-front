@@ -29,7 +29,6 @@ import { ingredients } from "../data/dataArrays";
 
 export default function Createrecipe({ navigation }) {
   const dispatch = useDispatch();
-  //const [username, setUsername] = useState("");
 
   //Mes Etats
   //MSG Message Error
@@ -44,15 +43,79 @@ export default function Createrecipe({ navigation }) {
   const [recipephotoArray, setRecipephotoArray] = useState("");
   const [recipetime, setRecipeTime] = useState("");
   const [recipedescription, setRecipeDescription] = useState("");
-  const [recipeingredient, setRecipeingredient] = useState("");
 
-  const [isChecked, setIsChecked] = useState();
-
-  //const recipeingredient = [];
+  const [recipeingredient, setRecipeingredient] = useState([
+    { ingredientId: 0, name: "Huile", isChecked: false },
+    { ingredientId: 1, name: "Sel", isChecked: false },
+    { ingredientId: 2, name: "Pomme de terre Russet", isChecked: false },
+    { ingredientId: 3, name: "Paprika", isChecked: false },
+    { ingredientId: 4, name: "Poivre Noir", isChecked: false },
+    { ingredientId: 5, name: "Sel de céleri", isChecked: false },
+    { ingredientId: 6, name: "Sauge séchée", isChecked: false },
+    { ingredientId: 7, name: "Ail en poudre", isChecked: false },
+    { ingredientId: 8, name: "épice moulu", isChecked: false },
+    { ingredientId: 9, name: "Grégano séché", isChecked: false },
+    { ingredientId: 10, name: "Basilic séché", isChecked: false },
+    { ingredientId: 11, name: "Marjolaine séché", isChecked: false },
+    { ingredientId: 12, name: "All purpose floor", isChecked: false },
+    { ingredientId: 13, name: "Sucre Marron", isChecked: false },
+    { ingredientId: 14, name: "Sel casher", isChecked: false },
+    { ingredientId: 15, name: "Poulet entier", isChecked: false },
+    { ingredientId: 16, name: "Oeufs", isChecked: false },
+    { ingredientId: 17, name: "Huile vierge", isChecked: false },
+    { ingredientId: 18, name: "Eau", isChecked: false },
+    { ingredientId: 19, name: "Oignon en poudre", isChecked: false },
+    { ingredientId: 20, name: "MSG", isChecked: false },
+    { ingredientId: 21, name: "Poitrine de poulet", isChecked: false },
+    { ingredientId: 22, name: "Oignon haché", isChecked: false },
+    { ingredientId: 23, name: "Pâte de tomate", isChecked: false },
+    { ingredientId: 24, name: "Poudre de chili", isChecked: false },
+    { ingredientId: 25, name: "Bœuf haché", isChecked: false },
+    {
+      ingredientId: 26,
+      name: "Haricots rouges rincés et égouttés",
+      isChecked: false,
+    },
+    { ingredientId: 27, name: "Grande tortilla", isChecked: false },
+    { ingredientId: 28, name: "Firtos", isChecked: false },
+    { ingredientId: 29, name: "cheddar râpé", isChecked: false },
+    { ingredientId: 30, name: "Chaux", isChecked: false },
+    { ingredientId: 31, name: "Cumin en poudre", isChecked: false },
+    { ingredientId: 32, name: "Poivre de cayenne", isChecked: false },
+    { ingredientId: 33, name: "Poisson blanc feuilleté", isChecked: false },
+    { ingredientId: 34, name: "Avocat", isChecked: false },
+    { ingredientId: 35, name: "Piment rouge", isChecked: false },
+    { ingredientId: 36, name: "Oignons", isChecked: false },
+    { ingredientId: 37, name: "Poivron vert", isChecked: false },
+    { ingredientId: 38, name: "Poivron rouge", isChecked: false },
+    { ingredientId: 39, name: "Pâte à pizza", isChecked: false },
+    { ingredientId: 40, name: "Ketchup", isChecked: false },
+    { ingredientId: 41, name: "Sauce piquante", isChecked: false },
+    { ingredientId: 42, name: "Beurre", isChecked: false },
+    { ingredientId: 43, name: "Créme épaisse", isChecked: false },
+    { ingredientId: 44, name: "Yaourt au lait entier", isChecked: false },
+    { ingredientId: 45, name: "Fromage", isChecked: false },
+    { ingredientId: 46, name: "Mozzarella", isChecked: false },
+    { ingredientId: 47, name: "branches de céleri", isChecked: false },
+    { ingredientId: 48, name: "Parmesan", isChecked: false },
+    { ingredientId: 49, name: "Pancetta", isChecked: false },
+    { ingredientId: 40, name: "Spaghetti", isChecked: false },
+    { ingredientId: 51, name: "Ail", isChecked: false },
+    { ingredientId: 52, name: "Lasagne", isChecked: false },
+    { ingredientId: 53, name: "Sauce italienne", isChecked: false },
+    { ingredientId: 54, name: "Tomate écrasée", isChecked: false },
+    { ingredientId: 55, name: "Sucre", isChecked: false },
+    { ingredientId: 56, name: "persil frais haché", isChecked: false },
+    { ingredientId: 57, name: "Ricotta", isChecked: false },
+    { ingredientId: 58, name: "Graine de fenouil", isChecked: false },
+    { ingredientId: 59, name: "Bannane", isChecked: false },
+    { ingredientId: 60, name: "Fraise congelée", isChecked: false },
+    { ingredientId: 61, name: "Yaourt à la grecque", isChecked: false },
+  ]);
 
   //Fonction SignUP
   const recipeRegister = () => {
-    fetch("http://192.168.10.106:3000/createrecipes/newrecipe", {
+    fetch("http://192.168.10.138:3000/createrecipes/newrecipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -65,7 +128,16 @@ export default function Createrecipe({ navigation }) {
         photo_url: recipephotoUrl, //String,
         photosArray: recipephotoArray, //String,
         time: recipetime, //Number,
-        ingredients: recipeingredient, //Number,
+
+        // for (let i = 0; i < recipeingredient.length; i++) {
+        //   console.log(
+        //     "test " + recipeingredient[i].isChecked + recipeingredient[i].name
+        //   )
+        // },
+
+        ingredients: recipeingredient[2].isChecked
+          ? recipeingredient[2].ingredientId
+          : "", //recipeingredient, //Number,
         description: recipedescription, //String,
       }),
     })
@@ -87,30 +159,8 @@ export default function Createrecipe({ navigation }) {
           // Vide les champs de saisie
         }
       });
-  };
 
-  const displayIngredient = () => {
-    return (
-      <ScrollView>
-        <View style={styles.blocscrollview}>
-          {ingredients.map((data) => (
-            <BouncyCheckbox
-              style={styles.blocingredient}
-              size={25}
-              fillColor="#D4BFBF"
-              unfillColor="#FFFFFF"
-              text={data.name}
-              iconStyle={{ borderColor: "#D4BFBF" }}
-              innerIconStyle={{ borderWidth: 2 }}
-              //onPress={isChecked(data.ingredientId)}
-              onChangeText={(value) => setRecipeingredient(value)}
-              //value={data.ingredientId}
-              value={recipeingredient}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    );
+    console.log("test " + recipeingredient.name);
   };
 
   const displayIngredient2 = () =>
@@ -119,28 +169,50 @@ export default function Createrecipe({ navigation }) {
       .then((data) => {
         console.log(data.recipe);
         <View>test</View>;
-        /*if (data.weather) {
-          for (let i = 0; i < data.weather.length; i++) {
-            <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: item }} />
-            </View>;
-            document.querySelector("#cityList").innerHTML += `
-				<div class="cityContainer">
-				<p class="name">${data.weather[i].cityName}</p>
-				<p class="description">${data.weather[i].description}</p>
-				<img class="weatherIcon" src="images/${data.weather[i].main}.png"/>
-				<div class="temperature">
-					<p class="tempMin">${data.weather[i].tempMin}°C</p>
-					<span>-</span>
-					<p class="tempMax">${data.weather[i].tempMax}°C</p>
-				</div>
-				<button class="deleteCity" id="${data.weather[i].cityName}">Delete</button>
-			</div>
-			`;
-          }
-          updateDeleteCityEventListener();
-        }*/
       });
+
+  const CheckboxList = () => {
+    const handleCheckboxPress = (itemId) => {
+      const newList = recipeingredient.map((ingredient) => {
+        if (ingredient.ingredientId === itemId) {
+          return { ...ingredient, isChecked: !ingredient.isChecked };
+        }
+        return ingredient;
+      });
+      for (let i = 0; i < recipeingredient.length; i++) {
+        if (recipeingredient[i].isChecked == true) {
+          console.log(
+            "test " +
+              recipeingredient[i].isChecked +
+              " " +
+              recipeingredient[i].name
+          );
+        }
+      }
+      setRecipeingredient(newList);
+    };
+
+    return (
+      <ScrollView>
+        <View style={styles.blocscrollview}>
+          {recipeingredient.map((item) => (
+            <BouncyCheckbox
+              style={styles.blocingredient}
+              text={item.name}
+              disableBuiltInState
+              isChecked={item.isChecked}
+              onPress={() => handleCheckboxPress(item.ingredientId)}
+              size={25}
+              fillColor="#D4BFBF"
+              unfillColor="#ffffff"
+              iconStyle={{ borderColor: "red" }}
+              innerIconStyle={{ borderWidth: 2 }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    );
+  };
 
   //Return de ma fonction principale
   return (
@@ -205,7 +277,7 @@ export default function Createrecipe({ navigation }) {
             value={recipetime}
             style={styles.inputtext}
           />
-          {displayIngredient()}
+          {CheckboxList()}
 
           <TextInput
             placeholder="Decription"
