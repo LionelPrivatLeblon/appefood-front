@@ -17,6 +17,7 @@ import Recipes from "./screens/RecetteScreen";
 import Recipe from "./screens/DetailRecetteScreen";
 import Profile from "./screens/ProfileScreen";
 import Home from "./screens/HomeScreen";
+import Createrecipe from "./screens/CreaterecipeScreen";
 import IngredientsDetailsScreen from "./screens/IngredientsScreen";
 
 //je crée mes variables
@@ -68,6 +69,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favoris" component={Favoris} />
+      <Tab.Screen name="Createrecipe" component={Createrecipe} />
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

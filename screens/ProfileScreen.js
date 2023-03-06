@@ -1,5 +1,13 @@
 //import des composants
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
 
 //Reducers
 import { useDispatch, useSelector } from "react-redux";
@@ -27,38 +35,43 @@ export default function ProfileScreen({ navigation }) {
 
   // ------- retour de la fonction principale --------
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profil</Text>
-
-      {/* Transformer les boutons et utiliser un touchable opacity pour l'icone et le text */}
-      <Text>{newuser.username}</Text>
-
-      {/* ------- Bouton Mes recettes ------- */}
-      <TouchableOpacity style={styles.button}>
-        <Text>Mes recettes</Text>
-        <FontAwesome name="play" size={25} />
-      </TouchableOpacity>
-
-      {/* -------  Bouton Mes favoris -------- */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Favoris")}
-        style={styles.button}
+    <SafeAreaView>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <ImageBackground
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        style={styles.background}
       >
-        <Text>Mes favoris</Text>
-        <FontAwesome name="play" size={25} />
-      </TouchableOpacity>
+        <View style={styles.container}>
+          {/* Transformer les boutons et utiliser un touchable opacity pour l'icone et le text */}
+          <Text style={styles.title}>Bon appétit {newuser.username}!</Text>
 
-      {/* -----    Bouton logout --------*/}
-      <TouchableOpacity
-        title="logout"
-        onPress={() => handleLogout()}
-        style={styles.logout}
-      >
-        <Text>LOGOUT</Text>
-      </TouchableOpacity>
+          {/* ------- Bouton Mes recettes ------- */}
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.textColor}>Mes recettes</Text>
+            {/* <FontAwesome name="play" size={25} /> */}
+          </TouchableOpacity>
 
-      {/* Lorsque je me déconnecte je dois réinitialiser les infos du user dnas le store */}
-    </View>
+          {/* -------  Bouton Mes favoris -------- */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Favoris")}
+            style={styles.button}
+          >
+            <Text style={styles.textColor}>Mes favoris</Text>
+            {/* <FontAwesome name="play" size={25} /> */}
+          </TouchableOpacity>
+
+          {/* -----    Bouton logout --------*/}
+          <TouchableOpacity
+            title="logout"
+            onPress={() => handleLogout()}
+            style={styles.logout}
+          >
+            <Text style={styles.logoutText}>Se déconnecter</Text>
+          </TouchableOpacity>
+        </View>
+        {/* Lorsque je me déconnecte je dois réinitialiser les infos du user dnas le store */}
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
@@ -69,37 +82,59 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: "#FFFFFF",
-    justifyContent: "space-around",
     alignItems: "center",
-  },
-  button: {
-    width: 250,
-    height: 80,
-    flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    backgroundColor: "rgba(	255, 255, 255, 0.6)",
+  },
+  background: {
+    width: "100%",
+    height: "100%",
+  },
 
-    backgroundColor: "#7D4FB8",
+  button: {
     width: 225,
     height: 59,
     borderRadius: 31,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#7D4FB8",
+    width: 225,
+    height: 59,
     margin: 20,
     marginLeft: "auto",
     marginRight: "auto",
   },
+  textColor: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   logout: {
-    color: "black",
+    borderColor: "#7D4FB8",
+    backgroundColor: "white",
     borderRadius: 40,
-    borderWidth: 1,
-    height: 80,
-    width: 250,
+    borderWidth: 5,
+    height: 40,
+    width: 180,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 30,
+  },
+  logoutText: {
+    color: "#7D4FB8",
+    fontWeight: "bold",
   },
   title: {
-    fontSize: 50,
+    fontSize: 20,
     fontWeight: "500",
+    borderWidth: 1,
+    borderColor: "#7D4FB8",
+    backgroundColor: "#7D4FB8",
+    color: "white",
+    textAlign: "center",
+    textAlignVertical: "center",
+    width: "100%",
+    height: 40,
   },
 });

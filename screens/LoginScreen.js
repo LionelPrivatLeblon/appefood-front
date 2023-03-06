@@ -60,6 +60,8 @@ export default function Home({ navigation }) {
         //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
+
           //Si c'est bon, cela s'enregistre en DB et je conserve les informations du User
           //via le Reducer et je redirige le User sur la page Search === HomeScreen.js
           if (data.result) {
@@ -109,10 +111,11 @@ export default function Home({ navigation }) {
         //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           if (data.result) {
             //je redirige le User sur la page Search === HomeScreen.js
             navigation.navigate("TabNavigator", { screen: "Search" });
-            dispatch(addUserToStore(signInUsername));
+            dispatch(login(signInUsername));
           } else {
             //erreur qui s'affiche si username n'est pas en base de donnée
             setSiUserError(true);
@@ -165,6 +168,7 @@ export default function Home({ navigation }) {
         style={styles.bgimage}
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
       />
+      <KeyboardAvoidingView></KeyboardAvoidingView>
       <View style={styles.masqueCover}></View>
       <View style={styles.containersignin}>
         <View style={styles.signup}>
@@ -191,6 +195,7 @@ export default function Home({ navigation }) {
           >
             <Text style={styles.textButton}>Inscription</Text>
           </TouchableOpacity>
+
           {suregexError && (
             <Text style={styles.error}>
               Veuillez saisir un mot de passe et un identifiant de 6 caractères
@@ -232,7 +237,9 @@ export default function Home({ navigation }) {
             </Text>
           )}
           {siuserError && (
-            <Text style={styles.error}>Cet utilisateur est inconnu</Text>
+            <Text style={styles.error}>
+              Cet utilisateur est inconnu ou mot de passe incorrect
+            </Text>
           )}
         </View>
       </View>
@@ -251,7 +258,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    position: "relative",
   },
 
   titlesignup: {
@@ -309,7 +315,7 @@ const styles = StyleSheet.create({
 
   error: {
     marginTop: 10,
-    color: "red",
+    color: "#7D4FB8",
   },
 
   formtitle: {
@@ -334,7 +340,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   masqueCover: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     position: "absolute",
     top: 0,
     bottom: 0,
