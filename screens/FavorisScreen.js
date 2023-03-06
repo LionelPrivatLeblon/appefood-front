@@ -24,6 +24,8 @@ export default function Favoris({ navigation }) {
   const dispatch = useDispatch();
 
   const favorites = useSelector((state) => state.favorites.value);
+console.log(favorites)
+
   const isFavorite = favorites.some(
     (favorite) => favorite.id === recipes.recipeId
   );

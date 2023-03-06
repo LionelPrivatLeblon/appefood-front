@@ -35,7 +35,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { recipes } from "../data/dataArrays";
 
 //Import fonctions reducers
-import { favorite, unfavorite, updateServings } from "../reducers/favorites";
+import { addfavorite, unfavorite, updateServings } from "../reducers/favorites";
 
 export default function SearchScreen(props) {
   //Navigation
@@ -47,11 +47,36 @@ export default function SearchScreen(props) {
 
   const dispatch = useDispatch();
 
+  /***********************************************/
+  /*              Favoris                          */
+  /***********************************************/
+
   //Variable Favoris
   const favorites = useSelector((state) => state.favorites.value);
-  const isFavorite = favorites.some(
-    (favorite) => favorite.id === recipes.recipeId
-  );
+
+  // je crée ma fonction pour ajouter ou pas aux favoris
+  const handleFavoritesClick = (data) => {
+    const isFavorite = favorites.some(
+      (favorite) => favorite.Id === data.recipeId
+    );
+    // console.log("press is fav", data.recipeId);
+    //je fais appelle a ma fonction créée dans le reducers
+
+    console.log(data.recipeId);
+    if (isFavorite) {
+      //j'enlève des favoris
+      dispatch(unfavorite(data));
+    } else {
+      //sinon j'ajoutes
+      dispatch(addfavorite(data));
+    }
+  };
+
+  let fav = favorites.map((data, i) => {
+    return <renderRecipes item={data} key={i} />;
+  });
+
+  console.log(fav);
 
   //Cette fonction permet de générer/filtrer une recette
   const handleSearch = (text) => {
@@ -72,16 +97,7 @@ export default function SearchScreen(props) {
     }
   };
 
-  //C'est la fonction favoris
-  const handlePress = (item) => {
-    console.log(item.recipeId);
-    console.log(item.title);
-    if (isFavorite) {
-      dispatch(unfavorite(item.recipeId));
-    } else {
-      //dispatch(favorite({ ...item }));
-    }
-  };
+
 
   //Fonction qui permet de mettre des etoiles sur les cards
   //Item recupère juste une note, par la suite on va faire une boucle dessus afin d'afficher les étoiles
@@ -109,37 +125,46 @@ export default function SearchScreen(props) {
   };
 
   // Fonction qui génère une carte recette
-  const renderRecipes = ({ item, i }) => (
-    <TouchableHighlight
-      underlayColor="rgba(73,182,77,0.9)"
-      onPress={() => onPressRecipe(item)}
-    >
-      <View key={i} style={styles.card}>
-        <Image style={styles.image} source={{ uri: item.photo_url }} />
+  const renderRecipes = ({ item, i }) => {
 
-        <View style={styles.masque}></View>
-        <View style={styles.cardtop}>
-          <Text style={styles.cardtitle}>{item.title}</Text>
-          {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={handlePress(item)}
-          >
-            <Ionicons
-              name={isFavorite ? "bookmark" : "bookmark-outline"}
-              size={30}
-              color="#ffffff"
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.cardbottom}>
-          <Text>{getCategoryName(item.categoryId)}</Text>
-          <View style={styles.star}>{Generatestar(item.voteAverage)}</View>
-        </View>
-      </View>
-    </TouchableHighlight>
-  );
+    //La méthode some() teste si au moins un élément du tableau passe le test implémenté par la fonction fournie.
+    // Elle renvoie un booléen indiquant le résultat du test.
+    const isFavorite = favorites.some(
+      (favorite) => favorite.recipeId === item.recipeId
+    );
 
+    return (
+      <TouchableHighlight
+        underlayColor="rgba(73,182,77,0.9)"
+        onPress={() => onPressRecipe(item)}
+      >
+        <View key={i} style={styles.card}>
+          <Image style={styles.image} source={{ uri: item.photo_url }} />
+
+          <View style={styles.masque}></View>
+          <View style={styles.cardtop}>
+            <Text style={styles.cardtitle}>{item.title}</Text>
+            {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => handleFavoritesClick()}
+            >
+              <Ionicons
+                onPress={() => handleFavoritesClick(item)}
+                name={!isFavorite ? "bookmark-outline" : "bookmark"}
+                size={30}
+                color="#ffffff"
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.cardbottom}>
+            <Text>{getCategoryName(item.categoryId)}</Text>
+            <View style={styles.star}>{Generatestar(item.voteAverage)}</View>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
+  };
   //C'est le return de la fonction Principale
   return (
     <KeyboardAvoidingView

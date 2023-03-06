@@ -18,11 +18,18 @@ import { addfavorite, unfavorite } from "../reducers/favorites";
 import { recipes } from "../data/dataArrays";
 
 export default function RecipesScreen(props) {
-  //Je definis mes variables
-  const favorites = useSelector((state) => state.favorites.value);
+
 
   //je definis useDispatch() dans une variable
   const dispatch = useDispatch();
+
+
+  /***********************************************/
+  /*              Favoris                          */
+  /***********************************************/
+
+    //Je definis mes variables
+    const favorites = useSelector((state) => state.favorites.value);
 
   // je crée ma fonction pour ajouter ou pas aux favoris
   const handleFavoritesClick = (data) => {
