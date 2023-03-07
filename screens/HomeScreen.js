@@ -62,7 +62,7 @@ export default function SearchScreen(props) {
     // console.log("press is fav", data.recipeId);
     //je fais appelle a ma fonction créée dans le reducers
 
-    console.log(data.recipeId);
+    // console.log(data.recipeId);
     if (isFavorite) {
       //j'enlève des favoris
       dispatch(unfavorite(data));
@@ -71,12 +71,6 @@ export default function SearchScreen(props) {
       dispatch(addfavorite(data));
     }
   };
-
-  let fav = favorites.map((data, i) => {
-    return <renderRecipes item={data} key={i} />;
-  });
-
-  console.log(fav);
 
   //Cette fonction permet de générer/filtrer une recette
   const handleSearch = (text) => {
@@ -146,7 +140,7 @@ export default function SearchScreen(props) {
             {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => handleFavoritesClick()}
+             
             >
               <Ionicons
                 onPress={() => handleFavoritesClick(item)}
