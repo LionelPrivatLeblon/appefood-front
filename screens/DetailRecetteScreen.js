@@ -52,16 +52,6 @@ export default function RecipeScreen(props) {
     (favorite) => favorite.id === item.recipeId
   );
 
-  //Fonction pour créer un favoris
-  const addbookmark = () => {
-    console.log("test " + item.recipeId);
-    console.log("test " + { ...item });
-    if (isFavorite) {
-      dispatch(unfavorite(item.recipeId));
-    } else {
-      //dispatch(favorite({ ...item }));
-    }
-  };
 
   //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
   const ingredients = item.ingredients.map((ingredient, i) => {
