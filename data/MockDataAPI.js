@@ -90,48 +90,6 @@ export function getAllIngredients(idArray) {
 
 // functions for search
 
-export function getRecipesByIngredientName2(ingredientName) {
-  const wordsingredientName = ingredientName.split(";"); //je recupère chaque ingredient renseigné séparé par ;
-  const recipesArray = [];
-  let nameUpper = "";
-  let condition = "";
-  let resultat = "";
-  let tabingredient = [];
-
-  console.log(wordsingredientName);
-
-  ingredients.map((data) => {
-    //je recupère dans data tous les ingrédients => dataArrays.js
-    if (ingredientName) {
-      for (let i = 0; i < wordsingredientName.length; i++) {
-        nameUpper = wordsingredientName[i].toUpperCase();
-
-        condition = data.name.toUpperCase().includes(nameUpper); //j'utilise include pour checker par true ou false si les ingredients renseignés sont dans la recette
-        console.log("comparé " + data.name.toUpperCase());
-        console.log("comparant " + nameUpper);
-
-        tabingredient.push(condition);
-      }
-    }
-    console.log(tabingredient);
-    const estVrai = (e) => e === true;
-
-    resultat = tabingredient.every(estVrai);
-    tabingredient = [];
-    console.log("result " + resultat);
-
-    if (resultat) {
-      const recipes = getRecipesByIngredient(data.ingredientId);
-      const unique = [...new Set(recipes)];
-      unique.map((item) => {
-        recipesArray.push(item);
-      });
-    }
-  });
-  const uniqueArray = [...new Set(recipesArray)];
-  return uniqueArray;
-}
-
 export function getRecipesByIngredientName(ingredientName) {
   const wordsingredientName = ingredientName.split(";"); //je recupère chaque ingredient renseigné séparé par ;
   const recipesArray = [];
@@ -141,7 +99,7 @@ export function getRecipesByIngredientName(ingredientName) {
 
   let idUpper2;
 
-  console.log(wordsingredientName);
+  //console.log(wordsingredientName);
 
   if (ingredientName) {
     for (let i = 0; i < wordsingredientName.length; i++) {
@@ -153,7 +111,7 @@ export function getRecipesByIngredientName(ingredientName) {
         }
       });
 
-      console.log("ingredient id " + idUpper2);
+      //console.log("ingredient id " + idUpper2);
       recipes.map((daterecipe) => {
         for (let i = 0; i < daterecipe.ingredients.length; i++) {
           console.log("ingredient id2 " + daterecipe.ingredients[i]);
@@ -161,13 +119,9 @@ export function getRecipesByIngredientName(ingredientName) {
             tabingredient.push(idUpper2);
           }
         }
-        console.log("tableau ingredient " + tabingredient);
+        //console.log("tableau ingredient " + tabingredient);
       });
     }
-  }
-
-  for (let k = 0; k < tabingredient.length; k++) {
-    console.log(tabingredient[k]);
   }
 
   ingredients.map((data) => {
@@ -186,7 +140,7 @@ export function getRecipesByIngredientName(ingredientName) {
           recipesArray.push(item);
         });
       }
-      console.log(tabingredient[k]);
+      //console.log(tabingredient[k]);
     }
   });
   const uniqueArray = [...new Set(recipesArray)];
