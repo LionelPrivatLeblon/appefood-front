@@ -97,7 +97,6 @@ export default function SearchScreen(props) {
     }
   };
 
-
   //Fonction qui permet de mettre des etoiles sur les cards
   //Item recupère juste une note, par la suite on va faire une boucle dessus afin d'afficher les étoiles
   const Generatestar = (item) => {
@@ -125,7 +124,6 @@ export default function SearchScreen(props) {
 
   // Fonction qui génère une carte recette
   const renderRecipes = ({ item, i }) => {
-
     //La méthode some() teste si au moins un élément du tableau passe le test implémenté par la fonction fournie.
     // Elle renvoie un booléen indiquant le résultat du test.
     const isFavorite = favorites.some(
