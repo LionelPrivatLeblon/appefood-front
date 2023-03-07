@@ -21,11 +21,9 @@ import {
 
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
 
-//reducer
-import { favorite, unfavorite, updateServings } from "../reducers/favorites";
-
 //librairie Icon
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 //Outil du reducer
 import { useDispatch, useSelector } from "react-redux";
@@ -51,17 +49,33 @@ export default function RecipeScreen(props) {
   const isFavorite = favorites.some(
     (favorite) => favorite.id === item.recipeId
   );
-
-  //Fonction pour créer un favoris
-  const addbookmark = () => {
-    console.log("test " + item.recipeId);
-    console.log("test " + { ...item });
-    if (isFavorite) {
-      dispatch(unfavorite(item.recipeId));
-    } else {
-      //dispatch(favorite({ ...item }));
+  //fonction note étoilées
+  const Generatestar = (note) => {
+    // console.log(item);
+    // Average evaluation
+    const stars = [];
+    for (let i = 0; i < 4; i++) {
+      let style;
+      if (i < note) {
+        //Si le nombre correspond l'icone Star deviendra jaune
+        style = "#f1c40f";
+      } else {
+        //sinon elle deviendra noir
+        style = "#000000";
+      }
+      stars.push(<FontAwesome name="star" size={10} color={style} />);
     }
+    return stars;
   };
+
+  /*const stars = [];
+  for (let i = 0; i < 4; i++) {
+    let style = {};
+    if (i < item.voteAverage - 1) {
+      style = { color: "#f1c40f" };
+    }
+    stars.push(<FontAwesome name="star" size={25} style={style} />);
+  }*/
 
   //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
   const ingredients = item.ingredients.map((ingredient, i) => {
@@ -113,19 +127,6 @@ export default function RecipeScreen(props) {
           <Ionicons name="ios-arrow-back" size={25} color="#655074" />
         </TouchableOpacity>
 
-        {/* //Boutton Favoris */}
-        <TouchableOpacity style={styles.addButton} onPress={addbookmark}>
-          <Ionicons
-            name={isFavorite ? "bookmark" : "bookmark-outline"}
-            size={30}
-            color="red"
-          />
-        </TouchableOpacity>
-
-        {/* <View style={styles.infoContainer}>
-
-
-
         {/* <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
@@ -149,6 +150,11 @@ export default function RecipeScreen(props) {
           />
           <Text style={styles.infoRecipe}>{item.time} minutes </Text>
         </View>
+        {/*notes étoilées*/}
+        <View style={styles.noteContainer}>
+          <View style={styles.stars}>{Generatestar(item.voteAverage)}</View>
+          <Text style={styles.noteText}> {item.voteAverage}/4 </Text>
+        </View>
 
         {/* // Bouton voir ingredients */}
         <View style={styles.infoContainer}>
@@ -167,6 +173,7 @@ export default function RecipeScreen(props) {
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>
+
         <ScrollView showsVerticalScrollIndicator={false}>
           {ingredients}
         </ScrollView>
@@ -260,4 +267,22 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
   child: { width, justifyContent: "center" },
   text: { fontSize: width * 0.5, textAlign: "center" },
+
+  noteContainer: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+
+  stars: {
+    flexDirection: "row",
+    height: "100%",
+    marginLeft: 10,
+  },
+
+  noteText: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    height: "100%",
+    marginLeft: 10,
+  },
 });

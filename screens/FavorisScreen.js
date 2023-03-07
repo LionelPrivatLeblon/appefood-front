@@ -8,6 +8,8 @@ import {
   Image,
   ImageBackground,
   StatusBar,
+  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 
 //Reducers
@@ -18,14 +20,31 @@ import { unfavorite, addfavorite } from "../reducers/favorites";
 import { recipes } from "../data/dataArrays";
 
 //Import librairie Icone
+import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+//import des fonctions
+
+import { getCategoryName } from "../data/MockDataAPI";
 
 export default function Favoris({ navigation }) {
   const dispatch = useDispatch();
 
-  const favorites = useSelector((state) => state.favorites.value);
-console.log(favorites)
 
+    //Fonction pour naviguer sur la page Recipe (page : DetailRecetteScreen.js)
+    const onPressRecipe = (item) => {
+      navigation.navigate("Recipe", { item });
+    };
+
+  /***********************************************/
+  /*              Favoris                          */
+  /***********************************************/
+
+  //On utilise useSelector pour afficher la valeur qui dans notre reducer
+  const favorites = useSelector((state) => state.favorites.value);
+
+  //La méthode some() teste si au moins un élément du tableau passe le test implémenté par la fonction fournie.
+  // Elle renvoie un booléen indiquant le résultat du test.
   const isFavorite = favorites.some(
     (favorite) => favorite.id === recipes.recipeId
   );
@@ -46,28 +65,62 @@ console.log(favorites)
     }
   };
 
+  //Fonction etoile (note)
+  const Generatestar = (item) => {
+    // console.log(item);
+    // Average evaluation
+    const stars = [];
+    for (let i = 0; i < 4; i++) {
+      let style;
+      if (i < item) {
+        //Si le nombre correspond l'icone Star deviendra jaune
+        style = "#f1c40f";
+      } else {
+        //sinon elle deviendra noir
+        style = "#000000";
+      }
+      stars.push(<FontAwesome name="star" size={10} color={style} />);
+    }
+    return stars;
+  };
+
   const addFavoris = useSelector((state) => state.favorites.value);
   console.log(addFavoris);
 
-  let fav = <Text style={{flex:1, textAlign:'center', fontSize:30,}}>Pas de Recette enregistrée en Favoris</Text>;
+  let fav = (
+    <Text style={{ flex: 1, textAlign: "center", fontSize: 30 }}>
+      Pas de Recette enregistrée en Favoris
+    </Text>
+  );
   if (addFavoris.length > 0) {
     fav = addFavoris.map((data, i) => {
       return (
-        <View key={i} style={styles.containerCard}>
-          <View style={styles.star}>
-            <Text style={styles.title}>{data.title}</Text>
-            <FontAwesome
-              onPress={() => handleFavoritesClick(data)}
-              style={{ color: "#ffb703" }}
-              name={!isFavorite ? "star-o" : "star"}
-              size={25}
-            />
+        <TouchableHighlight
+          underlayColor="rgba(73,182,77,0.9)"
+          onPress={() => onPressRecipe(data)}
+        >
+          <View key={i} style={styles.card}>
+            <Image style={styles.image} source={{ uri: data.photo_url }} />
+
+            <View style={styles.masque}></View>
+            <View style={styles.cardtop}>
+              <Text style={styles.cardtitle}>{data.title}</Text>
+              {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
+              <TouchableOpacity style={styles.addButton}>
+                <Ionicons
+                  onPress={() => handleFavoritesClick(data)}
+                  name={!isFavorite ? "bookmark-outline" : "bookmark"}
+                  size={30}
+                  color="#ffffff"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.cardbottom}>
+              <Text>{getCategoryName(data.categoryId)}</Text>
+              <View style={styles.star}>{Generatestar(data.voteAverage)}</View>
+            </View>
           </View>
-          <ImageBackground
-            style={{ height: "80%", width: "100%" }}
-            source={{ uri: data.photo_url }}
-          />
-        </View>
+        </TouchableHighlight>
       );
     });
   }
@@ -112,11 +165,24 @@ console.log(favorites)
     </View>
   );
 }
-const windowWidth = Dimensions.get("window").width;
 
 /***/
 /*            Styles                           /
 /**/
+
+//C'est variable sont utilisé dans le styleSheet
+
+// screen sizing
+const { width, height } = Dimensions.get("window");
+
+// orientation must fixed
+const SCREEN_WIDTH = width - 20;
+
+const recipeNumColums = 1;
+// item size
+const RECIPE_ITEM_HEIGHT = 200;
+const RECIPE_ITEM_MARGIN = 20;
+// 2 photos per width
 
 const styles = StyleSheet.create({
   container: {
@@ -172,11 +238,69 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  cards: {
-    flex: 1,
+  card: {
+    backgroundColor: "#f1f1f1",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    height: RECIPE_ITEM_HEIGHT,
+    margin: RECIPE_ITEM_MARGIN,
+    position: "relative",
+  },
+
+  cardtop: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: 10,
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+  },
+
+  cardtitle: {
+    width: 100,
+    size: 30,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+
+  cardbottom: {
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 10,
+    width: 160,
+    height: 40,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+
+  star: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+
+  image: {
+    width:
+      (SCREEN_WIDTH - recipeNumColums * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    height: RECIPE_ITEM_HEIGHT,
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+
+  masque: {
+    backgroundColor: "#000000",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.3,
   },
 
   containerCard: {
