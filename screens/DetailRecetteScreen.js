@@ -21,9 +21,6 @@ import {
 
 import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
 
-//reducer
-import { favorite, unfavorite, updateServings } from "../reducers/favorites";
-
 //librairie Icon
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -80,17 +77,6 @@ export default function RecipeScreen(props) {
     stars.push(<FontAwesome name="star" size={25} style={style} />);
   }*/
 
-  //Fonction pour créer un favoris
-  const addbookmark = () => {
-    console.log("test " + item.recipeId);
-    console.log("test " + { ...item });
-    if (isFavorite) {
-      dispatch(unfavorite(item.recipeId));
-    } else {
-      //dispatch(favorite({ ...item }));
-    }
-  };
-
   //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
   const ingredients = item.ingredients.map((ingredient, i) => {
     return (
@@ -140,19 +126,6 @@ export default function RecipeScreen(props) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={25} color="#655074" />
         </TouchableOpacity>
-
-        {/* //Boutton Favoris */}
-        <TouchableOpacity style={styles.addButton} onPress={addbookmark}>
-          <Ionicons
-            name={isFavorite ? "bookmark" : "bookmark-outline"}
-            size={30}
-            color="red"
-          />
-        </TouchableOpacity>
-
-        {/* <View style={styles.infoContainer}>
-
-
 
         {/* <View style={styles.infoContainer}>
           <TouchableHighlight
