@@ -98,7 +98,6 @@ export default function SearchScreen(props) {
   };
 
 
-
   //Fonction qui permet de mettre des etoiles sur les cards
   //Item recupère juste une note, par la suite on va faire une boucle dessus afin d'afficher les étoiles
   const Generatestar = (item) => {
