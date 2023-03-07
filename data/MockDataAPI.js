@@ -90,7 +90,7 @@ export function getAllIngredients(idArray) {
 
 // functions for search
 
-export function getRecipesByIngredientName(ingredientName) {
+export function getRecipesByIngredientName2(ingredientName) {
   const wordsingredientName = ingredientName.split(";"); //je recupère chaque ingredient renseigné séparé par ;
   const recipesArray = [];
   let nameUpper = "";
@@ -132,7 +132,7 @@ export function getRecipesByIngredientName(ingredientName) {
   return uniqueArray;
 }
 
-export function getRecipesByIngredientName3(ingredientName) {
+export function getRecipesByIngredientName(ingredientName) {
   const wordsingredientName = ingredientName.split(";"); //je recupère chaque ingredient renseigné séparé par ;
   const recipesArray = [];
   let nameUpper = "";
@@ -178,12 +178,15 @@ export function getRecipesByIngredientName3(ingredientName) {
     resultat = tabingredient.every(estVrai);
     //getRecipesByIngredientName
 
-    if (resultat) {
-      const recipes = getRecipesByIngredient(data.ingredientId);
-      const unique = [...new Set(recipes)];
-      unique.map((item) => {
-        recipesArray.push(item);
-      });
+    for (let k = 0; k < tabingredient.length; k++) {
+      if (tabingredient[k]) {
+        const recipes = getRecipesByIngredient(tabingredient[k]);
+        const unique = [...new Set(recipes)];
+        unique.map((item) => {
+          recipesArray.push(item);
+        });
+      }
+      console.log(tabingredient[k]);
     }
   });
   const uniqueArray = [...new Set(recipesArray)];
