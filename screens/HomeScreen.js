@@ -57,13 +57,18 @@ export default function SearchScreen(props) {
   // je crée ma fonction pour ajouter ou pas aux favoris
   const handleFavoritesClick = (data) => {
     const isFavorite = favorites.some(
-      (favorite) => favorite.Id === data.recipeId
+      (favorite) => {
+        // console.log('fav ' + favorite.recipeId,'data' + data.recipeId)
+        return favorite.recipeId === data.recipeId}
+      
     );
     // console.log("press is fav", data.recipeId);
     //je fais appelle a ma fonction créée dans le reducers
-
+      
     // console.log(data.recipeId);
     if (isFavorite) {
+      console.log('dans le if' + data)
+      
       //j'enlève des favoris
       dispatch(unfavorite(data));
     } else {
