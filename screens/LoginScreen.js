@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
   const handleRegister = () => {
     //On verifie que sa reponde au REGEX
     if (PASSWORD_REGEX.test(signUpPassword)) {
-      fetch("http://192.168.0.17:3000/users/signup", {
+      fetch("http://192.168.10.131:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -93,7 +93,7 @@ export default function Home({ navigation }) {
   const handleConnection = () => {
     //On verifie que sa reponde au REGEX
     if (PASSWORD_REGEX.test(signInPassword)) {
-      fetch("http://192.168.0.17:3000/users/signin", {
+      fetch("http://192.168.10.131:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -30,11 +30,10 @@ import { getCategoryName } from "../data/MockDataAPI";
 export default function Favoris({ navigation }) {
   const dispatch = useDispatch();
 
-
-    //Fonction pour naviguer sur la page Recipe (page : DetailRecetteScreen.js)
-    const onPressRecipe = (item) => {
-      navigation.navigate("Recipe", { item });
-    };
+  //Fonction pour naviguer sur la page Recipe (page : DetailRecetteScreen.js)
+  const onPressRecipe = (item) => {
+    navigation.navigate("Recipe", { item });
+  };
 
   /***********************************************/
   /*              Favoris                          */
@@ -85,10 +84,12 @@ export default function Favoris({ navigation }) {
   };
 
   const addFavoris = useSelector((state) => state.favorites.value);
-  console.log(addFavoris);
+  //console.log(addFavoris);
 
   let fav = (
-    <Text style={{ flex: 1, textAlign: "center", fontSize: 30 }}>
+    <Text
+      style={{ flex: 1, textAlign: "center", fontSize: 30, color: "#FFFFFF" }}
+    >
       Pas de Recette enregistrée en Favoris
     </Text>
   );
@@ -187,8 +188,7 @@ const RECIPE_ITEM_MARGIN = 20;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    backgroundColor: "rgba(	255, 255, 255, 0.6)",
+    backgroundColor: "rgba(	0, 0, 0, 0.6)",
   },
 
   background: {
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     padding: 10,
-    width: 160,
+    width: "90%",
     height: 40,
     margin: 10,
     alignItems: "center",

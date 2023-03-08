@@ -26,7 +26,6 @@ import { addfavorite, unfavorite } from "../reducers/favorites";
 import { recipes } from "../data/dataArrays";
 
 export default function RecipesScreen(props) {
-
   //je definis useDispatch() dans une variable
   const dispatch = useDispatch();
 
@@ -75,10 +74,10 @@ export default function RecipesScreen(props) {
     return stars;
   };
 
-    //Fonction pour naviguer sur la page Recipe (page : DetailRecetteScreen.js)
-    const onPressRecipe = (item) => {
-      navigation.navigate("Recipe", { item });
-    };
+  //Fonction pour naviguer sur la page Recipe (page : DetailRecetteScreen.js)
+  const onPressRecipe = (item) => {
+    navigation.navigate("Recipe", { item });
+  };
 
   //je definis une variable recipeList qui vient faire un .map sur le tableau dataArrays
   const recipeList = recipes.map((data, i) => {
@@ -126,6 +125,7 @@ export default function RecipesScreen(props) {
         style={styles.bgimage}
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
       />
+      <View style={styles.masqueCover}></View>
       <Text style={styles.title}>Recettes</Text>
       <ScrollView>
         <View style={styles.cards}>{recipeList}</View>
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     padding: 10,
-    width: 160,
+    width: "90%",
     height: 40,
     margin: 10,
     alignItems: "center",
@@ -241,6 +241,15 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     opacity: 0.3,
+  },
+  masqueCover: {
+    backgroundColor: "#000000",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    opacity: 0.6,
   },
   bgimage: {
     position: "absolute",

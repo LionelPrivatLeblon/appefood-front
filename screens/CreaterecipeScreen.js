@@ -51,15 +51,6 @@ export default function Createrecipe() {
 
   const [hasPermission, setHasPermission] = useState(false);
 
-  let cameraRef = useRef(null);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
-
   const [recipeingredient, setRecipeingredient] = useState([
     { ingredientId: 0, name: "Huile", isChecked: false },
     { ingredientId: 1, name: "Sel", isChecked: false },
@@ -202,43 +193,17 @@ export default function Createrecipe() {
               disableBuiltInState
               isChecked={item.isChecked}
               onPress={() => handleCheckboxPress(item.ingredientId)}
-              size={25}
+              size={20}
               fillColor="#D4BFBF"
               unfillColor="#ffffff"
               iconStyle={{ borderColor: "red" }}
-              innerIconStyle={{ borderWidth: 2 }}
+              innerIconStyle={{ borderWidth: 1 }}
             />
           ))}
         </View>
       </ScrollView>
     );
   };
-
-  const takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-    console.log("test " + photo.uri);
-
-    const formData = new FormData();
-
-    formData.append("photoFromFront", {
-      uri: photo.uri,
-      name: "photo.jpg",
-      type: "image/jpeg",
-    });
-
-    fetch("http://192.168.10.138:3000/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.result && dispatch(addPhoto(photo.uri));
-      });
-  };
-
-  if (!hasPermission || !isFocused) {
-    return <View />;
-  }
 
   const renderCamera = () => {
     return (
@@ -251,7 +216,6 @@ export default function Createrecipe() {
       </Camera>
     );
   };
-
   const photos = users.photos.map((data, i) => {
     return (
       <View key={i} style={styles.photoContainer}>
@@ -269,7 +233,42 @@ export default function Createrecipe() {
     );
   });
 
-  //Return de ma fonction principale
+  let cameraRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  const takePicture = async () => {
+    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    console.log("test " + photo.uri);
+
+    const formData = new FormData();
+
+    formData.append("photoFromFront", {
+      uri: photo.uri,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+
+    //Return de ma fonction principale
+    fetch("http://192.168.10.138:3000/upload", {
+      method: "POST",
+      body: formData,
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        data.result && dispatch(addPhoto(photo.uri));
+      });
+  };
+
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -299,14 +298,14 @@ export default function Createrecipe() {
           />
 
           <TextInput
-            placeholder="Pour combien de personne"
+            placeholder="Nombre de personne"
             onChangeText={(value) => setRecipeservingNb(value)}
             value={recipeservingNb}
             style={styles.inputtext}
           />
 
           <TextInput
-            placeholder="Votre Note"
+            placeholder="Note"
             onChangeText={(value) => setRecipevoteAverage(value)}
             value={recipevoteAverage}
             style={styles.inputtext}
@@ -346,7 +345,6 @@ export default function Createrecipe() {
             activeOpacity={0.8}
             onPress={() => recipeRegister()}
           >
-            <Text>{users.username}</Text>
             <Text style={styles.textButton}>Valider</Text>
           </TouchableOpacity>
           {recipeuserError && (
@@ -357,11 +355,12 @@ export default function Createrecipe() {
             <Text style={styles.good}>Recette enregistrée</Text>
           )}
         </View>
-        {/* Debut import Camera */}
-        {renderCamera()}
-        <View style={styles.galleryContainer}>{photos}</View>
-        {/* Fin import Camera */}
       </ScrollView>
+
+      {/* Debut import Camera */}
+      {renderCamera()}
+      <View style={styles.galleryContainer}>{photos}</View>
+      {/* Fin import Camera */}
     </KeyboardAvoidingView>
   );
 }
@@ -473,12 +472,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    opacity: 0.6,
+    opacity: 0.9,
   },
   blocingredient: {
-    width: 100,
+    width: "40%",
+    height: 20,
     color: "#FFFFFF",
-    margin: 5,
+    margin: 2,
   },
   blocscrollview: {
     margin: 5,
@@ -546,5 +546,8 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 15,
+  },
+  sectionCheckbox: {
+    height: 20,
   },
 });
