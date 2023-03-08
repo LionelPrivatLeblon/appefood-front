@@ -2,12 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   //value: [],
-  value: { token: null, username: null },
+  value: { token: null, username: null, photos: [] },
 };
 
 export const usersSlice = createSlice({
   name: "users",
-
   initialState,
   reducers: {
     addUserToStore: (state, action) => {
@@ -25,8 +24,17 @@ export const usersSlice = createSlice({
       state.value.username = null;
       console.log(state.value);
     },
+    addPhoto: (state, action) => {
+      state.value.photos.push(action.payload);
+    },
+    removePhoto: (state, action) => {
+      state.value.photos = state.value.photos.filter(
+        (data) => data !== action.payload
+      );
+    },
   },
 });
 
-export const { addUserToStore, login, logout } = usersSlice.actions;
+export const { addUserToStore, login, logout, addPhoto, removePhoto } =
+  usersSlice.actions;
 export default usersSlice.reducer;

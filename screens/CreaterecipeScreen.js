@@ -15,20 +15,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { Camera } from "expo-camera";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 //Import etat
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 //Import Reducers
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addPhoto, removePhoto } from "../reducers/users";
 import { addRecipeToStore } from "../reducers/createrecipe";
 
-//j'importe le tableau de données
-import { ingredients } from "../data/dataArrays";
-
-export default function Createrecipe({ navigation }) {
+export default function Createrecipe() {
   const dispatch = useDispatch();
+
+  const users = useSelector((state) => state.users.value);
 
   //Mes Etats
   //MSG Message Error
@@ -43,6 +46,10 @@ export default function Createrecipe({ navigation }) {
   const [recipephotoArray, setRecipephotoArray] = useState("");
   const [recipetime, setRecipeTime] = useState("");
   const [recipedescription, setRecipeDescription] = useState("");
+
+  const isFocused = useIsFocused();
+
+  const [hasPermission, setHasPermission] = useState(false);
 
   const [recipeingredient, setRecipeingredient] = useState([
     { ingredientId: 0, name: "Huile", isChecked: false },
@@ -186,11 +193,11 @@ export default function Createrecipe({ navigation }) {
               disableBuiltInState
               isChecked={item.isChecked}
               onPress={() => handleCheckboxPress(item.ingredientId)}
-              size={25}
+              size={20}
               fillColor="#D4BFBF"
               unfillColor="#ffffff"
               iconStyle={{ borderColor: "red" }}
-              innerIconStyle={{ borderWidth: 2 }}
+              innerIconStyle={{ borderWidth: 1 }}
             />
           ))}
         </View>
@@ -198,7 +205,70 @@ export default function Createrecipe({ navigation }) {
     );
   };
 
-  //Return de ma fonction principale
+  const renderCamera = () => {
+    return (
+      <Camera ref={(ref) => (cameraRef = ref)} style={styles.camera}>
+        <View style={styles.snapContainer}>
+          <TouchableOpacity onPress={() => cameraRef && takePicture()}>
+            <FontAwesome name="circle-thin" size={95} color="#ffffff" />
+          </TouchableOpacity>
+        </View>
+      </Camera>
+    );
+  };
+  const photos = users.photos.map((data, i) => {
+    return (
+      <View key={i} style={styles.photoContainer}>
+        <TouchableOpacity onPress={() => dispatch(removePhoto(data))}>
+          <FontAwesome
+            name="times"
+            size={20}
+            color="#000000"
+            style={styles.deleteIcon}
+          />
+        </TouchableOpacity>
+
+        <Image source={{ uri: data }} style={styles.photo} />
+      </View>
+    );
+  });
+
+  let cameraRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  const takePicture = async () => {
+    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    console.log("test " + photo.uri);
+
+    const formData = new FormData();
+
+    formData.append("photoFromFront", {
+      uri: photo.uri,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+
+    //Return de ma fonction principale
+    fetch("http://192.168.10.138:3000/upload", {
+      method: "POST",
+      body: formData,
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        data.result && dispatch(addPhoto(photo.uri));
+      });
+  };
+
+  if (!hasPermission || !isFocused) {
+    return <View />;
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -228,14 +298,14 @@ export default function Createrecipe({ navigation }) {
           />
 
           <TextInput
-            placeholder="Pour combien de personne"
+            placeholder="Nombre de personne"
             onChangeText={(value) => setRecipeservingNb(value)}
             value={recipeservingNb}
             style={styles.inputtext}
           />
 
           <TextInput
-            placeholder="Votre Note"
+            placeholder="Note"
             onChangeText={(value) => setRecipevoteAverage(value)}
             value={recipevoteAverage}
             style={styles.inputtext}
@@ -286,6 +356,11 @@ export default function Createrecipe({ navigation }) {
           )}
         </View>
       </ScrollView>
+
+      {/* Debut import Camera */}
+      {renderCamera()}
+      <View style={styles.galleryContainer}>{photos}</View>
+      {/* Fin import Camera */}
     </KeyboardAvoidingView>
   );
 }
@@ -378,6 +453,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: height,
+    position: "relative",
   },
   bgimage: {
     position: "absolute",
@@ -396,12 +472,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    opacity: 0.6,
+    opacity: 0.9,
   },
   blocingredient: {
-    width: 100,
+    width: "40%",
+    height: 20,
     color: "#FFFFFF",
-    margin: 5,
+    margin: 2,
   },
   blocscrollview: {
     margin: 5,
@@ -410,5 +487,67 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  camera: {
+    flex: 1,
+    width: width,
+    height: 200,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  buttonsContainer: {
+    flex: 0.1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  buttonCamera: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 50,
+  },
+  snapContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingBottom: 25,
+  },
+
+  galleryContainer: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  photoContainer: {
+    alignItems: "flex-end",
+  },
+  photo: {
+    margin: 10,
+    width: 150,
+    height: 150,
+  },
+  title: {
+    fontFamily: "Futura",
+    fontSize: 22,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  deleteIcon: {
+    marginRight: 10,
+  },
+  text: {
+    marginBottom: 15,
+  },
+  sectionCheckbox: {
+    height: 20,
   },
 });

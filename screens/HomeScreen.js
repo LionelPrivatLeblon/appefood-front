@@ -56,19 +56,17 @@ export default function SearchScreen(props) {
 
   // je crée ma fonction pour ajouter ou pas aux favoris
   const handleFavoritesClick = (data) => {
-    const isFavorite = favorites.some(
-      (favorite) => {
-        // console.log('fav ' + favorite.recipeId,'data' + data.recipeId)
-        return favorite.recipeId === data.recipeId}
-      
-    );
+    const isFavorite = favorites.some((favorite) => {
+      // console.log('fav ' + favorite.recipeId,'data' + data.recipeId)
+      return favorite.recipeId === data.recipeId;
+    });
     // console.log("press is fav", data.recipeId);
     //je fais appelle a ma fonction créée dans le reducers
-      
+
     // console.log(data.recipeId);
     if (isFavorite) {
-      console.log('dans le if' + data)
-      
+      console.log("dans le if" + data);
+
       //j'enlève des favoris
       dispatch(unfavorite(data));
     } else {
@@ -98,13 +96,13 @@ export default function SearchScreen(props) {
 
   //Fonction qui permet de mettre des etoiles sur les cards
   //Item recupère juste une note, par la suite on va faire une boucle dessus afin d'afficher les étoiles
-  const Generatestar = (item) => {
+  const Generatestar = (note) => {
     // console.log(item);
     // Average evaluation
     const stars = [];
     for (let i = 0; i < 4; i++) {
       let style;
-      if (i < item) {
+      if (i < note) {
         //Si le nombre correspond l'icone Star deviendra jaune
         style = "#f1c40f";
       } else {
@@ -141,10 +139,7 @@ export default function SearchScreen(props) {
           <View style={styles.cardtop}>
             <Text style={styles.cardtitle}>{item.title}</Text>
             {/*<FontAwesome name="heart-o" size={25} color="#EE0056" />*/}
-            <TouchableOpacity
-              style={styles.addButton}
-             
-            >
+            <TouchableOpacity style={styles.addButton}>
               <Ionicons
                 onPress={() => handleFavoritesClick(item)}
                 name={!isFavorite ? "bookmark-outline" : "bookmark"}
