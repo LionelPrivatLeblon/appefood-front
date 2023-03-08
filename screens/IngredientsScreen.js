@@ -26,9 +26,9 @@ export default function IngredientsDetailsScreen(props) {
   const ingredientsArray = getAllIngredients(item);
 
   const renderIngredient = ({ item }) => (
-    <View style={styles.container}>
+    <View style={styles.ingredients}>
       <Image style={styles.photo} source={{ uri: item[0].photo_url }} />
-      <Text style={styles.title}>{item[0].name}</Text>
+      <Text style={styles.titleingredient}>{item[0].name}</Text>
       <Text style={{ color: "grey" }}>{item[1]}</Text>
     </View>
   );
@@ -68,7 +68,7 @@ const RECIPE_ITEM_OFFSET = 10;
 const RECIPE_ITEM_MARGIN = RECIPE_ITEM_OFFSET * 2;
 
 const styles = StyleSheet.create({
-  container: {
+  ingredients: {
     flex: 1,
     alignItems: "center",
     margin: RECIPE_ITEM_OFFSET,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
       (SCREEN_WIDTH - RECIPE_ITEM_MARGIN) / numColumns - RECIPE_ITEM_OFFSET,
     height: RECIPE_ITEM_HEIGHT + 60,
   },
-  title: {
+  titleingredient: {
     margin: 10,
     marginBottom: 5,
     color: "black",
