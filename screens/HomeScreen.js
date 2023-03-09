@@ -142,9 +142,9 @@ export default function SearchScreen(props) {
             <TouchableOpacity style={styles.addButton}>
               <Ionicons
                 onPress={() => handleFavoritesClick(item)}
-                name={!isFavorite ? "bookmark-outline" : "bookmark"}
+                name={!isFavorite ? "heart-outline" : "heart"}
                 size={30}
-                color="#ffffff"
+                color="#EE0056"
               />
             </TouchableOpacity>
           </View>
@@ -167,34 +167,35 @@ export default function SearchScreen(props) {
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
       />
       <View style={styles.masqueCover}></View>
-      <SafeAreaView>
-        <Image
-          style={styles.searchIcon}
-          source={require("../assets/icons/search.png")}
-        />
-        <TextInput
-          placeholder="Saisissez un ingredient"
-          onChangeText={(value) => setValue(value)}
-          value={value}
-          style={styles.inputtext}
-        />
-
-        {/* // c'est la croix, qui permet de vider le champs Input */}
-        <Pressable onPress={() => handleSearch("")}>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.texte}>
+          App-EFood permet de générer plusieurs recettes en fonction de vos
+          ingredients.
+        </Text>
+        <Text style={styles.texte}>
+          Saisissez un ou plusieurs ingrédients en les séparant par un ";" pour
+          pouvoir récupérer de bonnes idées de recettes à préparer!
+        </Text>
+        <View style={styles.research}>
+          <TextInput
+            placeholder="Votre ingrédient, ex : salt;eggs"
+            onChangeText={(value) => setValue(value)}
+            value={value}
+            style={styles.inputtext}
+          />
           <Image
             style={styles.searchIcon}
-            source={require("../assets/icons/close.png")}
+            source={require("../assets/icons/search.png")}
           />
-        </Pressable>
+          {/* // c'est la croix, qui permet de vider le champs Input */}
+          <Pressable onPress={() => handleSearch("")} style={styles.crossIcon}>
+            <Image
+              style={styles.searchIcon2}
+              source={require("../assets/icons/close.png")}
+            />
+          </Pressable>
+        </View>
 
-        {/* //C'est le boutton Generer */}
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.8}
-          onPress={() => handleSearch(value)}
-        >
-          <Text style={styles.textButton}>Génerer une recette</Text>
-        </TouchableOpacity>
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
@@ -203,6 +204,14 @@ export default function SearchScreen(props) {
           renderItem={renderRecipes}
           keyExtractor={(item) => `${item.recipeId}`}
         />
+        {/* //C'est le boutton Generer */}
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => handleSearch(value)}
+        >
+          <Text style={styles.textButton}>Génerer une recette</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -249,9 +258,11 @@ const styles = StyleSheet.create({
   inputtext: {
     backgroundColor: "#F3F2F5",
     padding: 10,
+    paddingLeft: 30,
     margin: 5,
     color: "D4BFBF",
-    width: 200,
+    width: 300,
+    height: 50,
   },
   container: {
     flex: 1,
@@ -325,6 +336,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  texte: {
+    color: "#FFFFFF",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 10,
+    marginBottom: 10,
+    width: "80%",
+  },
   titrerecette: {
     position: "absolute",
     top: 10,
@@ -352,7 +371,23 @@ const styles = StyleSheet.create({
     width: 250,
     justifyContent: "space-around",
   },
+  research: {
+    position: "relative",
+  },
   searchIcon: {
+    position: "absolute",
+    top: 20,
+    left: 10,
+    width: 20,
+    height: 20,
+    tintColor: "grey",
+  },
+  crossIcon: {
+    position: "absolute",
+    top: 20,
+    right: 10,
+  },
+  searchIcon2: {
     width: 20,
     height: 20,
     tintColor: "grey",

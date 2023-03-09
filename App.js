@@ -18,7 +18,6 @@ import Recipe from "./screens/DetailRecetteScreen";
 import Profile from "./screens/ProfileScreen";
 import Home from "./screens/HomeScreen";
 import Createrecipe from "./screens/CreaterecipeScreen";
-import IngredientsDetailsScreen from "./screens/IngredientsScreen";
 
 //je crée mes variables
 const Stack = createNativeStackNavigator();
@@ -89,10 +88,6 @@ export default function App({ navigation }) {
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
           <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen
-            name="IngredientsDetails"
-            component={IngredientsDetailsScreen}
-          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -125,7 +125,7 @@ export default function Createrecipe() {
     const ingredients = recipeingredient
       .filter((e) => e.isChecked)
       .map((e) => e.ingredientId);
-    fetch("http://192.168.10.138:3000/createrecipes/newrecipe", {
+    fetch("http://192.168.10.139:3000/createrecipes/newrecipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -163,14 +163,6 @@ export default function Createrecipe() {
 
     //console.log("test " + recipeingredient.name);
   };
-
-  const displayIngredient2 = () =>
-    fetch("http://192.168.10.106:3000/createrecipes/displayrecette")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.recipe);
-        <View>test</View>;
-      });
 
   const CheckboxList = () => {
     const handleCheckboxPress = (itemId) => {
@@ -356,11 +348,6 @@ export default function Createrecipe() {
           )}
         </View>
       </ScrollView>
-
-      {/* Debut import Camera */}
-      {renderCamera()}
-      <View style={styles.galleryContainer}>{photos}</View>
-      {/* Fin import Camera */}
     </KeyboardAvoidingView>
   );
 }

@@ -1,4 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+
+import { ingredients } from "../data/dataArrays";
+
 import {
   ScrollView,
   Text,
@@ -8,6 +11,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   TouchableOpacity,
+  ImageBackground,
+  FlatList,
   SafeAreaView,
 } from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
@@ -18,8 +23,6 @@ import {
   getCategoryById, //recupère par ID d'ingredient
 } from "../data/MockDataAPI";
 //Fonction qui sont importer de MockdataAPI
-
-import ViewIngredientsButton from "../components/ViewIngredientsButton/ViewIngredientsButton";
 
 //librairie Icon
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -68,25 +71,25 @@ export default function RecipeScreen(props) {
     return stars;
   };
 
-  /*const stars = [];
-  for (let i = 0; i < 4; i++) {
-    let style = {};
-    if (i < item.voteAverage - 1) {
-      style = { color: "#f1c40f" };
-    }
-    stars.push(<FontAwesome name="star" size={25} style={style} />);
-  }*/
-
   //Ici on appelle tous nos ingrédients en faisant un .map, (cf: dataArrays ligne 367)
-  const ingredients = item.ingredients.map((ingredient, i) => {
+  const Displayingredient = item.ingredients.map((ingredient, i) => {
+    let name;
+    let photo;
+    ingredients.map((daterecipe) => {
+      if (daterecipe.ingredientId === ingredient[0]) {
+        name = daterecipe.name;
+        photo = daterecipe.photo_url;
+      }
+    });
     return (
-      <View key={i} style={styles.menuContainer}>
-        <View style={styles.ingredientWrapper}>
-          <Text style={styles.menuSubtitle}>{ingredient[0]}</Text>
-        </View>
+      <View style={styles.cardIngredient}>
+        <Image style={styles.photo} source={{ uri: photo }} />
+        <Text style={styles.title}>{name}</Text>
       </View>
     );
   });
+
+  //Tout les ingredients utitlisés dans la recette sont stockés dans la variable 'ingredientsArray'
 
   const renderImage = ({ item }) => (
     <TouchableHighlight>
@@ -98,99 +101,91 @@ export default function RecipeScreen(props) {
 
   // Ici c'est le return de la fonction principale
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.container}>
-        <SwiperFlatList
-          autoplay
-          autoplayDelay={500}
-          autoplayLoop
-          index={0}
-          showPagination
-          data={item.photosArray}
-          renderItem={renderImage}
-          ref={slider1Ref}
-          sliderWidth={viewportWidth}
-          itemWidth={viewportWidth}
-          inactiveSlideScale={1}
-          inactiveSlideOpacity={1}
-          firstItem={0}
-          loop={false}
-          autoplayInterval={3000}
-          onSnapToItem={(index) => setActiveSlide(0)}
-        />
-      </View>
-      <View style={styles.infoRecipeContainer}>
-        <Text style={styles.infoRecipeName}>{item.title}</Text>
-
-        {/* //goBack c'est une fonction natif qui permet de retourner à la page précédente */}
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="ios-arrow-back" size={25} color="#655074" />
-        </TouchableOpacity>
-
-        {/* <View style={styles.infoContainer}>
-          <TouchableHighlight
-            onPress={() =>
-              navigation.navigate("RecipesList", { category, title })
-            }
-          >
-            <Text style={styles.category}>
-              {getCategoryName(item.categoryId).toUpperCase()}
-            </Text>
-          </TouchableHighlight>
-        </View> */}
-        <Text style={styles.category}>
-          {getCategoryName(item.categoryId).toUpperCase()}
-        </Text>
-
-        {/* // Icone de temps */}
-        <View style={styles.infoContainer}>
-          <Image
-            style={styles.infoPhoto}
-            source={require("../assets/icons/time.png")}
-          />
-          <Text style={styles.infoRecipe}>{item.time} minutes </Text>
-        </View>
-        {/*notes étoilées*/}
-        <View style={styles.noteContainer}>
-          <View style={styles.stars}>{Generatestar(item.voteAverage)}</View>
-          <Text style={styles.noteText}> {item.voteAverage}/4 </Text>
-        </View>
-
-        {/* // Bouton voir ingredients */}
-        <View style={styles.infoContainer}>
-          <ViewIngredientsButton
-            onPress={() => {
-              let ingredients = item.ingredients;
-              let title = "Ingredients for " + item.title;
-              navigation.navigate("IngredientsDetails", {
-                ingredients,
-                title,
-              });
-            }}
+    <ImageBackground
+      source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+      style={styles.background}
+    >
+      <ScrollView style={styles.infoRecipeContainer}>
+        <View>
+          <SwiperFlatList
+            autoplay
+            autoplayDelay={500}
+            autoplayLoop
+            index={0}
+            showPagination
+            data={item.photosArray}
+            renderItem={renderImage}
+            ref={slider1Ref}
+            sliderWidth={viewportWidth}
+            itemWidth={viewportWidth}
+            inactiveSlideScale={1}
+            inactiveSlideOpacity={1}
+            firstItem={0}
+            loop={false}
+            autoplayInterval={3000}
+            onSnapToItem={() => setActiveSlide(0)}
           />
         </View>
+        <View>
+          <View style={styles.infoContainer}>
+            <View style={styles.infoIcone}>
+              {/* //goBack c'est une fonction natif qui permet de retourner à la page précédente */}
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="ios-arrow-back" size={25} color="#7D4FB8" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.infoIcone}>
+              <Text style={styles.category}>
+                {getCategoryName(item.categoryId).toUpperCase()}
+              </Text>
+            </View>
+          </View>
 
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+          <Text style={styles.infoRecipeName}>{item.title}</Text>
+
+          {/* // Icone de temps */}
+          <View style={styles.infoContainer}>
+            <View style={styles.infoIcone}>
+              {/*notes étoilées*/}
+              <View style={styles.stars}>{Generatestar(item.voteAverage)}</View>
+              <Text style={styles.noteText}> {item.voteAverage}/4 </Text>
+            </View>
+            <View style={styles.infoIcone}>
+              <Ionicons name="happy-outline" size={30} color={"#7D4FB8"} />
+              <Text style={styles.infoRecipe}>
+                {item.servingNb} Personne{item.servingNb > 1 ? "s" : ""}{" "}
+              </Text>
+            </View>
+            <View style={styles.infoIcone}>
+              <Ionicons name="alarm-outline" size={30} color={"#7D4FB8"} />
+              <Text style={styles.infoRecipe}>{item.time} minutes </Text>
+            </View>
+          </View>
+
+          <View style={styles.cardIngredientbox}>{Displayingredient}</View>
+
+          <View>
+            <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+          </View>
         </View>
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {ingredients}
-        </ScrollView>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 /***********************************************/
 /*             Styles                           */
 /***********************************************/
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     flex: 1,
+  },
+
+  background: {
+    width: "100%",
+    height: "100%",
   },
   image: {
     ...StyleSheet.absoluteFillObject,
@@ -211,23 +206,14 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
   paginationDot: {
-    width: 8,
-    height: 8,
+    width: 4,
+    height: 4,
     borderRadius: 4,
     marginHorizontal: 0,
+    backgroundColor: "#7D4FB8",
   },
   infoRecipeContainer: {
-    flex: 1,
-    margin: 25,
-    marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  infoContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    backgroundColor: "rgba(	255, 255, 255, 0.8)",
   },
   buttonContainer: {
     flex: 1,
@@ -241,15 +227,10 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   infoRecipe: {
-    fontSize: 14,
+    fontSize: 10,
     fontWeight: "bold",
     marginLeft: 5,
-  },
-  category: {
-    fontSize: 14,
-    fontWeight: "bold",
-    margin: 10,
-    color: "#2cd18a",
+    color: "#7D4FB8",
   },
   infoDescriptionRecipe: {
     textAlign: "left",
@@ -261,28 +242,61 @@ const styles = StyleSheet.create({
     fontSize: 28,
     margin: 10,
     fontWeight: "bold",
-    color: "black",
+    color: "#000000",
     textAlign: "center",
   },
   container: { flex: 1, backgroundColor: "white" },
   child: { width, justifyContent: "center" },
   text: { fontSize: width * 0.5, textAlign: "center" },
 
-  noteContainer: {
+  infoContainer: {
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
     flexDirection: "row",
-    marginTop: 15,
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
-
+  category: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#7D4FB8",
+  },
+  infoIcone: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "20%",
+    textAlign: "center",
+    fontSize: 8,
+  },
   stars: {
     flexDirection: "row",
-    height: "100%",
-    marginLeft: 10,
+    height: 15,
   },
-
-  noteText: {
+  title: {
+    margin: 10,
+    marginBottom: 5,
+    color: "black",
+    fontSize: 13,
     textAlign: "center",
-    textAlignVertical: "center",
-    height: "100%",
-    marginLeft: 10,
+  },
+  photo: {
+    width: 50,
+    height: 50,
+    borderRadius: "50%",
+  },
+  cardIngredientbox: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 1,
+    flexWrap: "wrap",
+  },
+  cardIngredient: {
+    width: "33%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
