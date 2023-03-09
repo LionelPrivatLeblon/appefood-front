@@ -15,7 +15,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+//Expo
 import { Camera } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
+
+//librairy Icon
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
@@ -46,6 +50,8 @@ export default function Createrecipe() {
   const [recipephotoArray, setRecipephotoArray] = useState("");
   const [recipetime, setRecipeTime] = useState("");
   const [recipedescription, setRecipeDescription] = useState("");
+
+  const [image, setImage] = useState(null);
 
   const isFocused = useIsFocused();
 
@@ -125,7 +131,7 @@ export default function Createrecipe() {
     const ingredients = recipeingredient
       .filter((e) => e.isChecked)
       .map((e) => e.ingredientId);
-    fetch("http://192.168.10.138:3000/createrecipes/newrecipe", {
+    fetch("http://192.168.10.167:3000/createrecipes/newrecipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -165,7 +171,7 @@ export default function Createrecipe() {
   };
 
   const displayIngredient2 = () =>
-    fetch("http://192.168.10.106:3000/createrecipes/displayrecette")
+    fetch("http://192.168.10.167:3000/createrecipes/displayrecette")
       .then((response) => response.json())
       .then((data) => {
         console.log(data.recipe);
@@ -205,70 +211,50 @@ export default function Createrecipe() {
     );
   };
 
-  const renderCamera = () => {
-    return (
-      <Camera ref={(ref) => (cameraRef = ref)} style={styles.camera}>
-        <View style={styles.snapContainer}>
-          <TouchableOpacity onPress={() => cameraRef && takePicture()}>
-            <FontAwesome name="circle-thin" size={95} color="#ffffff" />
-          </TouchableOpacity>
-        </View>
-      </Camera>
-    );
-  };
-  const photos = users.photos.map((data, i) => {
-    return (
-      <View key={i} style={styles.photoContainer}>
-        <TouchableOpacity onPress={() => dispatch(removePhoto(data))}>
-          <FontAwesome
-            name="times"
-            size={20}
-            color="#000000"
-            style={styles.deleteIcon}
-          />
-        </TouchableOpacity>
+  /***********************************************/
+  /*    Import Image depuis Galerie              */
+  /***********************************************/
 
-        <Image source={{ uri: data }} style={styles.photo} />
-      </View>
-    );
-  });
-
-  let cameraRef = useRef(null);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
-
-  const takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-    console.log("test " + photo.uri);
-
+  const pickImage = async () => {
     const formData = new FormData();
+    // No permissions request is necessary for launching the image library
+    let image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-    formData.append("photoFromFront", {
-      uri: photo.uri,
+    console.log("image test =>", image);
+
+    formData.append("photoOfGallery", {
+      uri: image.assets[0].uri,
       name: "photo.jpg",
       type: "image/jpeg",
     });
-
-    //Return de ma fonction principale
-    fetch("http://192.168.10.138:3000/upload", {
+    fetch("http://192.168.10.167:3000/image", {
       method: "POST",
       body: formData,
-      headers: { "Content-Type": "application/json" },
+      // headers: { "Content-Type": "multipart/form-data" },
     })
       .then((response) => response.json())
       .then((data) => {
-        data.result && dispatch(addPhoto(photo.uri));
-      });
+        console.log("data test =>", data);
+        dispatch(addPhoto(data.url));
+        console.log(data.uri);
+      })
+      .catch((error) => console.log(error));
+
+    console.log("info  =>", image.assets[0].uri);
+
+    if (!image.canceled) {
+      setImage(image.assets[0].uri);
+    }
   };
 
-  if (!hasPermission || !isFocused) {
-    return <View />;
-  }
+  //
+
+  //return fonction Principale
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -319,18 +305,26 @@ export default function Createrecipe() {
           />
 
           <TextInput
-            placeholder="Gallerie photo"
-            onChangeText={(value) => setRecipephotoArray(value)}
-            value={recipephotoArray}
-            style={styles.inputtext}
-          />
-
-          <TextInput
             placeholder="Temps de préparation"
             onChangeText={(value) => setRecipeTime(value)}
             value={recipetime}
             style={styles.inputtext}
           />
+
+          <View>
+            <Button
+              title="Ajoutez une image à votre recette !"
+              onPress={pickImage}
+            />
+            {image && (
+              <Image
+                source={{ url: image }}
+                style={{ width: 200, height: 200 }}
+              />
+            )}
+          </View>
+
+          <Text style={{ color: "#FFF" }}>Selectionnez vos Ingredients :</Text>
           {CheckboxList()}
 
           <TextInput
@@ -357,9 +351,9 @@ export default function Createrecipe() {
         </View>
       </ScrollView>
 
-      {/* Debut import Camera */}
-      {renderCamera()}
-      <View style={styles.galleryContainer}>{photos}</View>
+      {/* Debut import Camera
+      {renderCamera()} */}
+      {/* <View style={styles.galleryContainer}>{photos}</View> */}
       {/* Fin import Camera */}
     </KeyboardAvoidingView>
   );

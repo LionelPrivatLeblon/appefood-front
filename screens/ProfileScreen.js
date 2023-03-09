@@ -35,7 +35,7 @@ export default function ProfileScreen({ navigation }) {
 
   // ------- retour de la fonction principale --------
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{color:'red'}}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <ImageBackground
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
