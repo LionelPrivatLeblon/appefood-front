@@ -11,6 +11,8 @@ import {
   Dimensions,
 } from "react-native";
 
+import React, { useState, useEffect } from "react";
+
 //Import librairie Icone
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -79,6 +81,75 @@ export default function RecipesScreen(props) {
     navigation.navigate("Recipe", { item });
   };
 
+  const App = () => {
+    const [datadbtitre, setDatadbtitre] = useState([]);
+    const [datadbcat, setDatadbcat] = useState([]);
+    const [datadbservingnb, setDatadbservingnb] = useState([]);
+    const [datadbvote, setDatadbvote] = useState([]);
+    const [datadbphotourl, setDatadbphotourl] = useState([]);
+    const [datadbphotoarray, setDatadbphotoarray] = useState([]);
+    const [datadbtime, setDatadbtime] = useState([]);
+    const [datadbingredient, setDatadbingredient] = useState([]);
+    const [datadbdesc, setDatadbdesc] = useState([]);
+
+    useEffect(() => {
+      fetch("http://192.168.10.139:3000/createrecipes/displayrecette")
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log("data -> " + data.recipe[0].title);
+          // console.log("description -> " + data.recipe[0].description);
+          console.log(data.recipe.length);
+          for (let i = 0; i < data.recipe.length; i++) {
+            setDatadbtitre(data.recipe[i].title);
+            setDatadbcat(data.recipe[i].categoryID);
+            setDatadbservingnb(data.recipe[i].servingNb);
+            setDatadbvote(data.recipe[i].voteAverage);
+            setDatadbphotourl(data.recipe[i].photo_url);
+            setDatadbphotoarray(data.recipe[i].photosArray);
+            setDatadbtime(data.recipe[i].time);
+            setDatadbingredient(data.recipe[i].ingredients);
+            setDatadbdesc(data.recipe[i].description);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, []);
+
+    return (
+      <TouchableHighlight
+        underlayColor="rgba(73,182,77,0.9)"
+        onPress={() => onPressRecipe(data)}
+      >
+        <View>
+          <Text styles={{ color: "#FFFFFF" }}>{"titre " + datadbtitre}</Text>
+
+          <Text styles={{ color: "#FFFFFF" }}>{"categoryID " + datadbcat}</Text>
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"Serving NB " + datadbservingnb}
+          </Text>
+
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"VoteAverage " + datadbvote}
+          </Text>
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"Photo URL " + datadbphotourl}
+          </Text>
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"Photo Arrays " + datadbphotoarray}
+          </Text>
+          <Text styles={{ color: "#FFFFFF" }}>{"Time " + datadbtime}</Text>
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"Ingredients " + datadbingredient}
+          </Text>
+          <Text styles={{ color: "#FFFFFF" }}>
+            {"description " + datadbdesc}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  };
+
   //je definis une variable recipeList qui vient faire un .map sur le tableau dataArrays
   const recipeList = recipes.map((data, i) => {
     const isFavorite = favorites.some(
@@ -100,9 +171,9 @@ export default function RecipesScreen(props) {
             <TouchableOpacity style={styles.addButton}>
               <Ionicons
                 onPress={() => handleFavoritesClick(data)}
-                name={!isFavorite ? "bookmark-outline" : "bookmark"}
+                name={!isFavorite ? "heart-outline" : "heart"}
                 size={30}
-                color="#ffffff"
+                color="#EE0056"
               />
             </TouchableOpacity>
           </View>
@@ -126,7 +197,6 @@ export default function RecipesScreen(props) {
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
       />
       <View style={styles.masqueCover}></View>
-      <Text style={styles.title}>Recettes</Text>
       <ScrollView>
         <View style={styles.cards}>{recipeList}</View>
       </ScrollView>
@@ -165,11 +235,6 @@ const styles = StyleSheet.create({
   containerCard: {
     width: 400,
     height: 400,
-  },
-
-  title: {
-    textAlign: "center",
-    color: "red",
   },
   cards: {
     flex: 1,
@@ -240,10 +305,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    opacity: 0.3,
+    opacity: 0.5,
   },
   masqueCover: {
-    backgroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
     position: "absolute",
     top: 0,
     bottom: 0,

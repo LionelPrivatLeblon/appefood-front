@@ -3,6 +3,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  SafeAreaView,
   Text,
   View,
   Image,
@@ -147,23 +148,19 @@ export default function Favoris({ navigation }) {
 
   // Ici c'est le return de la fonction Principale
   return (
-    <View>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-
+    <SafeAreaView>
       <ImageBackground
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
         style={styles.background}
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
-            <Text style={styles.textHeader}>Mes favoris</Text>
-            <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
+            <Text style={styles.textHeader}>Mes Recettes favorites</Text>
           </View>
           <ScrollView style={styles.scrollview}>{fav}</ScrollView>
         </View>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -202,7 +199,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     justifyContent: "center",
-    backgroundColor: "#7D4FB8",
   },
   textHeader: {
     color: "white",

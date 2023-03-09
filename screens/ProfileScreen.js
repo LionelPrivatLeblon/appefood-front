@@ -35,8 +35,7 @@ export default function ProfileScreen({ navigation }) {
 
   // ------- retour de la fonction principale --------
   return (
-    <SafeAreaView style={{color:'red'}}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <SafeAreaView>
       <ImageBackground
         source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
         style={styles.background}
@@ -115,8 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 40,
     borderWidth: 5,
-    height: 40,
-    width: 180,
+    height: 59,
+    width: 225,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 30,
@@ -130,7 +129,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     borderWidth: 1,
     borderColor: "#7D4FB8",
-    backgroundColor: "#7D4FB8",
     color: "white",
     textAlign: "center",
     textAlignVertical: "center",

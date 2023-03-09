@@ -35,7 +35,7 @@ export const recipes = [
   {
     recipeId: 122,
     categoryId: 3,
-    servingNb: 1,
+    servingNb: 2,
     voteAverage: 4,
     title: "Oatmeal Cookies",
     photo_url:
