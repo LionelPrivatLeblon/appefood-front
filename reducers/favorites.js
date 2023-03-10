@@ -9,7 +9,6 @@ export const favoritesSlice = createSlice({
   initialState,
   reducers: {
     addfavorite: (state, action) => {
-      console.log("action.payload", action.payload);
       state.value.push(action.payload);
     },
     unfavorite: (state, action) => {
@@ -24,5 +23,6 @@ export const favoritesSlice = createSlice({
   },
 });
 
-export const { addfavorite, unfavorite, updateServings } = favoritesSlice.actions;
+export const { addfavorite, unfavorite, updateServings } =
+  favoritesSlice.actions;
 export default favoritesSlice.reducer;

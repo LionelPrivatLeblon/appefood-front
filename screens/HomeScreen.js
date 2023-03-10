@@ -57,16 +57,10 @@ export default function SearchScreen(props) {
   // je crée ma fonction pour ajouter ou pas aux favoris
   const handleFavoritesClick = (data) => {
     const isFavorite = favorites.some((favorite) => {
-      // console.log('fav ' + favorite.recipeId,'data' + data.recipeId)
       return favorite.recipeId === data.recipeId;
     });
-    // console.log("press is fav", data.recipeId);
     //je fais appelle a ma fonction créée dans le reducers
-
-    // console.log(data.recipeId);
     if (isFavorite) {
-      console.log("dans le if" + data);
-
       //j'enlève des favoris
       dispatch(unfavorite(data));
     } else {
@@ -97,7 +91,6 @@ export default function SearchScreen(props) {
   //Fonction qui permet de mettre des etoiles sur les cards
   //Item recupère juste une note, par la suite on va faire une boucle dessus afin d'afficher les étoiles
   const Generatestar = (note) => {
-    // console.log(item);
     // Average evaluation
     const stars = [];
     for (let i = 0; i < 4; i++) {
@@ -109,7 +102,9 @@ export default function SearchScreen(props) {
         //sinon elle deviendra noir
         style = "#000000";
       }
-      stars.push(<FontAwesome name="star" size={10} color={style} />);
+      stars.push(
+        <FontAwesome name="star" size={10} color={style} key={Math.random()} />
+      );
     }
     return stars;
   };
@@ -120,19 +115,18 @@ export default function SearchScreen(props) {
   };
 
   // Fonction qui génère une carte recette
-  const renderRecipes = ({ item, i }) => {
+  const renderRecipes = ({ item }) => {
     //La méthode some() teste si au moins un élément du tableau passe le test implémenté par la fonction fournie.
     // Elle renvoie un booléen indiquant le résultat du test.
     const isFavorite = favorites.some(
       (favorite) => favorite.recipeId === item.recipeId
     );
-
     return (
       <TouchableHighlight
         underlayColor="rgba(73,182,77,0.9)"
         onPress={() => onPressRecipe(item)}
       >
-        <View key={i} style={styles.card}>
+        <View style={styles.card}>
           <Image style={styles.image} source={{ uri: item.photo_url }} />
 
           <View style={styles.masque}></View>
@@ -164,7 +158,7 @@ export default function SearchScreen(props) {
     >
       <Image
         style={styles.bgimage}
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
       />
       <View style={styles.masqueCover}></View>
       <SafeAreaView style={styles.container}>
@@ -202,7 +196,7 @@ export default function SearchScreen(props) {
           numColumns={2}
           data={data}
           renderItem={renderRecipes}
-          keyExtractor={(item) => `${item.recipeId}`}
+          keyExtractor={(item) => item.title}
         />
         {/* //C'est le boutton Generer */}
         <TouchableOpacity

@@ -68,7 +68,6 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favoris" component={Favoris} />
-      <Tab.Screen name="Createrecipe" component={Createrecipe} />
       <Tab.Screen name="Recipes" component={Recipes} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
@@ -88,6 +87,7 @@ export default function App({ navigation }) {
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Recipe" component={Recipe} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Createrecipe" component={Createrecipe} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   Button,
+  SafeAreaView,
   ScrollView,
   Image,
   Text,
@@ -16,23 +17,23 @@ import {
 } from "react-native";
 
 //Expo
-import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 
 //librairy Icon
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 //Import etat
 import React, { useState, useEffect, useRef } from "react";
-import { useIsFocused } from "@react-navigation/native";
 
 //Import Reducers
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, removePhoto } from "../reducers/users";
 import { addRecipeToStore } from "../reducers/createrecipe";
 
-export default function Createrecipe() {
+export default function Createrecipe(props) {
+  const { navigation, route } = props;
   const dispatch = useDispatch();
 
   const users = useSelector((state) => state.users.value);
@@ -52,10 +53,6 @@ export default function Createrecipe() {
   const [recipedescription, setRecipeDescription] = useState("");
 
   const [image, setImage] = useState(null);
-
-  const isFocused = useIsFocused();
-
-  const [hasPermission, setHasPermission] = useState(false);
 
   const [recipeingredient, setRecipeingredient] = useState([
     { ingredientId: 0, name: "Huile", isChecked: false },
@@ -131,7 +128,7 @@ export default function Createrecipe() {
     const ingredients = recipeingredient
       .filter((e) => e.isChecked)
       .map((e) => e.ingredientId);
-    fetch("http://192.168.10.167:3000/createrecipes/newrecipe", {
+    fetch("https://appefood-back-eight.vercel.app/createrecipes/newrecipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -166,12 +163,10 @@ export default function Createrecipe() {
           // Vide les champs de saisie
         }
       });
-
-    //console.log("test " + recipeingredient.name);
   };
 
   const displayIngredient2 = () =>
-    fetch("http://192.168.10.167:3000/createrecipes/displayrecette")
+    fetch("https://appefood-back-eight.vercel.app/createrecipes/displayrecette")
       .then((response) => response.json())
       .then((data) => {
         console.log(data.recipe);
@@ -192,7 +187,7 @@ export default function Createrecipe() {
     return (
       <ScrollView>
         <View style={styles.blocscrollview}>
-          {recipeingredient.map((item) => (
+          {recipeingredient.map((item, i) => (
             <BouncyCheckbox
               style={styles.blocingredient}
               text={item.name}
@@ -225,27 +220,21 @@ export default function Createrecipe() {
       quality: 1,
     });
 
-    console.log("image test =>", image);
-
     formData.append("photoOfGallery", {
       uri: image.assets[0].uri,
       name: "photo.jpg",
       type: "image/jpeg",
     });
-    fetch("http://192.168.10.167:3000/image", {
+    fetch("https://appefood-back-eight.vercel.app/image", {
       method: "POST",
       body: formData,
       // headers: { "Content-Type": "multipart/form-data" },
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data test =>", data);
         dispatch(addPhoto(data.url));
-        console.log(data.uri);
       })
       .catch((error) => console.log(error));
-
-    console.log("info  =>", image.assets[0].uri);
 
     if (!image.canceled) {
       setImage(image.assets[0].uri);
@@ -260,101 +249,103 @@ export default function Createrecipe() {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Image
-        style={styles.bgimage}
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
-      />
-      <View style={styles.masqueCover}></View>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.containersignin}>
-          <Text style={styles.formtitle}>Création de la recette :</Text>
+      <SafeAreaView>
+        <Image
+          style={styles.bgimage}
+          source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
+        />
+        <View style={styles.masqueCover}></View>
+        <ScrollView style={styles.scrollView}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="ios-arrow-back" size={25} color="#7D4FB8" />
+          </TouchableOpacity>
+          <View style={styles.containersignin}>
+            <Text style={styles.formtitle}>Création de la recette :</Text>
 
-          <TextInput
-            placeholder="Nom de la recette"
-            onChangeText={(value) => setRecipetitle(value)}
-            value={recipetitle}
-            style={styles.inputtext}
-          />
-
-          <TextInput
-            placeholder="Nom de la catégorie"
-            onChangeText={(value) => setRecipecategoryId(value)}
-            value={recipecategoryId}
-            style={styles.inputtext}
-          />
-
-          <TextInput
-            placeholder="Nombre de personne"
-            onChangeText={(value) => setRecipeservingNb(value)}
-            value={recipeservingNb}
-            style={styles.inputtext}
-          />
-
-          <TextInput
-            placeholder="Note"
-            onChangeText={(value) => setRecipevoteAverage(value)}
-            value={recipevoteAverage}
-            style={styles.inputtext}
-          />
-
-          <TextInput
-            placeholder="Photo à la une"
-            onChangeText={(value) => setRecipephotoUrl(value)}
-            value={recipephotoUrl}
-            style={styles.inputtext}
-          />
-
-          <TextInput
-            placeholder="Temps de préparation"
-            onChangeText={(value) => setRecipeTime(value)}
-            value={recipetime}
-            style={styles.inputtext}
-          />
-
-          <View>
-            <Button
-              title="Ajoutez une image à votre recette !"
-              onPress={pickImage}
+            <TextInput
+              placeholder="Nom de la recette"
+              onChangeText={(value) => setRecipetitle(value)}
+              value={recipetitle}
+              style={styles.inputtext}
             />
-            {image && (
-              <Image
-                source={{ url: image }}
-                style={{ width: 200, height: 200 }}
+
+            <TextInput
+              placeholder="Nom de la catégorie"
+              onChangeText={(value) => setRecipecategoryId(value)}
+              value={recipecategoryId}
+              style={styles.inputtext}
+            />
+
+            <TextInput
+              placeholder="Nombre de personne"
+              onChangeText={(value) => setRecipeservingNb(value)}
+              value={recipeservingNb}
+              style={styles.inputtext}
+            />
+
+            <TextInput
+              placeholder="Note"
+              onChangeText={(value) => setRecipevoteAverage(value)}
+              value={recipevoteAverage}
+              style={styles.inputtext}
+            />
+
+            <TextInput
+              placeholder="Photo à la une"
+              onChangeText={(value) => setRecipephotoUrl(value)}
+              value={recipephotoUrl}
+              style={styles.inputtext}
+            />
+
+            <TextInput
+              placeholder="Temps de préparation"
+              onChangeText={(value) => setRecipeTime(value)}
+              value={recipetime}
+              style={styles.inputtext}
+            />
+
+            <View>
+              <Button
+                title="Ajoutez une image à votre recette !"
+                onPress={pickImage}
               />
+              {image && (
+                <Image
+                  source={{ url: image }}
+                  style={{ width: 200, height: 200 }}
+                />
+              )}
+            </View>
+
+            <Text style={{ color: "#FFF" }}>
+              Selectionnez vos Ingredients :
+            </Text>
+            {CheckboxList()}
+
+            <TextInput
+              placeholder="Decription"
+              onChangeText={(value) => setRecipeDescription(value)}
+              value={recipedescription}
+              style={styles.inputtext}
+            />
+
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.8}
+              onPress={() => recipeRegister()}
+            >
+              <Text style={styles.textButton}>Valider</Text>
+            </TouchableOpacity>
+            {recipeuserError && (
+              <Text style={styles.error}>Cette recette existe déja</Text>
+            )}
+
+            {recipevalidate && (
+              <Text style={styles.good}>Recette enregistrée</Text>
             )}
           </View>
-
-          <Text style={{ color: "#FFF" }}>Selectionnez vos Ingredients :</Text>
-          {CheckboxList()}
-
-          <TextInput
-            placeholder="Decription"
-            onChangeText={(value) => setRecipeDescription(value)}
-            value={recipedescription}
-            style={styles.inputtext}
-          />
-
-          <TouchableOpacity
-            style={styles.button}
-            activeOpacity={0.8}
-            onPress={() => recipeRegister()}
-          >
-            <Text style={styles.textButton}>Valider</Text>
-          </TouchableOpacity>
-          {recipeuserError && (
-            <Text style={styles.error}>Cette recette existe déja</Text>
-          )}
-
-          {recipevalidate && (
-            <Text style={styles.good}>Recette enregistrée</Text>
-          )}
-        </View>
-      </ScrollView>
-
-      {/* Debut import Camera
-      {renderCamera()} */}
-      {/* <View style={styles.galleryContainer}>{photos}</View> */}
-      {/* Fin import Camera */}
+        </ScrollView>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }

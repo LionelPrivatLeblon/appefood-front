@@ -13,7 +13,6 @@ export const recipesSlice = createSlice({
     addRecipeToStore: (state, action) => {
       //state.value.push(action.payload);
       state.value.title = action.payload;
-      console.log(state.value);
     },
   },
 });

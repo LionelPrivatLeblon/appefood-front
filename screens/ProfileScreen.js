@@ -22,8 +22,6 @@ export default function ProfileScreen({ navigation }) {
 
   const dispatch = useDispatch();
 
-  // console.log("test " + newuser);
-
   //Fonction de deconnexion
   function handleLogout() {
     // je vide le store
@@ -37,7 +35,7 @@ export default function ProfileScreen({ navigation }) {
   return (
     <SafeAreaView>
       <ImageBackground
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
         style={styles.background}
       >
         <View style={styles.container}>
@@ -45,8 +43,11 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.title}>Bon appétit {newuser.username}!</Text>
 
           {/* ------- Bouton Mes recettes ------- */}
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.textColor}>Mes recettes</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Createrecipe")}
+            style={styles.button}
+          >
+            <Text style={styles.textColor}>Créer une recette</Text>
             {/* <FontAwesome name="play" size={25} /> */}
           </TouchableOpacity>
 

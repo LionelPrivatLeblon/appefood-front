@@ -45,7 +45,6 @@ export default function RecipesScreen(props) {
     const isFavorite = favorites.some(
       (favorite) => favorite.recipeId === data.recipeId
     );
-    // console.log("press is fav", data.recipeId);
 
     //je fais appelle a ma fonction créée dans le reducers
     if (isFavorite) {
@@ -59,7 +58,6 @@ export default function RecipesScreen(props) {
 
   //Fonction etoile (note)
   const Generatestar = (item) => {
-    // console.log(item);
     // Average evaluation
     const stars = [];
     for (let i = 0; i < 4; i++) {
@@ -71,7 +69,9 @@ export default function RecipesScreen(props) {
         //sinon elle deviendra noir
         style = "#000000";
       }
-      stars.push(<FontAwesome name="star" size={10} color={style} />);
+      stars.push(
+        <FontAwesome name="star" size={10} color={style} key={Math.random()} />
+      );
     }
     return stars;
   };
@@ -82,34 +82,13 @@ export default function RecipesScreen(props) {
   };
 
   const App = () => {
-    const [datadbtitre, setDatadbtitre] = useState([]);
-    const [datadbcat, setDatadbcat] = useState([]);
-    const [datadbservingnb, setDatadbservingnb] = useState([]);
-    const [datadbvote, setDatadbvote] = useState([]);
-    const [datadbphotourl, setDatadbphotourl] = useState([]);
-    const [datadbphotoarray, setDatadbphotoarray] = useState([]);
-    const [datadbtime, setDatadbtime] = useState([]);
-    const [datadbingredient, setDatadbingredient] = useState([]);
-    const [datadbdesc, setDatadbdesc] = useState([]);
+    const [datadbd, setDatadbd] = useState([]);
 
     useEffect(() => {
       fetch("http://192.168.10.139:3000/createrecipes/displayrecette")
         .then((response) => response.json())
         .then((data) => {
-          // console.log("data -> " + data.recipe[0].title);
-          // console.log("description -> " + data.recipe[0].description);
-          console.log(data.recipe.length);
-          for (let i = 0; i < data.recipe.length; i++) {
-            setDatadbtitre(data.recipe[i].title);
-            setDatadbcat(data.recipe[i].categoryID);
-            setDatadbservingnb(data.recipe[i].servingNb);
-            setDatadbvote(data.recipe[i].voteAverage);
-            setDatadbphotourl(data.recipe[i].photo_url);
-            setDatadbphotoarray(data.recipe[i].photosArray);
-            setDatadbtime(data.recipe[i].time);
-            setDatadbingredient(data.recipe[i].ingredients);
-            setDatadbdesc(data.recipe[i].description);
-          }
+          setDatadbd(data);
         })
         .catch((error) => {
           console.error(error);
@@ -117,36 +96,17 @@ export default function RecipesScreen(props) {
     }, []);
 
     return (
-      <TouchableHighlight
-        underlayColor="rgba(73,182,77,0.9)"
-        onPress={() => onPressRecipe(data)}
-      >
-        <View>
-          <Text styles={{ color: "#FFFFFF" }}>{"titre " + datadbtitre}</Text>
-
-          <Text styles={{ color: "#FFFFFF" }}>{"categoryID " + datadbcat}</Text>
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"Serving NB " + datadbservingnb}
-          </Text>
-
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"VoteAverage " + datadbvote}
-          </Text>
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"Photo URL " + datadbphotourl}
-          </Text>
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"Photo Arrays " + datadbphotoarray}
-          </Text>
-          <Text styles={{ color: "#FFFFFF" }}>{"Time " + datadbtime}</Text>
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"Ingredients " + datadbingredient}
-          </Text>
-          <Text styles={{ color: "#FFFFFF" }}>
-            {"description " + datadbdesc}
-          </Text>
-        </View>
-      </TouchableHighlight>
+      <View>
+        {datadbd.map((item, i) => (
+          <TouchableHighlight
+            key={i}
+            underlayColor="rgba(73,182,77,0.9)"
+            onPress={() => onPressRecipe(item)}
+          >
+            <Text>text {item}</Text>
+          </TouchableHighlight>
+        ))}
+      </View>
     );
   };
 
@@ -158,10 +118,11 @@ export default function RecipesScreen(props) {
 
     return (
       <TouchableHighlight
+        key={i}
         underlayColor="rgba(73,182,77,0.9)"
         onPress={() => onPressRecipe(data)}
       >
-        <View key={i} style={styles.card}>
+        <View style={styles.card}>
           <Image style={styles.image} source={{ uri: data.photo_url }} />
 
           <View style={styles.masque}></View>
@@ -174,6 +135,7 @@ export default function RecipesScreen(props) {
                 name={!isFavorite ? "heart-outline" : "heart"}
                 size={30}
                 color="#EE0056"
+                key={Math.random()}
               />
             </TouchableOpacity>
           </View>
@@ -194,7 +156,7 @@ export default function RecipesScreen(props) {
     <View style={styles.container}>
       <Image
         style={styles.bgimage}
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
       />
       <View style={styles.masqueCover}></View>
       <ScrollView>
@@ -308,7 +270,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   masqueCover: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     position: "absolute",
     top: 0,
     bottom: 0,

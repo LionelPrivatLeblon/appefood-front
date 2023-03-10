@@ -99,8 +99,6 @@ export function getRecipesByIngredientName(ingredientName) {
 
   let idUpper2;
 
-  //console.log(wordsingredientName);
-
   if (ingredientName) {
     for (let i = 0; i < wordsingredientName.length; i++) {
       nameUpper = wordsingredientName[i].toUpperCase();
@@ -110,16 +108,12 @@ export function getRecipesByIngredientName(ingredientName) {
           idUpper2 = data.ingredientId;
         }
       });
-
-      //console.log("ingredient id " + idUpper2);
       recipes.map((daterecipe) => {
         for (let i = 0; i < daterecipe.ingredients.length; i++) {
-          console.log("ingredient id2 " + daterecipe.ingredients[i]);
           if (daterecipe.ingredients[i] == idUpper2) {
             tabingredient.push(idUpper2);
           }
         }
-        //console.log("tableau ingredient " + tabingredient);
       });
     }
   }
@@ -140,7 +134,6 @@ export function getRecipesByIngredientName(ingredientName) {
           recipesArray.push(item);
         });
       }
-      //console.log(tabingredient[k]);
     }
   });
   const uniqueArray = [...new Set(recipesArray)];

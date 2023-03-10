@@ -8,7 +8,6 @@ import {
   View,
   Image,
   ImageBackground,
-  StatusBar,
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native";
@@ -53,7 +52,6 @@ export default function Favoris({ navigation }) {
     const isFavorite = favorites.some(
       (favorite) => favorite.recipeId === data.recipeId
     );
-    // console.log("press is fav", data.recipeId);
 
     //je fais appelle a ma fonction créée dans le reducers
     if (isFavorite) {
@@ -67,7 +65,6 @@ export default function Favoris({ navigation }) {
 
   //Fonction etoile (note)
   const Generatestar = (item) => {
-    // console.log(item);
     // Average evaluation
     const stars = [];
     for (let i = 0; i < 4; i++) {
@@ -79,13 +76,14 @@ export default function Favoris({ navigation }) {
         //sinon elle deviendra noir
         style = "#000000";
       }
-      stars.push(<FontAwesome name="star" size={10} color={style} />);
+      stars.push(
+        <FontAwesome name="star" size={10} color={style} key={Math.random()} />
+      );
     }
     return stars;
   };
 
   const addFavoris = useSelector((state) => state.favorites.value);
-  //console.log(addFavoris);
 
   let fav = (
     <Text
@@ -111,9 +109,9 @@ export default function Favoris({ navigation }) {
               <TouchableOpacity style={styles.addButton}>
                 <Ionicons
                   onPress={() => handleFavoritesClick(data)}
-                  name={!isFavorite ? "bookmark-outline" : "bookmark"}
+                  name={!isFavorite ? "heart-outline" : "heart"}
                   size={30}
-                  color="#ffffff"
+                  color="#EE0056"
                 />
               </TouchableOpacity>
             </View>
@@ -127,30 +125,11 @@ export default function Favoris({ navigation }) {
     });
   }
 
-  //Ici je créer une variable favRecipes et je fais un .map sur mon tableau de recipes(cf: dataArrays ligne 35)
-  // const favRecipes = recipes.map((data, i) => {
-  //   // console.log(data.title);
-
-  //   //Ici c'est le return pour une card
-  //   return (
-  //     <View key={i} style={styles.containerCard}>
-  //       <View style={styles.star}>
-  //         <Text style={styles.title}>{data.title}</Text>
-  //         <FontAwesome style={{ color: "#ffb703" }} name="star" size={25} />
-  //       </View>
-  //       <ImageBackground
-  //         style={{ height: "80%", width: "100%" }}
-  //         source={{ uri: data.photo_url }}
-  //       />
-  //     </View>
-  //   );
-  // });
-
   // Ici c'est le return de la fonction Principale
   return (
     <SafeAreaView>
       <ImageBackground
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
         style={styles.background}
       >
         <View style={styles.container}>

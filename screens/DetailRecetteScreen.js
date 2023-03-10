@@ -54,7 +54,6 @@ export default function RecipeScreen(props) {
   );
   //fonction note étoilées
   const Generatestar = (note) => {
-    // console.log(item);
     // Average evaluation
     const stars = [];
     for (let i = 0; i < 4; i++) {
@@ -66,7 +65,9 @@ export default function RecipeScreen(props) {
         //sinon elle deviendra noir
         style = "#000000";
       }
-      stars.push(<FontAwesome name="star" size={10} color={style} />);
+      stars.push(
+        <FontAwesome name="star" size={10} color={style} key={Math.random()} />
+      );
     }
     return stars;
   };
@@ -82,7 +83,7 @@ export default function RecipeScreen(props) {
       }
     });
     return (
-      <View style={styles.cardIngredient}>
+      <View key={i} style={styles.cardIngredient}>
         <Image style={styles.photo} source={{ uri: photo }} />
         <Text style={styles.title}>{name}</Text>
       </View>
@@ -102,7 +103,7 @@ export default function RecipeScreen(props) {
   // Ici c'est le return de la fonction principale
   return (
     <ImageBackground
-      source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+      source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
       style={styles.background}
     >
       <ScrollView style={styles.infoRecipeContainer}>

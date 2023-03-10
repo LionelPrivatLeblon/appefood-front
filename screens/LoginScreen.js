@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
   const handleRegister = () => {
     //On verifie que sa reponde au REGEX
     if (PASSWORD_REGEX.test(signUpPassword)) {
-      fetch("http://192.168.10.167:3000/users/signup", {
+      fetch("https://appefood-back-eight.vercel.app/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,8 +56,6 @@ export default function Home({ navigation }) {
         //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-
           //Si c'est bon, cela s'enregistre en DB et je conserve les informations du User
           //via le Reducer et je redirige le User sur la page Search === HomeScreen.js
           if (data.result) {
@@ -93,7 +91,7 @@ export default function Home({ navigation }) {
   const handleConnection = () => {
     //On verifie que sa reponde au REGEX
     if (PASSWORD_REGEX.test(signInPassword)) {
-      fetch("http://192.168.10.167:3000/users/signin", {
+      fetch("https://appefood-back-eight.vercel.app/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -104,7 +102,6 @@ export default function Home({ navigation }) {
         //transformation de la reponse dans le bon format
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.result) {
             //je redirige le User sur la page Search === HomeScreen.js
             navigation.navigate("TabNavigator", { screen: "Search" });
@@ -149,9 +146,8 @@ export default function Home({ navigation }) {
     >
       <Image
         style={styles.bgimage}
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
       />
-      <KeyboardAvoidingView></KeyboardAvoidingView>
       <View style={styles.masqueCover}></View>
       <View style={styles.containersignin}>
         <View style={styles.signup}>

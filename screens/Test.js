@@ -22,8 +22,6 @@ export default function Home({ navigation }) {
     fetch("http://192.168.10.142:3000/recipes")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.recipes[0].title);
-
         setRecette(
           data.recipes.map((APIdata, i) => {
             return (
@@ -44,9 +42,7 @@ export default function Home({ navigation }) {
     <KeyboardAvoidingView style={styles.container}>
       <SelectDropdown
         data={legumes}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
-        }}
+        onSelect={(selectedItem, index) => {}}
         buttonTextAfterSelection={(selectedItem, index) => {
           // text represented after item is selected
           // if data array is an array of objects then return selectedItem.property to render after item is selected
