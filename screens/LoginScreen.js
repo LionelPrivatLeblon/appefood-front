@@ -146,7 +146,7 @@ export default function Home({ navigation }) {
     >
       <Image
         style={styles.bgimage}
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min4.jpg")}
       />
       <View style={styles.masqueCover}></View>
       <View style={styles.containersignin}>

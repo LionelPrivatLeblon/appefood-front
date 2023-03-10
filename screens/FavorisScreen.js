@@ -129,7 +129,7 @@ export default function Favoris({ navigation }) {
   return (
     <SafeAreaView>
       <ImageBackground
-        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
+        source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min4.jpg")}
         style={styles.background}
       >
         <View style={styles.container}>

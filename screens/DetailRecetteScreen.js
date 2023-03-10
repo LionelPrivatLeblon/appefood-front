@@ -103,7 +103,7 @@ export default function RecipeScreen(props) {
   // Ici c'est le return de la fonction principale
   return (
     <ImageBackground
-      source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min3.jpg")}
+      source={require("../assets/images/vue-dessus-cuvette-lentilles-variete-condiments-min4.jpg")}
       style={styles.background}
     >
       <ScrollView style={styles.infoRecipeContainer}>
