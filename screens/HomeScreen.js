@@ -167,7 +167,7 @@ export default function SearchScreen(props) {
           ingredients.
         </Text>
         <Text style={styles.texte}>
-          Saisissez un ou plusieurs ingrédients en les séparant par un ";" pour
+          Saisissez un ou plusieurs ingrédients en les séparant par un "," pour
           pouvoir récupérer de bonnes idées de recettes à préparer!
         </Text>
         <View style={styles.research}>

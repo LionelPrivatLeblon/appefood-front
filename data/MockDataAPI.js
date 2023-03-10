@@ -91,7 +91,7 @@ export function getAllIngredients(idArray) {
 // functions for search
 
 export function getRecipesByIngredientName(ingredientName) {
-  const wordsingredientName = ingredientName.split(";"); //je recupère chaque ingredient renseigné séparé par ;
+  const wordsingredientName = ingredientName.split(","); //je recupère chaque ingredient renseigné séparé par ;
   const recipesArray = [];
   let nameUpper = "";
   let resultat = "";
